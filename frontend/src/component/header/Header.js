@@ -1,9 +1,9 @@
+import { NavLink } from 'react-router-dom';
 import Container from 'react-bootstrap/Container';
 import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
 import Button from 'react-bootstrap/Button';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import { NavLink } from 'react-router-dom';
 
 const CollapsibleExample = () => {
     return (
@@ -17,30 +17,33 @@ const CollapsibleExample = () => {
                         <NavLink to="/diary">Nhật ký</NavLink>
                         <NavLink to="/analytic">Thống kê</NavLink>
                         <NavLink to="/therapy">Trị liệu</NavLink>
-
                     </Nav>
                     <Nav>
-                        <Button
-                            variant="light"
-                            style={{
-                                borderRadius: '20px',
-                                padding: '5px 20px',
-                                marginRight: '10px',
-                                fontWeight: '500',
-                            }}
-                        >
-                            Đăng ký
-                        </Button>
-                        <Button
-                            variant="dark"
-                            style={{
-                                borderRadius: '20px',
-                                padding: '5px 20px',
-                                fontWeight: '500',
-                            }}
-                        >
-                            Đăng nhập
-                        </Button>
+                        <NavLink to="/register">
+                            <Button
+                                variant="light"
+                                style={{
+                                    borderRadius: '20px',
+                                    padding: '5px 20px',
+                                    marginRight: '10px',
+                                    fontWeight: '500',
+                                }}
+                            >
+                                Đăng ký
+                            </Button>
+                        </NavLink>
+                        <NavLink to="/login">
+                            <Button
+                                variant="dark"
+                                style={{
+                                    borderRadius: '20px',
+                                    padding: '5px 20px',
+                                    fontWeight: '500',
+                                }}
+                            >
+                                Đăng nhập
+                            </Button>
+                        </NavLink>
                     </Nav>
                 </Navbar.Collapse>
             </Container>

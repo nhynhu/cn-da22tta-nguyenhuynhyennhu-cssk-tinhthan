@@ -1,0 +1,71 @@
+const dialogflow = require('@google-cloud/dialogflow');
+const uuid = require('uuid');
+const path = require('path');
+const db = require('../config/db');
+const axios = require('axios');
+
+// Cấu hình Dialogflow
+const KEY_FILE = path.join(__dirname, '../dialogflow-key.json');
+const keyData = require(KEY_FILE);
+const PROJECT_ID = keyData.project_id;
+const sessionClient = new dialogflow.SessionsClient({ keyFilename: KEY_FILE });
+
+exports.sendMessageToBot = async (req, res) => {
+    try {
+        const { message, userId } = req.body;
+
+        // --- BƯỚC 1: GỌI PYTHON AI ---
+        let detectedEmotion = 'neutral';
+        try {
+            const pythonResponse = await axios.post('http://localhost:8000/analyze-emotion', { text: message });
+            detectedEmotion = pythonResponse.data.top_emotion;
+            console.log(`  AI Phân tích: ${detectedEmotion}`);
+        } catch (aiError) {
+            console.log(`  Lỗi AI (vẫn chạy tiếp): ${aiError.message}`);
+        }
+
+        // --- BƯỚC 2: GỌI DIALOGFLOW ---
+        const sessionId = userId || uuid.v4();
+        const sessionPath = sessionClient.projectAgentSessionPath(PROJECT_ID, sessionId);
+        const request = {
+            session: sessionPath,
+            queryInput: { text: { text: message, languageCode: 'vi-VN' } },
+        };
+
+        const responses = await sessionClient.detectIntent(request);
+        const result = responses[0].queryResult;
+        const botReply = result.fulfillmentText;
+        const intentName = result.intent.displayName;
+
+        // --- BƯỚC 3: LƯU DATABASE ---
+
+        if (message) {
+            const finalUserId = userId ? userId : 0; // Đổi thành 0 nếu null
+            const sql = "INSERT INTO chat_logs (user_id, user_message, bot_reply, intent, emotion, created_at) VALUES (?, ?, ?, ?, ?, NOW())";
+
+            // In ra dữ liệu chuẩn bị lưu để kiểm tra
+            // console.log("Dữ liệu save:", { finalUserId, message, botReply, intentName, detectedEmotion });
+
+            db.query(sql, [finalUserId, message, botReply, intentName, detectedEmotion], (err, results) => {
+                if (err) {
+                    console.error(" LỖI LƯU DB:", err.sqlMessage || err.message);
+                } else {
+                    console.log(" ĐÃ LƯU THÀNH CÔNG! ID:", results.insertId);
+                }
+            });
+        } else {
+            console.log(" Tin nhắn rỗng, không lưu DB.");
+        }
+
+        // --- TRẢ KẾT QUẢ ---
+        res.json({
+            reply: botReply,
+            intent: intentName,
+            emotion: detectedEmotion
+        });
+
+    } catch (error) {
+        console.error(" LỖI TOÀN CỤC (CRASH):", error);
+        res.status(500).send('Lỗi xử lý server');
+    }
+};

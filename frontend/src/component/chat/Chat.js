@@ -1,91 +1,119 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { Container, InputGroup, FormControl, Button, Card } from 'react-bootstrap';
 
-
 const Chat = () => {
+    const API_URL = "http://localhost:5000/api/chat";
+
     const [messages, setMessages] = useState([
-        { id: 1, text: 'Chào bạn!', sender: 'other' },
-        { id: 2, text: 'Chào, mình có thể giúp gì cho bạn?', sender: 'me' },
+        { id: 1, text: 'Chào bạn!', sender: 'bot' },
     ]);
 
     const [newMessage, setNewMessage] = useState('');
+    const [loadingBot, setLoadingBot] = useState(false);
 
     const messagesEndRef = useRef(null);
 
-    const scrollToBottom = () => {
-        messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
-    };
-
+    // Auto scroll
     useEffect(() => {
-        scrollToBottom();
+        messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
     }, [messages]);
-    const handleSend = () => {
+
+    // Gửi tin nhắn
+    const handleSend = async () => {
         if (newMessage.trim() === '') return;
 
-        const newMsg = {
-            id: messages.length + 1,
-            text: newMessage,
-            sender: 'me',
-        };
-
-        setMessages([...messages, newMsg]);
+        const myText = newMessage;
         setNewMessage('');
 
-        setTimeout(() => {
-            setMessages(prevMessages => [
-                ...prevMessages,
-                { id: prevMessages.length + 1, text: 'Bot đang trả lời...', sender: 'other' }
+        // 1. Thêm tin nhắn user vào UI
+        const myMsg = {
+            id: Date.now(),
+            text: myText,
+            sender: "me"
+        };
+        setMessages(prev => [...prev, myMsg]);
+
+        // 2. Hiện trạng thái bot đang trả lời
+        setLoadingBot(true);
+
+        try {
+            // 3. Gọi API backend
+            const res = await fetch(API_URL, {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ message: myText })
+            });
+
+            const data = await res.json();
+
+            // 4. Thêm tin nhắn bot
+            setMessages(prev => [
+                ...prev,
+                {
+                    id: Date.now() + 1,
+                    text: data.reply || "Bot không trả lời",
+                    sender: "bot"
+                }
             ]);
-        }, 1000);
+        } catch (error) {
+            // Lỗi backend
+            setMessages(prev => [
+                ...prev,
+                {
+                    id: Date.now() + 1,
+                    text: "❌ Lỗi kết nối đến server",
+                    sender: "bot"
+                }
+            ]);
+        }
+
+        setLoadingBot(false);
     };
 
     const handleKeyPress = (event) => {
-        if (event.key === 'Enter') {
-            handleSend();
-        }
+        if (event.key === "Enter") handleSend();
     };
 
     return (
-        <Container className="my-4" style={{ maxWidth: '700px' }}>
+        <Container className="my-4" style={{ maxWidth: "700px" }}>
             <Card>
                 <Card.Header as="h5">Phòng Chat</Card.Header>
+
                 <Card.Body
                     style={{
-                        height: '400px',
-                        overflowY: 'auto',
-                        backgroundColor: '#f8f9fa'
+                        height: "400px",
+                        overflowY: "auto",
+                        backgroundColor: "#f8f9fa"
                     }}
                 >
-                    {/* Hiển thị các tin nhắn */}
-                    {messages.map((msg) => {
-                        const isMe = msg.sender === 'me';
-
-                        const alignClass = isMe ? 'justify-content-end' : 'justify-content-start';
-
-                        const bgClass = isMe ? 'bg-primary text-white' : 'bg-light text-dark';
+                    {/* Render tin nhắn */}
+                    {messages.map(msg => {
+                        const isMe = msg.sender === "me";
+                        const align = isMe ? "justify-content-end" : "justify-content-start";
+                        const bg = isMe ? "bg-primary text-white" : "bg-light text-dark";
 
                         return (
-                            <div key={msg.id} className={`d-flex ${alignClass} mb-2`}>
-
-                                {/* 2. Đây là bong bóng chat
-                                     Dùng các lớp tiện ích của Bootstrap:
-                                     - p-2: padding
-                                     - rounded: bo góc
-                                     - mw-75: max-width 75%
-                                */}
-                                <div className={`p-2 rounded mw-75 ${bgClass}`}
-                                    style={{ wordWrap: 'break-word' }}
-                                >
+                            <div key={msg.id} className={`d-flex ${align} mb-2`}>
+                                <div className={`p-2 rounded mw-75 ${bg}`} style={{ wordWrap: "break-word" }}>
                                     {msg.text}
                                 </div>
                             </div>
                         );
                     })}
-                    {/* Div trống để cuộn */}
+
+                    {/* Bot typing */}
+                    {loadingBot && (
+                        <div className="d-flex justify-content-start mb-2">
+                            <div className="p-2 rounded mw-75 bg-light text-dark">
+                                Bot đang trả lời...
+                            </div>
+                        </div>
+                    )}
+
                     <div ref={messagesEndRef} />
                 </Card.Body>
+
                 <Card.Footer>
-                    {/* Ô nhập liệu và nút gửi */}
                     <InputGroup>
                         <FormControl
                             placeholder="Nhập tin nhắn..."
@@ -93,9 +121,7 @@ const Chat = () => {
                             onChange={(e) => setNewMessage(e.target.value)}
                             onKeyPress={handleKeyPress}
                         />
-                        <Button variant="primary" onClick={handleSend}>
-                            Gửi
-                        </Button>
+                        <Button variant="primary" onClick={handleSend}>Gửi</Button>
                     </InputGroup>
                 </Card.Footer>
             </Card>
