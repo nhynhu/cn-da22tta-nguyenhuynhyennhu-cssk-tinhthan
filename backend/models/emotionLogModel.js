@@ -1,27 +1,46 @@
 const db = require('../config/db');
 
-const EmotionLog = {
-    // Thêm nhật ký mới (người dùng tự nhập hoặc từ AI)
-    create: async (data) => {
-        const sql = `INSERT INTO emotion_logs (user_id, log_date, source_type, primary_emotion, user_note, analysis) 
-                     VALUES (?, ?, ?, ?, ?, ?)`;
-        const [result] = await db.execute(sql, [
-            data.user_id,
-            data.log_date,
-            data.source_type, // 'manual' hoặc 'chat_analysis'
-            data.primary_emotion,
-            data.user_note,
-            data.analysis // Có thể là JSON string
-        ]);
-        return result;
+const Diary = {
+    // Tạo một mục nhật ký
+    createEntry: (userId, primary_emotion, user_note, log_date = null, analysis = null, source_type = 'manual') => {
+        return new Promise((resolve, reject) => {
+            // Format date cho MySQL: YYYY-MM-DD HH:mm:ss
+            let finalDate = log_date;
+            if (!finalDate) {
+                finalDate = new Date();
+            }
+
+            // Convert sang Date object nếu là string
+            if (typeof finalDate === 'string') {
+                finalDate = new Date(finalDate);
+            }
+
+            // Format thành MySQL datetime
+            if (finalDate instanceof Date) {
+                finalDate = finalDate.toISOString().slice(0, 19).replace('T', ' ');
+            }
+
+            const sql = `
+                INSERT INTO emotion_logs (user_id, log_date, source_type, primary_emotion, user_note, analysis, created_at)
+                VALUES (?, ?, ?, ?, ?, ?, NOW())
+            `;
+            db.query(sql, [userId || 0, finalDate, source_type, primary_emotion, user_note, analysis], (err, result) => {
+                if (err) return reject(err);
+                resolve(result.insertId);
+            });
+        });
     },
 
-    // Lấy lịch sử cảm xúc của user (để vẽ biểu đồ)
-    getByUserId: async (userId) => {
-        const sql = `SELECT * FROM emotion_logs WHERE user_id = ? ORDER BY log_date DESC, created_at DESC`;
-        const [rows] = await db.execute(sql, [userId]);
-        return rows;
+    // Lấy danh sách nhật ký theo user_id
+    getEntriesByUser: (userId, limit = 100) => {
+        return new Promise((resolve, reject) => {
+            const sql = `SELECT * FROM emotion_logs WHERE user_id = ? ORDER BY log_date DESC, created_at DESC LIMIT ?`;
+            db.query(sql, [userId, limit], (err, rows) => {
+                if (err) return reject(err);
+                resolve(rows);
+            });
+        });
     }
 };
 
-module.exports = EmotionLog;
+module.exports = Diary;

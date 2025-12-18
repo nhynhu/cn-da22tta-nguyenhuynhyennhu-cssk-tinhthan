@@ -9,6 +9,7 @@ import { NavLink } from 'react-router-dom';
 const HomePage = () => {
     return (
         <div>
+
             {/* Hero Section */}
             < div
                 style={{

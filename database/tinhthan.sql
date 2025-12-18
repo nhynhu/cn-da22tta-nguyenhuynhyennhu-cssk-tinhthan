@@ -76,11 +76,12 @@ CREATE TABLE messages (
 );
 CREATE TABLE chat_logs (
     id INT AUTO_INCREMENT PRIMARY KEY,
-    user_id VARCHAR(255),
+    user_id INT,
     user_message TEXT,
     bot_reply TEXT,
     intent VARCHAR(255),
-    created_at DATETIME DEFAULT CURRENT_TIMESTAMP
+    created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (user_id) REFERENCES users(user_id) ON DELETE CASCADE
 );
 ALTER TABLE chat_logs ADD COLUMN emotion VARCHAR(50);
 

@@ -13,7 +13,7 @@ const CollapsibleExample = () => {
                 <Navbar.Collapse id="responsive-navbar-nav" className="justify-content-between">
                     <Nav className="me-auto" style={{ gap: '20px' }}>
                         <NavLink to="/">Home</NavLink>
-                        <NavLink to="/chat">Trò chuyện</NavLink>
+                        <NavLink to="/chose-chat">Trò chuyện</NavLink>
                         <NavLink to="/diary">Nhật ký</NavLink>
                         <NavLink to="/analytic">Thống kê</NavLink>
                         <NavLink to="/therapy">Trị liệu</NavLink>

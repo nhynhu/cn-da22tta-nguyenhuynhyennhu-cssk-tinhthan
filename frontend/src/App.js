@@ -1,26 +1,56 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import HomePage from './component/home/HomePage';
 import Header from './component/header/Header';
 import Chat from './component/chat/Chat';
-import { Routes, Route } from 'react-router-dom';
+import { Routes, Route, useNavigate } from 'react-router-dom';
 import Login from './component/auth/Login';
 import Register from './component/auth/Register';
 import Analytic from './component/analytic/Analytic';
 import Diary from './component/diary/Diary';
 import Therapy from './component/therapy/Therapy';
+import ChoseChat from './component/chat/ChoseChat';
 
 const App = () => {
+  const [user, setUser] = useState(null);
+
+  useEffect(() => {
+    // Load user from localStorage
+    const savedUser = localStorage.getItem('user');
+    if (savedUser) {
+      setUser(JSON.parse(savedUser));
+    }
+  }, []);
+
+  const handleLogin = (userData) => {
+    setUser(userData.user);
+    localStorage.setItem('user', JSON.stringify(userData.user));
+    localStorage.setItem('token', userData.token);
+    window.location.href = '/'; // Redirect to home
+  };
+
+  const handleLogout = () => {
+    setUser(null);
+    localStorage.removeItem('user');
+    localStorage.removeItem('token');
+    window.location.href = '/login';
+  };
+
+  const handleRegister = () => {
+    window.location.href = '/login';
+  };
+
   return (
     <div className="App">
-      <Header />
+      <Header user={user} onLogout={handleLogout} />
       <Routes>
         <Route path="/" element={<HomePage />} />
+        <Route path="/chose-chat" element={<ChoseChat />} />
         <Route path="/chat" element={<Chat />} />
         <Route path="/analytic" element={<Analytic />} />
         <Route path="/diary" element={<Diary />} />
         <Route path="/therapy" element={<Therapy />} />
-        <Route path="/login" element={<Login />} />
-        <Route path="/register" element={<Register />} />
+        <Route path="/login" element={<Login onLogin={handleLogin} />} />
+        <Route path="/register" element={<Register onRegister={handleRegister} />} />
       </Routes>
     </div>
   );

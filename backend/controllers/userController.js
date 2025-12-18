@@ -31,9 +31,11 @@ exports.register = async (req, res) => {
 exports.login = async (req, res) => {
     try {
         const { email, password } = req.body;
+        console.log('[Login] Attempt:', { email, hasPassword: !!password });
 
         // 1. Kiểm tra user
         const user = await User.findByEmail(email);
+        console.log('[Login] User found:', !!user);
         if (!user) {
             return res.status(400).json({ message: 'Email hoặc mật khẩu không đúng.' });
         }

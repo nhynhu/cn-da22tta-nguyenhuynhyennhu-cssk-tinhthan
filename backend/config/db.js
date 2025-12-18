@@ -2,9 +2,9 @@ const mysql = require('mysql');
 
 const db = mysql.createConnection({
     host: 'localhost',
-    user: 'root',       // Kiểm tra lại user của bạn
-    password: '',       // Kiểm tra lại pass của bạn
-    database: 'mental_health_db' // <-- SỬA TÊN DATABASE CHO ĐÚNG
+    user: 'root',
+    password: '',
+    database: 'mental_health_db'
 });
 
 db.connect((err) => {

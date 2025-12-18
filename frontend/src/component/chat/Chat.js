@@ -5,7 +5,7 @@ const Chat = () => {
     const API_URL = "http://localhost:5000/api/chat";
 
     const [messages, setMessages] = useState([
-        { id: 1, text: 'Chào bạn!', sender: 'bot' },
+        { id: 1, text: 'Chào bạn, hôm nay của bạn thế nào?', sender: 'bot' },
     ]);
 
     const [newMessage, setNewMessage] = useState('');
@@ -37,11 +37,15 @@ const Chat = () => {
         setLoadingBot(true);
 
         try {
-            // 3. Gọi API backend
+            // 3. Lấy userId từ localStorage
+            const user = JSON.parse(localStorage.getItem('user') || '{}');
+            const userId = user.id || 1; // Fallback to 1 if not logged in
+
+            // 4. Gọi API backend
             const res = await fetch(API_URL, {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({ message: myText })
+                body: JSON.stringify({ message: myText, userId: userId })
             });
 
             const data = await res.json();

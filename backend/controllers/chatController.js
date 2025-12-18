@@ -39,14 +39,10 @@ exports.sendMessageToBot = async (req, res) => {
 
         // --- BƯỚC 3: LƯU DATABASE ---
 
-        if (message) {
-            const finalUserId = userId ? userId : 0; // Đổi thành 0 nếu null
+        if (message && userId) {
             const sql = "INSERT INTO chat_logs (user_id, user_message, bot_reply, intent, emotion, created_at) VALUES (?, ?, ?, ?, ?, NOW())";
 
-            // In ra dữ liệu chuẩn bị lưu để kiểm tra
-            // console.log("Dữ liệu save:", { finalUserId, message, botReply, intentName, detectedEmotion });
-
-            db.query(sql, [finalUserId, message, botReply, intentName, detectedEmotion], (err, results) => {
+            db.query(sql, [userId, message, botReply, intentName, detectedEmotion], (err, results) => {
                 if (err) {
                     console.error(" LỖI LƯU DB:", err.sqlMessage || err.message);
                 } else {
@@ -54,7 +50,7 @@ exports.sendMessageToBot = async (req, res) => {
                 }
             });
         } else {
-            console.log(" Tin nhắn rỗng, không lưu DB.");
+            console.log(" Không lưu DB: tin nhắn rỗng hoặc không có userId");
         }
 
         // --- TRẢ KẾT QUẢ ---

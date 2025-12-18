@@ -1,35 +1,66 @@
-const EmotionLog = require('../models/emotionLogModel');
+const db = require('../config/db');
+const Diary = require('../models/emotionLogModel');
+const axios = require('axios');
 
-exports.createLog = async (req, res) => {
+// Lưu nhật ký mới
+exports.createEmotionLog = async (req, res) => {
     try {
-        const { user_id, log_date, source_type, primary_emotion, user_note, analysis } = req.body;
+        const { user_id, primary_emotion, user_note, log_date } = req.body;
 
-        // Validate dữ liệu cơ bản
-        if (!user_id || !primary_emotion) {
-            return res.status(400).json({ message: 'Thiếu thông tin bắt buộc' });
+        if (!user_note || user_note.trim() === '') {
+            return res.status(400).json({ message: 'Vui lòng nhập nội dung nhật ký' });
         }
 
-        await EmotionLog.create({
-            user_id,
-            log_date: log_date || new Date(),
-            source_type: source_type || 'manual',
-            primary_emotion,
+        // Gọi AI để phân tích cảm xúc (nếu có)
+        let detectedEmotion = primary_emotion;
+        let aiScore = 0;
+
+        try {
+            const py = await axios.post('http://localhost:8000/analyze-emotion', { text: user_note });
+            detectedEmotion = py.data.top_emotion || primary_emotion || 'neutral';
+            aiScore = py.data.score || 0;
+        } catch (aiErr) {
+            console.warn('AI service unavailable:', aiErr.message);
+            detectedEmotion = primary_emotion || 'neutral';
+        }
+
+        const analysisData = JSON.stringify({ ai_detected: detectedEmotion, confidence: aiScore });
+
+        const insertId = await Diary.createEntry(
+            user_id || 0,
+            detectedEmotion,
             user_note,
-            analysis
+            log_date,
+            analysisData,
+            'manual'
+        );
+
+        res.status(201).json({
+            message: 'Đã lưu nhật ký thành công',
+            log_id: insertId,
+            ai_analysis: { detected: detectedEmotion, score: aiScore }
         });
 
-        res.status(201).json({ message: 'Đã lưu nhật ký cảm xúc' });
     } catch (error) {
-        console.error(error);
-        res.status(500).json({ message: 'Lỗi server' });
+        console.error('Lỗi lưu nhật ký:', error);
+        res.status(500).json({ message: 'Lỗi server', error: String(error?.message || error) });
     }
 };
 
-exports.getHistory = async (req, res) => {
+// Lấy danh sách nhật ký theo user
+exports.getEmotionLogs = async (req, res) => {
     try {
-        const logs = await EmotionLog.getByUserId(req.params.userId);
-        res.json(logs);
+        const userId = req.query.user_id;
+
+        if (!userId) {
+            return res.status(400).json({ message: 'Thiếu user_id' });
+        }
+
+        const logs = await Diary.getEntriesByUser(userId, 100);
+        res.status(200).json(logs);
+
     } catch (error) {
-        res.status(500).json({ message: 'Lỗi lấy dữ liệu' });
+        console.error('Lỗi lấy nhật ký:', error);
+        res.status(500).json({ message: 'Lỗi server', error: String(error?.message || error) });
     }
 };
