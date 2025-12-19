@@ -4,7 +4,7 @@ import Button from 'react-bootstrap/Button';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import Card from 'react-bootstrap/Card';
 
-const ChoseChat = () => {
+const ChoseApp = () => {
     return (
         <div style={{
             container: {
@@ -44,28 +44,9 @@ const ChoseChat = () => {
                     alt="Chat với trợ lý ảo"
                 />
                 <Card.Body>
-                    <Card.Title>Trợ lý ảo lắng nghe</Card.Title>
+                    <Card.Title>Đặt lịch hẹn</Card.Title>
                     <Card.Text>
-                        Tâm sự cùng trợ lý ảo 24/7 để giải tỏa cảm xúc và nhận gợi ý phù hợp.
-                    </Card.Text>
-                    <Nav>
-                        <NavLink to="/chat">
-                            <Button variant="outline-primary">Chat với trợ lý ảo</Button>
-                        </NavLink>
-                    </Nav>
-                </Card.Body>
-            </Card>
-
-            <Card style={{ width: '18rem' }}>
-                <Card.Img
-                    variant="top"
-                    src="https://via.placeholder.com/286x180.png?text=Chat+v%E1%BB%9Bi+tr%E1%BB%A3+l%C3%BD+%E1%BA%A3o"
-                    alt="Chat với trợ lý ảo"
-                />
-                <Card.Body>
-                    <Card.Title>Trợ lý ảo lắng nghe</Card.Title>
-                    <Card.Text>
-                        Đặt lịch hẹn khám trực tiếp với chuyên gia.
+                        Lên lịch hẹn với chuyên gia để nhận được sự hỗ trợ và tư vấn kịp thời.
                     </Card.Text>
                     <Nav>
                         <NavLink to="/appointments">
@@ -78,4 +59,4 @@ const ChoseChat = () => {
     );
 };
 
-export default ChoseChat;
+export default ChoseApp;

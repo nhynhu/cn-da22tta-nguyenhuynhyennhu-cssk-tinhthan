@@ -65,7 +65,7 @@ const Chat = () => {
                 ...prev,
                 {
                     id: Date.now() + 1,
-                    text: "❌ Lỗi kết nối đến server",
+                    text: "Lỗi kết nối đến server :((",
                     sender: "bot"
                 }
             ]);

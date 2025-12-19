@@ -1,8 +1,9 @@
+DROP DATABASE IF EXISTS mental_health_db;
+
 ALTER USER 'root'@'localhost' 
 IDENTIFIED WITH mysql_native_password BY '';
 FLUSH PRIVILEGES;
 
-FLUSH PRIVILEGES;
 CREATE DATABASE mental_health_db;
 USE mental_health_db;
 -- 1.Bảng users
@@ -11,10 +12,10 @@ CREATE TABLE users (
     email VARCHAR(100) NOT NULL UNIQUE,
     password VARCHAR(255) NOT NULL,
     full_name VARCHAR(100),
-    is_active TINYINT DEFAULT 1,
+    role ENUM('user', 'expert', 'admin') NOT NULL DEFAULT 'user',
+    is_active TINYINT DEFAULT  1,
     created_at DATETIME DEFAULT CURRENT_TIMESTAMP
 );
-
 -- 2. Bảng Hồ sơ người dùng
 CREATE TABLE user_profiles (
     profile_id INT AUTO_INCREMENT PRIMARY KEY,
@@ -31,14 +32,13 @@ CREATE TABLE user_profiles (
 -- 3. Bảng Chuyên gia (Bác sĩ/Tư vấn viên)
 CREATE TABLE experts (
     expert_id INT AUTO_INCREMENT PRIMARY KEY,
-    full_name VARCHAR(100),
-    email VARCHAR(100),
-    phone VARCHAR(20),
+    user_id INT,
     specialization VARCHAR(100), -- Chuyên môn
     bio TEXT,
     credentials VARCHAR(255), -- Bằng cấp
     avatar_url TEXT,
-    created_at DATETIME DEFAULT CURRENT_TIMESTAMP
+    created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (user_id) REFERENCES users(user_id) ON DELETE CASCADE
 );
 
 -- 4. Bảng Lịch rảnh của chuyên gia
@@ -51,6 +51,20 @@ CREATE TABLE expert_availabilities (
     is_booked TINYINT DEFAULT 0,
     FOREIGN KEY (expert_id) REFERENCES experts(expert_id) ON DELETE CASCADE
 );
+-- Bảng Tin nhắn giữa người dùng và bác sĩ
+CREATE TABLE IF NOT EXISTS expert_chat_messages (
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  user_id INT NOT NULL,
+  expert_id INT NOT NULL,
+  sender_type ENUM('user','doctor') NOT NULL,
+  message TEXT NOT NULL,
+  created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  FOREIGN KEY (user_id) REFERENCES users(user_id),
+  FOREIGN KEY (expert_id) REFERENCES experts(expert_id)
+);
+UPDATE users
+SET role = 'doctor'
+WHERE email = 'yennhu@gmail.com'; 
 
 -- 5. Bảng Cuộc hội thoại
 CREATE TABLE conversations (
@@ -68,7 +82,7 @@ CREATE TABLE messages (
     message_id INT AUTO_INCREMENT PRIMARY KEY,
     conversation_id INT,
     message_content TEXT,
-    sender_type VARCHAR(20), -- 'user', 'bot', 'expert'
+    sender_type VARCHAR(20), 
     sent_at DATETIME DEFAULT CURRENT_TIMESTAMP,
     dialogflow_intent VARCHAR(100),
     dialogflow_response VARCHAR(100),
@@ -262,61 +276,18 @@ CREATE TABLE user_statistics (
 );
 
 
--- Users
-INSERT INTO users (email, password, full_name) VALUES 
-('nguyenvanan@gmail.com', 'hashed_pass_123', 'Nguyen Van An'),
-('tranthib@gmail.com', 'hashed_pass_456', 'Tran Thi B'),
-('leloi@gmail.com', 'hashed_pass_789', 'Le Loi');
+-- 1. Tạo tài khoản Admin
+INSERT INTO users (email, password, full_name, role) 
+VALUES ('admin@gmail.com', '123456', 'Quản trị viên', 'admin');
 
--- Experts
-INSERT INTO experts (full_name, email, specialization, bio) VALUES 
-('Dr. Pham Tam Ly', 'bs_tamly@hospital.com', 'Tâm lý học lâm sàng', '10 năm kinh nghiệm điều trị trầm cảm.'),
-('Ths. Tran Tu Van', 'tvv_tran@clinic.com', 'Tư vấn hôn nhân gia đình', 'Chuyên gia tư vấn các vấn đề mối quan hệ.');
+-- 2. Tạo tài khoản Bác sĩ
+INSERT INTO users (email, password, full_name, role) 
+VALUES ('doctor_lan@gmail.com', '123456', 'BS. Nguyễn Thị Lan', 'expert');
 
--- Conversations
-INSERT INTO conversations (user_id, title, started_at, status) VALUES 
-(1, 'Cảm thấy lo lắng về công việc', NOW(), 'Active'),
-(2, 'Mất ngủ kéo dài', NOW(), 'Closed');
+-- Lấy user_id vừa tạo cho bác sĩ (ví dụ là 2) để thêm thông tin chuyên môn
+INSERT INTO experts (user_id, specialization, bio, credentials) 
+VALUES (2, 'Tâm lý học hành vi', '15 năm kinh nghiệm...', 'Thạc sĩ Tâm lý');
 
--- Messages
-INSERT INTO messages (conversation_id, message_content, sender_type, sent_at) VALUES 
-(1, 'Chào bạn, tôi cảm thấy rất áp lực dạo gần đây.', 'user', NOW()),
-(1, 'Chào bạn, tôi rất tiếc khi nghe điều đó. Bạn có thể chia sẻ cụ thể hơn không?', 'bot', NOW());
-
--- Emotion Logs
-INSERT INTO emotion_logs (user_id, log_date, primary_emotion, user_note, created_at) VALUES 
-(1, '2023-10-25', 'Lo lắng', 'Sắp đến deadline dự án lớn.', NOW()),
-(1, '2023-10-26', 'Bình thường', 'Đã hoàn thành một phần công việc.', NOW()),
-(2, '2023-10-25', 'Buồn', 'Gặp chuyện không vui với bạn bè.', NOW());
-
--- Mind Categories
-INSERT INTO mind_categories (category_name, description, display_order) VALUES 
-('Thiền định', 'Các bài tập thiền giúp tĩnh tâm.', 1),
-('Giấc ngủ', 'Âm thanh và bài tập giúp ngủ ngon.', 2),
-('Hô hấp', 'Kỹ thuật thở để giảm căng thẳng.', 3);
-
--- Mind Exercises
-INSERT INTO mind_exercises (category_id, title, duration_minutes, difficulty_level, media_type, media_url) VALUES 
-(1, 'Thiền chánh niệm 5 phút', 5, 'Easy', 'Audio', 'http://media.app/thien5p.mp3'),
-(2, 'Tiếng mưa rơi', 30, 'Easy', 'Audio', 'http://media.app/rain.mp3'),
-(3, 'Thở 4-7-8', 10, 'Medium', 'Video', 'http://media.app/breathing.mp4');
-
--- Knowledge Categories
-INSERT INTO knowledge_categories (category_name, description) VALUES 
-('Sức khỏe tâm thần', 'Kiến thức cơ bản về các rối loạn tâm lý.'),
-('Kỹ năng sống', 'Cách quản lý cảm xúc và stress.');
-
--- Knowledge Articles
-INSERT INTO knowledge_articles (k_category_id, title, summary, author) VALUES 
-(1, 'Trầm cảm là gì?', 'Dấu hiệu nhận biết trầm cảm sớm.', 'Dr. Pham Tam Ly'),
-(2, '5 cách giảm stress tại chỗ', 'Các mẹo nhỏ giúp bạn thư giãn ngay tại bàn làm việc.', 'Ths. Tran Tu Van');
-
--- Consultation Appointments
-INSERT INTO consultation_appointments (expert_id, user_id, scheduled_at, duration_minutes, status, consultation_fee) VALUES 
-(1, 1, '2023-11-01 09:00:00', 60, 'Confirmed', 500000),
-(2, 2, '2023-11-02 14:00:00', 45, 'Pending', 300000);
-
--- Health Schedules
-INSERT INTO health_schedules (user_id, title, scheduled_time, activity_type) VALUES 
-(1, 'Uống thuốc vitamin', '08:00:00', 'Medicine'),
-(1, 'Thiền buổi tối', '22:00:00', 'Exercise');
+-- 3. Tạo tài khoản Người dùng thường
+INSERT INTO users (email, password, full_name, role) 
+VALUES ('nhu_sinhvien@gmail.com', '123456', 'Nguyễn Huỳnh Yến Như', 'user');

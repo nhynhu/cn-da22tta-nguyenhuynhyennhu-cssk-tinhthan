@@ -5,7 +5,11 @@ import Navbar from 'react-bootstrap/Navbar';
 import Button from 'react-bootstrap/Button';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
-const CollapsibleExample = () => {
+const CollapsibleExample = ({ user, onLogout }) => {
+    const isAdmin = user && user.role === 'admin';
+    const isExpert = user && user.role === 'expert';
+    const isLoggedIn = !!user;
+
     return (
         <Navbar expand="lg" style={{ backgroundColor: '#043d7d' }}>
             <Container>
@@ -17,33 +21,57 @@ const CollapsibleExample = () => {
                         <NavLink to="/diary">Nhật ký</NavLink>
                         <NavLink to="/analytic">Thống kê</NavLink>
                         <NavLink to="/therapy">Trị liệu</NavLink>
+                        {isExpert && <NavLink to="/doctor-chat">Chat bệnh nhân</NavLink>}
+                        {isAdmin && <NavLink to="/admin">Quản trị</NavLink>}
                     </Nav>
                     <Nav>
-                        <NavLink to="/register">
-                            <Button
-                                variant="light"
-                                style={{
-                                    borderRadius: '20px',
-                                    padding: '5px 20px',
-                                    marginRight: '10px',
-                                    fontWeight: '500',
-                                }}
-                            >
-                                Đăng ký
-                            </Button>
-                        </NavLink>
-                        <NavLink to="/login">
-                            <Button
-                                variant="dark"
-                                style={{
-                                    borderRadius: '20px',
-                                    padding: '5px 20px',
-                                    fontWeight: '500',
-                                }}
-                            >
-                                Đăng nhập
-                            </Button>
-                        </NavLink>
+                        {!isLoggedIn && (
+                            <>
+                                <NavLink to="/register">
+                                    <Button
+                                        variant="light"
+                                        style={{
+                                            borderRadius: '20px',
+                                            padding: '5px 20px',
+                                            marginRight: '10px',
+                                            fontWeight: '500',
+                                        }}
+                                    >
+                                        Đăng ký
+                                    </Button>
+                                </NavLink>
+                                <NavLink to="/login">
+                                    <Button
+                                        variant="dark"
+                                        style={{
+                                            borderRadius: '20px',
+                                            padding: '5px 20px',
+                                            fontWeight: '500',
+                                        }}
+                                    >
+                                        Đăng nhập
+                                    </Button>
+                                </NavLink>
+                            </>
+                        )}
+                        {isLoggedIn && (
+                            <>
+                                <Navbar.Text className="me-3" style={{ color: '#fff' }}>
+                                    Xin chào, {user.name || user.full_name || user.email}
+                                </Navbar.Text>
+                                <Button
+                                    variant="outline-light"
+                                    style={{
+                                        borderRadius: '20px',
+                                        padding: '5px 20px',
+                                        fontWeight: '500',
+                                    }}
+                                    onClick={onLogout}
+                                >
+                                    Đăng xuất
+                                </Button>
+                            </>
+                        )}
                     </Nav>
                 </Navbar.Collapse>
             </Container>

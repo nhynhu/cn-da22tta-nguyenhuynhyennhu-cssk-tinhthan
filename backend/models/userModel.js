@@ -11,12 +11,12 @@ const User = {
         });
     },
 
-    // Tạo user mới
-    create: (email, password, fullName) => {
+    // Tạo user mới (mặc định role = 'user')
+    create: (email, password, fullName, role = 'user') => {
         return new Promise((resolve, reject) => {
             db.query(
-                'INSERT INTO users (email, password, full_name) VALUES (?, ?, ?)',
-                [email, password, fullName],
+                'INSERT INTO users (email, password, full_name, role) VALUES (?, ?, ?, ?)',
+                [email, password, fullName, role],
                 (err, result) => {
                     if (err) return reject(err);
                     resolve(result);
@@ -28,7 +28,7 @@ const User = {
     // Tìm user bằng ID
     findById: (id) => {
         return new Promise((resolve, reject) => {
-            db.query('SELECT user_id, email, full_name, created_at FROM users WHERE user_id = ?', [id], (err, rows) => {
+            db.query('SELECT user_id, email, full_name, role, created_at FROM users WHERE user_id = ?', [id], (err, rows) => {
                 if (err) return reject(err);
                 resolve(rows[0]);
             });

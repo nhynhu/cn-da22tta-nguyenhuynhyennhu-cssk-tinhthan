@@ -23,6 +23,9 @@ const userProfileRoutes = require('./routes/userProfileRoutes');
 const chatRoutes = require('./routes/chatRoutes');
 const emotionLogRoutes = require('./routes/emotionLogRoutes');
 const analyticsRoutes = require('./routes/analyticsRoutes');
+const doctorChatRoutes = require('./routes/doctorChatRoutes');
+const appointmentRoutes = require('./routes/appointmentRoutes');
+const expertRoutes = require('./routes/expertRoutes');
 
 // --- API ROUTES ---
 app.use('/api/users', userRoutes);
@@ -30,6 +33,9 @@ app.use('/api/profiles', userProfileRoutes);
 app.use('/api/chat', chatRoutes);           // API cho chat
 app.use('/api/emotions', emotionLogRoutes); // API cho nhật ký
 app.use('/api/analytics', analyticsRoutes); // API cho thống kê
+app.use('/api/doctor-chat', doctorChatRoutes); // Chat với bác sĩ
+app.use('/api/appointments', appointmentRoutes); // Đặt lịch hẹn với bác sĩ
+app.use('/api/experts', expertRoutes); // Danh sách chuyên gia (bác sĩ)
 // --- KHỞI CHẠY SERVER ---
 app.listen(PORT, () => {
     console.log(`Server đang chạy tại: http://localhost:${PORT}`);
