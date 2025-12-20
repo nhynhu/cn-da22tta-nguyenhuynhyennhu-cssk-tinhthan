@@ -2,14 +2,20 @@ const db = require('../config/db');
 const Diary = require('../models/emotionLogModel');
 const axios = require('axios');
 
-// Lưu nhật ký mới
+// Lưu nhật ký mới cho user đang đăng nhập (lấy từ req.user.id)
 exports.createEmotionLog = async (req, res) => {
     try {
-        const { user_id, primary_emotion, user_note, log_date } = req.body;
+        const { primary_emotion, user_note, log_date } = req.body;
+
+        if (!req.user || !req.user.id) {
+            return res.status(401).json({ message: 'Không xác định được người dùng.' });
+        }
 
         if (!user_note || user_note.trim() === '') {
             return res.status(400).json({ message: 'Vui lòng nhập nội dung nhật ký' });
         }
+
+        const userId = req.user.id;
 
         // Gọi AI để phân tích cảm xúc (nếu có)
         let detectedEmotion = primary_emotion;
@@ -27,7 +33,7 @@ exports.createEmotionLog = async (req, res) => {
         const analysisData = JSON.stringify({ ai_detected: detectedEmotion, confidence: aiScore });
 
         const insertId = await Diary.createEntry(
-            user_id || 0,
+            userId,
             detectedEmotion,
             user_note,
             log_date,
@@ -47,15 +53,14 @@ exports.createEmotionLog = async (req, res) => {
     }
 };
 
-// Lấy danh sách nhật ký theo user
+// Lấy danh sách nhật ký của user đang đăng nhập
 exports.getEmotionLogs = async (req, res) => {
     try {
-        const userId = req.query.user_id;
-
-        if (!userId) {
-            return res.status(400).json({ message: 'Thiếu user_id' });
+        if (!req.user || !req.user.id) {
+            return res.status(401).json({ message: 'Không xác định được người dùng.' });
         }
 
+        const userId = req.user.id;
         const logs = await Diary.getEntriesByUser(userId, 100);
         res.status(200).json(logs);
 

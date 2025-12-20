@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import './App.css';
 import HomePage from './component/home/HomePage';
 import Header from './component/header/Header';
 import Chat from './component/chat/Chat';

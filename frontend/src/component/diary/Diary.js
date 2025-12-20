@@ -22,8 +22,18 @@ const EmotionDiary = () => {
     const [logs, setLogs] = useState([]);
     const [loading, setLoading] = useState(false);
     const [message, setMessage] = useState(null);
+    const [suggestions, setSuggestions] = useState([]);
 
-    const USER_ID = 1;
+    // Lấy token và user từ localStorage (đã lưu sau khi login)
+    const token = localStorage.getItem('token');
+    const currentUser = (() => {
+        try {
+            const raw = localStorage.getItem('user');
+            return raw ? JSON.parse(raw) : null;
+        } catch {
+            return null;
+        }
+    })();
 
     const today = new Date().toLocaleDateString('vi-VN', {
         weekday: 'long', day: 'numeric', month: 'long', year: 'numeric'
@@ -40,15 +50,36 @@ const EmotionDiary = () => {
 
     // --- 1. LOAD LỊCH SỬ KHI VÀO TRANG ---
     useEffect(() => {
-        fetchHistory();
+        // Chỉ load lịch sử khi đã đăng nhập
+        if (token && currentUser?.id) {
+            fetchHistory();
+        }
     }, []);
 
     const fetchHistory = async () => {
+        if (!token) {
+            setMessage({ type: 'warning', text: 'Bạn cần đăng nhập để xem nhật ký cảm xúc.' });
+            return;
+        }
+
         try {
-            const res = await axios.get(`http://localhost:5000/api/emotions?user_id=${USER_ID}`);
-            setLogs(res.data);
+            const [logsRes, sugRes] = await Promise.all([
+                axios.get('http://localhost:5000/api/emotions', {
+                    headers: {
+                        Authorization: `Bearer ${token}`
+                    }
+                }),
+                axios.get('http://localhost:5000/api/suggestions', {
+                    headers: {
+                        Authorization: `Bearer ${token}`
+                    }
+                })
+            ]);
+
+            setLogs(logsRes.data || []);
+            setSuggestions(sugRes.data || []);
         } catch (error) {
-            console.error("Lỗi tải lịch sử:", error);
+            console.error("Lỗi tải lịch sử hoặc gợi ý:", error);
         }
     };
 
@@ -71,16 +102,24 @@ const EmotionDiary = () => {
             return;
         }
 
+        if (!token) {
+            setMessage({ type: 'warning', text: 'Bạn cần đăng nhập để lưu nhật ký.' });
+            return;
+        }
+
         setLoading(true);
         setMessage(null);
 
         try {
             // SỬA: BẮT PHẢN HỒI CỦA BACKEND ĐỂ LẤY AI ANALYSIS
             const res = await axios.post('http://localhost:5000/api/emotions', {
-                user_id: USER_ID,
                 primary_emotion: mood,
                 user_note: entry,
                 log_date: new Date()
+            }, {
+                headers: {
+                    Authorization: `Bearer ${token}`
+                }
             });
 
             // Lấy kết quả AI từ Backend (nếu có)
@@ -178,6 +217,8 @@ const EmotionDiary = () => {
                             if (log.analysis) aiInfo = JSON.parse(log.analysis);
                         } catch (e) { }
 
+                        const logSuggestions = suggestions.filter(s => s.log_id === log.log_id);
+
                         return (
                             <ListGroup.Item key={log.log_id} className="mb-3 border rounded shadow-sm">
                                 <div className="d-flex justify-content-between align-items-center mb-2">
@@ -207,6 +248,28 @@ const EmotionDiary = () => {
                                 <p className="mb-1" style={{ whiteSpace: 'pre-line', color: '#444' }}>
                                     {log.user_note || <em className="text-muted">Không có nội dung</em>}
                                 </p>
+
+                                {/* Gợi ý đi kèm nhật ký này (nếu có) */}
+                                {logSuggestions.length > 0 && (
+                                    <div className="mt-3">
+                                        <div className="fw-bold text-muted mb-1" style={{ fontSize: '0.9rem' }}>
+                                            Gợi ý dành cho bạn:
+                                        </div>
+                                        <ul className="mb-0" style={{ paddingLeft: '1.2rem', fontSize: '0.9rem' }}>
+                                            {logSuggestions.map(s => (
+                                                <li key={s.suggestion_id}>
+                                                    <span className="fw-semibold">{s.title}</span>
+                                                    {s.priority && (
+                                                        <Badge bg="warning" text="dark" className="ms-2">
+                                                            {s.priority}
+                                                        </Badge>
+                                                    )}
+                                                    <div className="text-muted">{s.content}</div>
+                                                </li>
+                                            ))}
+                                        </ul>
+                                    </div>
+                                )}
                             </ListGroup.Item>
                         );
                     })

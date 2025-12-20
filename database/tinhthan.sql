@@ -56,15 +56,12 @@ CREATE TABLE IF NOT EXISTS expert_chat_messages (
   id INT AUTO_INCREMENT PRIMARY KEY,
   user_id INT NOT NULL,
   expert_id INT NOT NULL,
-  sender_type ENUM('user','doctor') NOT NULL,
+  sender_type ENUM('user','expert') NOT NULL,
   message TEXT NOT NULL,
   created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
   FOREIGN KEY (user_id) REFERENCES users(user_id),
   FOREIGN KEY (expert_id) REFERENCES experts(expert_id)
 );
-UPDATE users
-SET role = 'doctor'
-WHERE email = 'yennhu@gmail.com'; 
 
 -- 5. Bảng Cuộc hội thoại
 CREATE TABLE conversations (
@@ -89,7 +86,7 @@ CREATE TABLE messages (
     FOREIGN KEY (conversation_id) REFERENCES conversations(conversation_id) ON DELETE CASCADE
 );
 CREATE TABLE chat_logs (
-    id INT AUTO_INCREMENT PRIMARY KEY,
+    chat_id INT AUTO_INCREMENT PRIMARY KEY,
     user_id INT,
     user_message TEXT,
     bot_reply TEXT,
@@ -145,6 +142,7 @@ CREATE TABLE mind_categories (
     category_name VARCHAR(100),
     description TEXT,
     icon_url TEXT,
+    intent VARCHAR(100),
     display_order INT,
     is_active TINYINT DEFAULT 1
 );

@@ -3,6 +3,7 @@ const uuid = require('uuid');
 const path = require('path');
 const db = require('../config/db');
 const axios = require('axios');
+const MindCategory = require('../models/mindCategoryModel');
 
 // Cấu hình Dialogflow
 const KEY_FILE = path.join(__dirname, '../dialogflow-key.json');
@@ -53,11 +54,22 @@ exports.sendMessageToBot = async (req, res) => {
             console.log(" Không lưu DB: tin nhắn rỗng hoặc không có userId");
         }
 
+        // --- BƯỚC 4: GỢI Ý DANH MỤC BÀI TẬP THEO EMOTION/INTENT ---
+        let suggestedCategories = [];
+        try {
+            if (detectedEmotion) {
+                suggestedCategories = await MindCategory.getByIntent(detectedEmotion);
+            }
+        } catch (catErr) {
+            console.warn('Không lấy được danh mục gợi ý:', catErr.message);
+        }
+
         // --- TRẢ KẾT QUẢ ---
         res.json({
             reply: botReply,
             intent: intentName,
-            emotion: detectedEmotion
+            emotion: detectedEmotion,
+            suggestedCategories
         });
 
     } catch (error) {

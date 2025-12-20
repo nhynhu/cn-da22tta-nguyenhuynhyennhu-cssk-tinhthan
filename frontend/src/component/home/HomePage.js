@@ -1,64 +1,189 @@
 import React from 'react';
-import Container from 'react-bootstrap/Container';
 import Button from 'react-bootstrap/Button';
-import Row from 'react-bootstrap/Row';
-import Col from 'react-bootstrap/Col';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { NavLink } from 'react-router-dom';
+import { Carousel, Container, Row, Col, Card } from 'react-bootstrap';
+import { useNavigate } from 'react-router-dom';
+
 
 const HomePage = () => {
+    const navigate = useNavigate();
+    const slides = [
+        '/img/slide1.webp',
+        '/img/slide2.jpg',
+        '/img/slide3.jpg',
+    ];
     return (
         <div>
-
-            {/* Hero Section */}
-            < div
-                style={{
-                    background: 'linear-gradient(120deg, #afd2f5ff, #0072abff)',
-                    color: 'white',
-                    textAlign: 'center',
-                    padding: '80px 20px',
-                }}
-            >
-                <h1 style={{ fontWeight: '700', fontSize: '2.5rem' }}>
-                    Chăm sóc sức khỏe tinh thần của bạn mỗi ngày
-                </h1>
-                <Button
-                    variant="light"
-                    style={{
-                        borderRadius: '30px',
-                        padding: '10px 30px',
-                        fontWeight: '600',
-                        marginTop: '25px',
-                    }}
-                >
-
-                    <NavLink to="/chat">Bắt đầu ngay</NavLink>
-                </Button>
-            </div >
+            {/* Hero Carousel */}
+            <Carousel fade interval={4000} pause="hover">
+                {slides.map((src, index) => (
+                    <Carousel.Item key={index}>
+                        <div
+                            style={{
+                                height: '520px',
+                                backgroundImage: `linear-gradient(rgba(0,0,0,0.45), rgba(0,0,0,0.5)), url(${src})`,
+                                backgroundSize: 'cover',
+                                backgroundPosition: 'center',
+                                display: 'flex',
+                                flexDirection: 'column',
+                                alignItems: 'center',
+                                justifyContent: 'center',
+                                textAlign: 'center',
+                                color: 'white',
+                                padding: '0 20px',
+                            }}
+                        >
+                            <h1 style={{ fontWeight: '700', fontSize: '2.5rem' }}>
+                                Chăm sóc sức khỏe tinh thần của bạn mỗi ngày
+                            </h1>
+                            <p style={{ maxWidth: '650px', marginTop: '10px', opacity: 0.9 }}>
+                                Trò chuyện cùng người bạn đồng hành ngay bạn nhé!
+                            </p>
+                            <Button
+                                variant="light"
+                                style={{
+                                    borderRadius: '30px',
+                                    padding: '10px 30px',
+                                    fontWeight: '600',
+                                    marginTop: '25px',
+                                }}
+                            >
+                                <NavLink to="/chose-chat" style={{ textDecoration: 'none', color: '#1f2937' }}>
+                                    Bắt đầu ngay
+                                </NavLink>
+                            </Button>
+                        </div>
+                    </Carousel.Item>
+                ))}
+            </Carousel>
 
             {/* Các tính năng chính */}
-            < Container style={{ marginTop: '60px', marginBottom: '60px' }}>
-                <h2 className="text-center mb-5" style={{ fontWeight: '700', color: '#043d7d' }}>
-                    Tính năng nổi bật
+            <Container style={{ marginTop: '60px', marginBottom: '40px' }}>
+                <h2 className="text-center mb-4" style={{ fontWeight: '700', color: '#043d7d' }}>
+                    Ứng dụng đồng hành tinh thần toàn diện
                 </h2>
-                <Row className="text-center">
-                    <Col md={4}>
-                        <h4> Trò chuyện trị liệu</h4>
-                        <p>Kết nối với chuyên gia hoặc AI hỗ trợ tinh thần bất cứ khi nào bạn cần.</p>
-                    </Col>
-                    <Col md={4}>
-                        <h4> Nhật ký cảm xúc</h4>
-                        <p>Ghi lại cảm xúc mỗi ngày để hiểu rõ hơn về bản thân.</p>
-                    </Col>
-                    <Col md={4}>
-                        <h4> Thống kê sức khỏe</h4>
-                        <p>Theo dõi biểu đồ tâm trạng và tiến trình cải thiện tinh thần của bạn.</p>
-                    </Col>
-                </Row>
-            </Container >
+                <p className="text-center mb-5" style={{ maxWidth: 700, margin: '0 auto', color: '#4b5563' }}>
+                    COOL CAT COMFORT kết hợp chatbot, bài tập trị liệu và kết nối chuyên gia để bạn có thể chăm sóc
+                    sức khỏe tinh thần ở bất cứ đâu.
+                </p>
+
+            </Container>
+
+            {/* Lưới thẻ đổi hình thành chữ khi hover */}
+            <Container fluid className="feature-hover-section">
+                <Container>
+                    <div className="feature-hover-grid">
+                        {/* Hoa tiêu */}
+                        <div className="feature-hover-card">
+                            <div className="feature-hover-label">
+                                Hoa tiêu
+                                <span>Gợi ý nhẹ nhàng</span>
+                            </div>
+                            <div className="feature-hover-inner">
+                                <div className="feature-hover-image">
+                                    <img src="/img/guide-1.jpg" alt="Hoa tiêu" />
+                                </div>
+                                <div className="feature-hover-content">
+                                    <p>
+                                        Một khu vực giúp bạn định hướng: nên viết nhật ký, trò chuyện, hay thử một
+                                        bài tập thư giãn vào lúc này.
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+
+                        {/* Cổng */}
+                        <div className="feature-hover-card">
+                            <div className="feature-hover-label">
+                                Cổng
+                                <span>Kết nối phù hợp</span>
+                            </div>
+                            <div className="feature-hover-inner">
+                                <div className="feature-hover-image">
+                                    <img src="/img/guide-2.jpg" alt="Cổng" />
+                                </div>
+                                <div className="feature-hover-content">
+                                    <p>
+                                        Từ một nơi, bạn có thể đi đến nhật ký, trị liệu, thống kê hoặc cuộc hẹn với
+                                        chuyên gia chỉ bằng vài cú chạm.
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+
+                        {/* Tự trợ giúp bằng AI */}
+                        <div className="feature-hover-card">
+                            <div className="feature-hover-label">
+                                Tự trợ giúp bằng AI
+                                <span>Chatbot tiếng Việt</span>
+                            </div>
+                            <div className="feature-hover-inner">
+                                <div className="feature-hover-image">
+                                    <img src="/img/guide-3.jpg" alt="Tự trợ giúp bằng AI" />
+                                </div>
+                                <div className="feature-hover-content">
+                                    <p>
+                                        Một người bạn ảo lắng nghe 24/7, phản hồi dịu dàng và gợi ý bài tập phù hợp
+                                        với cảm xúc của bạn.
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </Container>
+            </Container>
+            {/* Section kiểu "cổng" / navigator hai cột */}
+            <Container fluid className="navigator-section">
+                <Container>
+                    <Row className="justify-content-center">
+                        <Col lg={10}>
+                            <div className="navigator-card">
+                                <Row className="g-4 align-items-center">
+                                    <Col md={6}>
+                                        <h3 className="navigator-title mb-3">
+                                            Hướng bạn tới bước tiếp theo phù hợp
+                                        </h3>
+                                        <p style={{ color: '#374151', lineHeight: 1.7 }}>
+                                            COOL CAT COMFORT giống như một "cổng" hướng dẫn mềm mại: dựa trên cảm
+                                            xúc và thói quen của bạn, ứng dụng gợi ý những việc nhỏ nhưng thiết
+                                            thực để bạn bắt đầu chăm sóc sức khỏe tinh thần.
+                                        </p>
+                                        <p style={{ color: '#374151', lineHeight: 1.7 }}>
+                                            Dù bạn muốn chỉ ghi vài dòng nhật ký, thử một bài thở thư giãn hay đặt
+                                            lịch với chuyên gia, hệ thống đều giúp bạn chọn lựa dễ dàng và an toàn.
+                                        </p>
+                                        <small style={{ color: '#6b7280' }}>
+                                            Dành cho sinh viên, người đi làm hoặc bất kỳ ai muốn quan tâm tới chính
+                                            mình nhiều hơn.
+                                        </small>
+                                        <div className="mt-4">
+                                            <Button
+                                                variant="outline-warning"
+                                                style={{ borderRadius: 999, padding: '8px 24px', fontWeight: 600 }}
+                                                onClick={() => navigate('/diary')}
+                                            >
+                                                Tìm hiểu thêm
+                                            </Button>
+                                        </div>
+                                    </Col>
+                                    <Col md={6} className="navigator-image-col">
+                                        <div className="navigator-image-wrapper">
+                                            <img
+                                                src="/img/navigator-person.jpg"
+                                                alt="Người dùng đang sử dụng ứng dụng trên điện thoại"
+                                            />
+                                        </div>
+                                    </Col>
+                                </Row>
+                            </div>
+                        </Col>
+                    </Row>
+                </Container>
+            </Container>
 
             {/* Footer */}
-            < div
+            <div
                 style={{
                     backgroundColor: '#043d7d ',
                     color: 'white',
@@ -67,7 +192,7 @@ const HomePage = () => {
                 }}
             >
                 <p>© 2025 </p>
-            </div >
+            </div>
         </div >
     );
 }

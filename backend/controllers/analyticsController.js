@@ -1,15 +1,15 @@
 const Analytics = require('../models/analyticsModel');
 
-// Thống kê tổng quan cảm xúc (pie chart)
+// Thống kê tổng quan cảm xúc (pie chart) cho user đang đăng nhập
 exports.getEmotionSummary = async (req, res) => {
     try {
-        const userId = req.query.user_id;
         const days = parseInt(req.query.days) || 30;
 
-        if (!userId) {
-            return res.status(400).json({ message: 'Thiếu user_id' });
+        if (!req.user || !req.user.id) {
+            return res.status(401).json({ message: 'Không xác định được người dùng.' });
         }
 
+        const userId = req.user.id;
         const summary = await Analytics.getEmotionSummary(userId, days);
 
         res.status(200).json({
@@ -23,16 +23,16 @@ exports.getEmotionSummary = async (req, res) => {
     }
 };
 
-// Xu hướng cảm xúc theo thời gian (line chart)
+// Xu hướng cảm xúc theo thời gian (line chart) cho user đang đăng nhập
 exports.getEmotionTrend = async (req, res) => {
     try {
-        const userId = req.query.user_id;
         const days = parseInt(req.query.days) || 30;
 
-        if (!userId) {
-            return res.status(400).json({ message: 'Thiếu user_id' });
+        if (!req.user || !req.user.id) {
+            return res.status(401).json({ message: 'Không xác định được người dùng.' });
         }
 
+        const userId = req.user.id;
         const trend = await Analytics.getEmotionTrend(userId, days);
 
         // Format lại data cho chart
@@ -58,17 +58,17 @@ exports.getEmotionTrend = async (req, res) => {
     }
 };
 
-// Thống kê chi tiết (combined emotion_logs + chat_logs)
+// Thống kê chi tiết (combined emotion_logs + chat_logs) cho user đang đăng nhập
 exports.getCombinedStats = async (req, res) => {
     try {
-        const userId = req.query.user_id;
         const startDate = req.query.start_date;
         const endDate = req.query.end_date;
 
-        if (!userId) {
-            return res.status(400).json({ message: 'Thiếu user_id' });
+        if (!req.user || !req.user.id) {
+            return res.status(401).json({ message: 'Không xác định được người dùng.' });
         }
 
+        const userId = req.user.id;
         const stats = await Analytics.getCombinedEmotionStats(userId, startDate, endDate);
 
         res.status(200).json({
@@ -84,17 +84,17 @@ exports.getCombinedStats = async (req, res) => {
     }
 };
 
-// Thống kê riêng từ emotion_logs
+// Thống kê riêng từ emotion_logs cho user đang đăng nhập
 exports.getEmotionLogsStats = async (req, res) => {
     try {
-        const userId = req.query.user_id;
         const startDate = req.query.start_date;
         const endDate = req.query.end_date;
 
-        if (!userId) {
-            return res.status(400).json({ message: 'Thiếu user_id' });
+        if (!req.user || !req.user.id) {
+            return res.status(401).json({ message: 'Không xác định được người dùng.' });
         }
 
+        const userId = req.user.id;
         const stats = await Analytics.getEmotionStats(userId, startDate, endDate);
 
         res.status(200).json({
@@ -108,17 +108,17 @@ exports.getEmotionLogsStats = async (req, res) => {
     }
 };
 
-// Thống kê riêng từ chat_logs
+// Thống kê riêng từ chat_logs cho user đang đăng nhập
 exports.getChatLogsStats = async (req, res) => {
     try {
-        const userId = req.query.user_id;
         const startDate = req.query.start_date;
         const endDate = req.query.end_date;
 
-        if (!userId) {
-            return res.status(400).json({ message: 'Thiếu user_id' });
+        if (!req.user || !req.user.id) {
+            return res.status(401).json({ message: 'Không xác định được người dùng.' });
         }
 
+        const userId = req.user.id;
         const stats = await Analytics.getChatEmotionStats(userId, startDate, endDate);
 
         res.status(200).json({

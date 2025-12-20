@@ -10,7 +10,8 @@ const Analytic = () => {
     const [trend, setTrend] = useState([]);
     const [period, setPeriod] = useState(30); // 7, 30, 90 ngày
 
-    const USER_ID = 1; // Hardcoded, thay bằng auth thật
+    // Lấy token từ localStorage (đã lưu sau khi login)
+    const token = localStorage.getItem('token');
 
     // Màu sắc cho các cảm xúc
     const EMOTION_COLORS = {
@@ -38,20 +39,42 @@ const Analytic = () => {
 
     // Load dữ liệu
     useEffect(() => {
-        fetchAnalytics();
+        if (token) {
+            fetchAnalytics();
+        } else {
+            setLoading(false);
+            setError('Bạn cần đăng nhập để xem thống kê cảm xúc.');
+        }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [period]);
 
     const fetchAnalytics = async () => {
         try {
+            if (!token) {
+                setError('Bạn cần đăng nhập để xem thống kê cảm xúc.');
+                setLoading(false);
+                return;
+            }
+
             setLoading(true);
             setError(null);
 
             // Gọi API tổng quan
-            const summaryRes = await axios.get(`http://localhost:5000/api/analytics/summary?user_id=${USER_ID}&days=${period}`);
+            const summaryRes = await axios.get('http://localhost:5000/api/analytics/summary', {
+                params: { days: period },
+                headers: {
+                    Authorization: `Bearer ${token}`
+                }
+            });
             setSummary(summaryRes.data.data);
 
             // Gọi API xu hướng
-            const trendRes = await axios.get(`http://localhost:5000/api/analytics/trend?user_id=${USER_ID}&days=${period}`);
+            const trendRes = await axios.get('http://localhost:5000/api/analytics/trend', {
+                params: { days: period },
+                headers: {
+                    Authorization: `Bearer ${token}`
+                }
+            });
             setTrend(trendRes.data.data);
 
         } catch (err) {

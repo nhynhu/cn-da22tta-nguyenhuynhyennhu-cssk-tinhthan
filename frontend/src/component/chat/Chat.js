@@ -1,5 +1,5 @@
 import React, { useState, useRef, useEffect } from 'react';
-import { Container, InputGroup, FormControl, Button, Card } from 'react-bootstrap';
+import { Container, InputGroup, FormControl, Button, Card, Badge } from 'react-bootstrap';
 
 const Chat = () => {
     const API_URL = "http://localhost:5000/api/chat";
@@ -10,6 +10,7 @@ const Chat = () => {
 
     const [newMessage, setNewMessage] = useState('');
     const [loadingBot, setLoadingBot] = useState(false);
+    const [suggestedCategories, setSuggestedCategories] = useState([]);
 
     const messagesEndRef = useRef(null);
 
@@ -59,6 +60,9 @@ const Chat = () => {
                     sender: "bot"
                 }
             ]);
+
+            // 5. Lưu gợi ý danh mục theo intent/emotion (nếu có)
+            setSuggestedCategories(data.suggestedCategories || []);
         } catch (error) {
             // Lỗi backend
             setMessages(prev => [
@@ -118,6 +122,25 @@ const Chat = () => {
                 </Card.Body>
 
                 <Card.Footer>
+                    {/* Gợi ý danh mục bài tập theo cảm xúc/intent */}
+                    {suggestedCategories.length > 0 && (
+                        <div className="mb-3">
+                            <div className="fw-bold mb-1">Gợi ý cho bạn:</div>
+                            {suggestedCategories.map(cat => (
+                                <div key={cat.category_id} className="small mb-1">
+                                    <Badge bg="info" className="me-2">{cat.intent}</Badge>
+                                    <strong>{cat.category_name}</strong>
+                                    {cat.description && (
+                                        <span className="text-muted"> - {cat.description}</span>
+                                    )}
+                                </div>
+                            ))}
+                            <div className="mt-1">
+                                <a href="/therapy">Xem các bài tập phù hợp &rarr;</a>
+                            </div>
+                        </div>
+                    )}
+
                     <InputGroup>
                         <FormControl
                             placeholder="Nhập tin nhắn..."
