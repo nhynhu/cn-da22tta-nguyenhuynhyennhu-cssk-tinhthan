@@ -68,7 +68,7 @@ const ChoseChat = () => {
                         Đặt lịch hẹn khám trực tiếp với chuyên gia.
                     </Card.Text>
                     <Nav>
-                        <NavLink to="/appointments">
+                        <NavLink to="/appointment">
                             <Button variant="outline-primary">Đặt lịch hẹn</Button>
                         </NavLink>
                     </Nav>

@@ -1,12 +1,12 @@
 const db = require('../config/db');
 
 const Appointment = {
-    create: (userId, expertId, scheduledAt, note) => {
-        // Lưu note tạm vào meeting_link, các trường khác để NULL hoặc giá trị mặc định
-        const sql = `INSERT INTO consultation_appointments (expert_id, user_id, scheduled_at, status, meeting_link, created_at)
-                     VALUES (?, ?, ?, 'Pending', ?, NOW())`;
+    create: (userId, expertId, scheduledAt, meetingType, durationMinutes, note) => {
+        const sql = `INSERT INTO consultation_appointments 
+                     (expert_id, user_id, scheduled_at, meeting_type, duration_minutes, status, meeting_link, created_at)
+                     VALUES (?, ?, ?, ?, ?, 'Pending', ?, NOW())`;
         return new Promise((resolve, reject) => {
-            db.query(sql, [expertId, userId, scheduledAt, note || null], (err, result) => {
+            db.query(sql, [expertId, userId, scheduledAt, meetingType || 'Online', durationMinutes || 60, note || null], (err, result) => {
                 if (err) return reject(err);
                 resolve(result.insertId);
             });
@@ -63,6 +63,41 @@ const Appointment = {
             db.query(sql, [status, appointmentId], (err, result) => {
                 if (err) return reject(err);
                 resolve(result.affectedRows);
+            });
+        });
+    },
+
+    // Cập nhật lịch hẹn (cho user)
+    update: (appointmentId, userId, expertId, scheduledAt, note) => {
+        const sql = `UPDATE consultation_appointments 
+                     SET expert_id = ?, scheduled_at = ?, meeting_link = ?
+                     WHERE appointment_id = ? AND user_id = ?`;
+        return new Promise((resolve, reject) => {
+            db.query(sql, [expertId, scheduledAt, note || null, appointmentId, userId], (err, result) => {
+                if (err) return reject(err);
+                resolve(result.affectedRows);
+            });
+        });
+    },
+
+    // Xóa lịch hẹn (cho user)
+    delete: (appointmentId, userId) => {
+        const sql = `DELETE FROM consultation_appointments WHERE appointment_id = ? AND user_id = ?`;
+        return new Promise((resolve, reject) => {
+            db.query(sql, [appointmentId, userId], (err, result) => {
+                if (err) return reject(err);
+                resolve(result.affectedRows);
+            });
+        });
+    },
+
+    // Lấy lịch hẹn theo ID
+    getById: (appointmentId) => {
+        const sql = `SELECT * FROM consultation_appointments WHERE appointment_id = ?`;
+        return new Promise((resolve, reject) => {
+            db.query(sql, [appointmentId], (err, rows) => {
+                if (err) return reject(err);
+                resolve(rows[0]);
             });
         });
     }

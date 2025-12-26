@@ -7,7 +7,7 @@ const db = require('./config/db'); // Import kết nối DB bạn vừa tạo
 dotenv.config();
 
 const app = express();
-const PORT = process.env.PORT || 5000;
+const PORT = process.env.PORT || 5002;
 
 // --- MIDDLEWARES ---
 app.use(cors()); // Cho phép Frontend (React) gọi API

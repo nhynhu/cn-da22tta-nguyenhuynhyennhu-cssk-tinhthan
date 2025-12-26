@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import './App.css';
+import { Routes, Route, useLocation } from 'react-router-dom';
+
 import HomePage from './component/home/HomePage';
 import Header from './component/header/Header';
 import Chat from './component/chat/Chat';
@@ -7,9 +9,9 @@ import DoctorChat from './component/chat/DoctorChat';
 import UserExpertChat from './component/chat/UserExpertChat';
 import ExpertList from './component/chat/ExpertList';
 import Appointment from './component/appointment/Appointment';
-import { Routes, Route, useNavigate } from 'react-router-dom';
 import Login from './component/auth/Login';
 import Register from './component/auth/Register';
+import ForgotPassword from './component/auth/ForgotPassword';
 import Analytic from './component/analytic/Analytic';
 import Diary from './component/diary/Diary';
 import Therapy from './component/therapy/Therapy';
@@ -19,9 +21,9 @@ import AdminPage from './component/admin/AdminPage';
 
 const App = () => {
   const [user, setUser] = useState(null);
+  const location = useLocation();
 
   useEffect(() => {
-    // Load user from localStorage
     const savedUser = localStorage.getItem('user');
     if (savedUser) {
       setUser(JSON.parse(savedUser));
@@ -32,7 +34,7 @@ const App = () => {
     setUser(userData.user);
     localStorage.setItem('user', JSON.stringify(userData.user));
     localStorage.setItem('token', userData.token);
-    window.location.href = '/'; // Redirect to home
+    window.location.href = '/';
   };
 
   const handleLogout = () => {
@@ -42,13 +44,16 @@ const App = () => {
     window.location.href = '/login';
   };
 
-  const handleRegister = () => {
-    window.location.href = '/login';
-  };
+  // ❌ Không hiển thị Header ở login, register & forgot-password
+  const hideHeader =
+    location.pathname === '/login' ||
+    location.pathname === '/register' ||
+    location.pathname === '/forgot-password';
 
   return (
     <div className="App">
-      <Header user={user} onLogout={handleLogout} />
+      {!hideHeader && <Header user={user} onLogout={handleLogout} />}
+
       <Routes>
         <Route path="/" element={<HomePage />} />
         <Route path="/chose-chat" element={<ChoseChat />} />
@@ -58,16 +63,19 @@ const App = () => {
         <Route path="/doctor-chat" element={<DoctorChat />} />
         <Route path="/doctor-chat/:expertId" element={<UserExpertChat />} />
         <Route path="/expert-chat" element={<UserExpertChat />} />
-        <Route path="/appointments" element={<Appointment />} />
+        <Route path="/appointment" element={<Appointment />} />
         <Route path="/analytic" element={<Analytic />} />
         <Route path="/diary" element={<Diary />} />
         <Route path="/therapy" element={<Therapy />} />
         <Route path="/admin" element={<AdminPage user={user} />} />
+
+        {/* Auth */}
         <Route path="/login" element={<Login onLogin={handleLogin} />} />
-        <Route path="/register" element={<Register onRegister={handleRegister} />} />
+        <Route path="/register" element={<Register onLogin={handleLogin} />} />
+        <Route path="/forgot-password" element={<ForgotPassword />} />
       </Routes>
     </div>
   );
-}
+};
 
 export default App;

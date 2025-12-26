@@ -2,7 +2,7 @@ import React from 'react';
 import Button from 'react-bootstrap/Button';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { NavLink } from 'react-router-dom';
-import { Carousel, Container, Row, Col, Card } from 'react-bootstrap';
+import { Carousel, Container, Row, Col } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
 
 
@@ -58,28 +58,12 @@ const HomePage = () => {
                 ))}
             </Carousel>
 
-            {/* Các tính năng chính */}
-            <Container style={{ marginTop: '60px', marginBottom: '40px' }}>
-                <h2 className="text-center mb-4" style={{ fontWeight: '700', color: '#043d7d' }}>
-                    Ứng dụng đồng hành tinh thần toàn diện
-                </h2>
-                <p className="text-center mb-5" style={{ maxWidth: 700, margin: '0 auto', color: '#4b5563' }}>
-                    COOL CAT COMFORT kết hợp chatbot, bài tập trị liệu và kết nối chuyên gia để bạn có thể chăm sóc
-                    sức khỏe tinh thần ở bất cứ đâu.
-                </p>
-
-            </Container>
-
             {/* Lưới thẻ đổi hình thành chữ khi hover */}
             <Container fluid className="feature-hover-section">
                 <Container>
                     <div className="feature-hover-grid">
                         {/* Hoa tiêu */}
                         <div className="feature-hover-card">
-                            <div className="feature-hover-label">
-                                Hoa tiêu
-                                <span>Gợi ý nhẹ nhàng</span>
-                            </div>
                             <div className="feature-hover-inner">
                                 <div className="feature-hover-image">
                                     <img src="/img/guide-1.jpg" alt="Hoa tiêu" />
@@ -95,10 +79,6 @@ const HomePage = () => {
 
                         {/* Cổng */}
                         <div className="feature-hover-card">
-                            <div className="feature-hover-label">
-                                Cổng
-                                <span>Kết nối phù hợp</span>
-                            </div>
                             <div className="feature-hover-inner">
                                 <div className="feature-hover-image">
                                     <img src="/img/guide-2.jpg" alt="Cổng" />
@@ -114,10 +94,6 @@ const HomePage = () => {
 
                         {/* Tự trợ giúp bằng AI */}
                         <div className="feature-hover-card">
-                            <div className="feature-hover-label">
-                                Tự trợ giúp bằng AI
-                                <span>Chatbot tiếng Việt</span>
-                            </div>
                             <div className="feature-hover-inner">
                                 <div className="feature-hover-image">
                                     <img src="/img/guide-3.jpg" alt="Tự trợ giúp bằng AI" />
@@ -181,11 +157,113 @@ const HomePage = () => {
                     </Row>
                 </Container>
             </Container>
+            {/* Slider chuyên gia - auto scroll giống video */}
+            <Container fluid className="experts-section">
+                <Container>
+                    <h2 className="experts-title">Đồng hành cùng đội ngũ chuyên gia</h2>
+                    <p className="experts-subtitle">
+                        Những người hướng dẫn, nhà trị liệu và huấn luyện viên chánh niệm luôn sẵn sàng hỗ trợ bạn.
+                    </p>
+                    <div className="experts-slider">
+                        <div className="experts-track">
+                            {[
+                                {
+                                    name: 'Neca Smith',
+                                    role: 'Chuyên gia sức khỏe tinh thần',
+                                    image: '/img/expert1.png',
+                                    color: '#facc15',
+                                },
+                                {
+                                    name: 'Dr. Jon Kole',
+                                    role: 'Bác sĩ tâm thần & Giám đốc y khoa',
+                                    image: '/img/expert2.jpg',
+                                    color: '#38bdf8',
+                                },
+                                {
+                                    name: 'Eve Lewis',
+                                    role: 'Giảng viên thiền & chánh niệm',
+                                    image: '/img/expert3.jpg',
+                                    color: '#fb7185',
+                                },
+                                {
+                                    name: 'Kessonga Giscombe',
+                                    role: 'Giảng viên thiền và chánh niệm',
+                                    image: '/img/expert4.jpg',
+                                    color: '#22c55e',
+                                },
+                                {
+                                    name: 'Rosie Acosta',
+                                    role: 'Giảng viên thiền & huấn luyện viên',
+                                    image: '/img/expert5.jpg',
+                                    color: '#f97316',
+                                },
+                                {
+                                    name: 'Arturo Morales',
+                                    role: 'Nhà trị liệu hôn nhân & gia đình',
+                                    image: '/img/expert6.jpg',
+                                    color: '#eab308',
+                                },
+                            ]
+                                .concat([
+                                    {
+                                        name: 'Neca Smith',
+                                        role: 'Chuyên gia sức khỏe tinh thần',
+                                        image: '/img/expert1.jpg',
+                                        color: '#facc15',
+                                    },
+                                    {
+                                        name: 'Dr. Jon Kole',
+                                        role: 'Bác sĩ tâm thần & Giám đốc y khoa',
+                                        image: '/img/expert2.jpg',
+                                        color: '#38bdf8',
+                                    },
+                                    {
+                                        name: 'Eve Lewis',
+                                        role: 'Giảng viên thiền & chánh niệm',
+                                        image: '/img/expert3.jpg',
+                                        color: '#fb7185',
+                                    },
+                                    {
+                                        name: 'Kessonga Giscombe',
+                                        role: 'Giảng viên thiền và chánh niệm',
+                                        image: '/img/expert4.jpg',
+                                        color: '#22c55e',
+                                    },
+                                    {
+                                        name: 'Rosie Acosta',
+                                        role: 'Giảng viên thiền & huấn luyện viên',
+                                        image: '/img/expert5.jpg',
+                                        color: '#f97316',
+                                    },
+                                    {
+                                        name: 'Arturo Morales',
+                                        role: 'Nhà trị liệu hôn nhân & gia đình',
+                                        image: '/img/expert6.jpg',
+                                        color: '#eab308',
+                                    },
+                                ])
+                                .map((expert, index) => (
+                                    <div
+                                        key={index}
+                                        className="expert-card"
+                                        style={{ background: expert.color }}
+                                    >
+                                        <div className="expert-photo">
+                                            <img src={expert.image} alt={expert.name} />
+                                        </div>
+                                        <div className="expert-name">{expert.name}</div>
+                                        <div className="expert-role">{expert.role}</div>
+                                    </div>
+                                ))}
+                        </div>
+                    </div>
+                </Container>
+            </Container>
 
             {/* Footer */}
             <div
                 style={{
-                    backgroundColor: '#043d7d ',
+                    backgroundColor: '#02113d ',
                     color: 'white',
                     textAlign: 'center',
                     padding: '20px 0',

@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import {
     Container,
@@ -15,6 +16,8 @@ import {
 } from 'react-bootstrap';
 
 const EmotionDiary = () => {
+    const navigate = useNavigate();
+
     // --- STATE ---
     const [mood, setMood] = useState(null);
     const [entry, setEntry] = useState('');
@@ -162,6 +165,33 @@ const EmotionDiary = () => {
     // --- JSX RENDER ---
     return (
         <Container className="my-4" style={{ maxWidth: '900px' }}> {/* Mở rộng container 900px */}
+
+            {/* --- NÚT XEM THỐNG KÊ BÊN NGOÀI --- */}
+            <div className="d-flex justify-content-end mb-3">
+                <Button
+                    variant="outline-primary"
+                    className="d-flex align-items-center gap-2 px-4 py-2 rounded-pill shadow-sm"
+                    onClick={() => navigate('/analytic')}
+                    style={{
+                        background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
+                        border: 'none',
+                        color: 'white',
+                        fontWeight: '600',
+                        transition: 'all 0.3s ease'
+                    }}
+                    onMouseEnter={(e) => {
+                        e.target.style.transform = 'translateY(-2px)';
+                        e.target.style.boxShadow = '0 4px 15px rgba(102, 126, 234, 0.4)';
+                    }}
+                    onMouseLeave={(e) => {
+                        e.target.style.transform = 'translateY(0)';
+                        e.target.style.boxShadow = '0 2px 5px rgba(0,0,0,0.1)';
+                    }}
+                >
+                    <span style={{ fontSize: '1.2rem' }}>📊</span>
+                    Xem thống kê cảm xúc
+                </Button>
+            </div>
 
             {/* --- PHẦN 1: FORM VIẾT NHẬT KÝ (CODE CỦA BẠN) --- */}
             <Card className="shadow-sm mb-4">

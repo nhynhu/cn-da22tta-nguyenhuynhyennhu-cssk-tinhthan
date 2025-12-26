@@ -77,3 +77,69 @@ exports.sendMessageToBot = async (req, res) => {
         res.status(500).send('Lỗi xử lý server');
     }
 };
+
+// Lấy lịch sử chat của user
+exports.getChatHistory = async (req, res) => {
+    try {
+        const { userId } = req.params;
+
+        if (!userId) {
+            return res.status(400).json({ message: 'Thiếu userId' });
+        }
+
+        const sql = `
+            SELECT user_message, bot_reply, intent, emotion, created_at 
+            FROM chat_logs 
+            WHERE user_id = ? 
+            ORDER BY created_at DESC 
+            LIMIT 50
+        `;
+
+        db.query(sql, [userId], (err, rows) => {
+            if (err) {
+                console.error('Lỗi lấy lịch sử chat:', err);
+                return res.status(500).json({ message: 'Lỗi server' });
+            }
+            res.json({ history: rows });
+        });
+    } catch (error) {
+        console.error('Lỗi getChatHistory:', error);
+        res.status(500).json({ message: 'Lỗi server' });
+    }
+};
+
+// Lấy thống kê cảm xúc của user
+exports.getEmotionStats = async (req, res) => {
+    try {
+        const { userId } = req.params;
+
+        if (!userId) {
+            return res.status(400).json({ message: 'Thiếu userId' });
+        }
+
+        const sql = `
+            SELECT emotion, COUNT(*) as count 
+            FROM chat_logs 
+            WHERE user_id = ? AND emotion IS NOT NULL AND emotion != ''
+            GROUP BY emotion
+        `;
+
+        db.query(sql, [userId], (err, rows) => {
+            if (err) {
+                console.error('Lỗi lấy thống kê:', err);
+                return res.status(500).json({ message: 'Lỗi server' });
+            }
+
+            // Chuyển đổi thành object { emotion: count }
+            const stats = {};
+            rows.forEach(row => {
+                stats[row.emotion] = row.count;
+            });
+
+            res.json({ stats });
+        });
+    } catch (error) {
+        console.error('Lỗi getEmotionStats:', error);
+        res.status(500).json({ message: 'Lỗi server' });
+    }
+};

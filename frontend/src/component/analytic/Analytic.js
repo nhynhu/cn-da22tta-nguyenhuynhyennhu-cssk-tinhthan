@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import { Container, Row, Col, Card, Spinner, Alert } from 'react-bootstrap';
-import { PieChart, Pie, Cell, LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
+import { Container, Row, Col, Card, Spinner, Alert, Nav } from 'react-bootstrap';
+import { PieChart, Pie, Cell, BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
 
 const Analytic = () => {
     const [loading, setLoading] = useState(true);
@@ -9,6 +9,7 @@ const Analytic = () => {
     const [summary, setSummary] = useState([]);
     const [trend, setTrend] = useState([]);
     const [period, setPeriod] = useState(30); // 7, 30, 90 ngày
+    const [chartView, setChartView] = useState('week'); // 'week' hoặc 'month'
 
     // Lấy token từ localStorage (đã lưu sau khi login)
     const token = localStorage.getItem('token');
@@ -98,6 +99,147 @@ const Analytic = () => {
         item.percentage = total > 0 ? ((item.value / total) * 100).toFixed(1) : 0;
     });
 
+    // Gợi ý theo cảm xúc phổ biến nhất
+    const getEmotionSuggestions = (emotion) => {
+        if (!emotion) return null;
+        const lower = emotion.toLowerCase();
+
+        const suggestions = {
+            'joy': {
+                icon: '😊',
+                title: 'Bạn đang rất tích cực!',
+                tips: [
+                    '🎯 Tiếp tục duy trì thói quen tốt hiện tại',
+                    '📝 Ghi lại những khoảnh khắc vui vẻ để nhìn lại sau',
+                    '🤝 Chia sẻ niềm vui với người thân và bạn bè',
+                    '🎨 Thử những hoạt động sáng tạo mới'
+                ],
+                color: '#28a745'
+            },
+            'vui': {
+                icon: '😊',
+                title: 'Bạn đang rất tích cực!',
+                tips: [
+                    '🎯 Tiếp tục duy trì thói quen tốt hiện tại',
+                    '📝 Ghi lại những khoảnh khắc vui vẻ để nhìn lại sau',
+                    '🤝 Chia sẻ niềm vui với người thân và bạn bè',
+                    '🎨 Thử những hoạt động sáng tạo mới'
+                ],
+                color: '#28a745'
+            },
+            'sadness': {
+                icon: '😢',
+                title: 'Bạn có vẻ đang buồn...',
+                tips: [
+                    '💬 Hãy trò chuyện với người bạn tin tưởng',
+                    '🧘 Thử các bài tập thiền và hít thở sâu',
+                    '🚶 Đi dạo ngoài trời, tiếp xúc với thiên nhiên',
+                    '📖 Đọc sách hoặc nghe nhạc nhẹ nhàng',
+                    '🛌 Đảm bảo ngủ đủ giấc và ăn uống điều độ'
+                ],
+                color: '#17a2b8'
+            },
+            'buồn': {
+                icon: '😢',
+                title: 'Bạn có vẻ đang buồn...',
+                tips: [
+                    '💬 Hãy trò chuyện với người bạn tin tưởng',
+                    '🧘 Thử các bài tập thiền và hít thở sâu',
+                    '🚶 Đi dạo ngoài trời, tiếp xúc với thiên nhiên',
+                    '📖 Đọc sách hoặc nghe nhạc nhẹ nhàng',
+                    '🛌 Đảm bảo ngủ đủ giấc và ăn uống điều độ'
+                ],
+                color: '#17a2b8'
+            },
+            'anger': {
+                icon: '😠',
+                title: 'Bạn đang cảm thấy tức giận',
+                tips: [
+                    '🌬️ Hít thở sâu 10 lần trước khi phản ứng',
+                    '🏃 Tập thể dục để giải phóng năng lượng tiêu cực',
+                    '✍️ Viết ra những suy nghĩ để xả stress',
+                    '🎵 Nghe nhạc thư giãn hoặc nhạc yêu thích',
+                    '🧊 Rửa mặt bằng nước lạnh để bình tĩnh lại'
+                ],
+                color: '#dc3545'
+            },
+            'giận': {
+                icon: '😠',
+                title: 'Bạn đang cảm thấy tức giận',
+                tips: [
+                    '🌬️ Hít thở sâu 10 lần trước khi phản ứng',
+                    '🏃 Tập thể dục để giải phóng năng lượng tiêu cực',
+                    '✍️ Viết ra những suy nghĩ để xả stress',
+                    '🎵 Nghe nhạc thư giãn hoặc nhạc yêu thích',
+                    '🧊 Rửa mặt bằng nước lạnh để bình tĩnh lại'
+                ],
+                color: '#dc3545'
+            },
+            'fear': {
+                icon: '😰',
+                title: 'Bạn đang lo lắng về điều gì đó',
+                tips: [
+                    '📋 Liệt kê những lo lắng và phân tích thực tế',
+                    '🧘 Thực hành thiền chánh niệm 5-10 phút mỗi ngày',
+                    '👥 Chia sẻ với người thân hoặc chuyên gia',
+                    '🎯 Tập trung vào những gì bạn có thể kiểm soát',
+                    '☕ Giảm caffeine và đảm bảo ngủ đủ giấc'
+                ],
+                color: '#ffc107'
+            },
+            'lo lắng': {
+                icon: '😰',
+                title: 'Bạn đang lo lắng về điều gì đó',
+                tips: [
+                    '📋 Liệt kê những lo lắng và phân tích thực tế',
+                    '🧘 Thực hành thiền chánh niệm 5-10 phút mỗi ngày',
+                    '👥 Chia sẻ với người thân hoặc chuyên gia',
+                    '🎯 Tập trung vào những gì bạn có thể kiểm soát',
+                    '☕ Giảm caffeine và đảm bảo ngủ đủ giấc'
+                ],
+                color: '#ffc107'
+            },
+            'neutral': {
+                icon: '😐',
+                title: 'Trạng thái cảm xúc ổn định',
+                tips: [
+                    '🌟 Thử những hoạt động mới để khám phá bản thân',
+                    '📚 Học một kỹ năng hoặc sở thích mới',
+                    '🤝 Kết nối với bạn bè và người thân',
+                    '🎯 Đặt mục tiêu nhỏ và thực hiện từng bước'
+                ],
+                color: '#6c757d'
+            },
+            'bình thường': {
+                icon: '😐',
+                title: 'Trạng thái cảm xúc ổn định',
+                tips: [
+                    '🌟 Thử những hoạt động mới để khám phá bản thân',
+                    '📚 Học một kỹ năng hoặc sở thích mới',
+                    '🤝 Kết nối với bạn bè và người thân',
+                    '🎯 Đặt mục tiêu nhỏ và thực hiện từng bước'
+                ],
+                color: '#6c757d'
+            }
+        };
+
+        return suggestions[lower] || {
+            icon: '💡',
+            title: 'Gợi ý cho bạn',
+            tips: [
+                '🧘 Dành thời gian cho bản thân mỗi ngày',
+                '📝 Viết nhật ký cảm xúc thường xuyên',
+                '🏃 Tập thể dục đều đặn',
+                '😴 Ngủ đủ giấc và ăn uống lành mạnh'
+            ],
+            color: '#6c757d'
+        };
+    };
+
+    // Lấy gợi ý cho cảm xúc phổ biến nhất
+    const topEmotion = pieData.length > 0 ? pieData[0].name : null;
+    const emotionSuggestion = getEmotionSuggestions(topEmotion);
+
     // Custom label cho Pie Chart
     const renderCustomLabel = ({ cx, cy, midAngle, innerRadius, outerRadius, percent }) => {
         const RADIAN = Math.PI / 180;
@@ -110,6 +252,94 @@ const Analytic = () => {
                 {`${(percent * 100).toFixed(0)}%`}
             </text>
         );
+    };
+
+    // Chuyển đổi dữ liệu trend thành dữ liệu theo ngày trong tuần
+    const getWeekdayData = () => {
+        const weekdays = ['CN', 'T2', 'T3', 'T4', 'T5', 'T6', 'T7'];
+        const weekdayData = weekdays.map(day => ({ name: day }));
+
+        // Lấy tất cả các loại cảm xúc có trong data
+        const emotions = new Set();
+        trend.forEach(item => {
+            Object.keys(item).filter(key => key !== 'date').forEach(emotion => emotions.add(emotion));
+        });
+
+        // Khởi tạo giá trị 0 cho mỗi cảm xúc
+        weekdayData.forEach(day => {
+            emotions.forEach(emotion => {
+                day[emotion] = 0;
+            });
+        });
+
+        // Tính tổng cảm xúc theo ngày trong tuần
+        trend.forEach(item => {
+            if (item.date) {
+                const date = new Date(item.date);
+                const dayIndex = date.getDay(); // 0 = CN, 1 = T2, ...
+                Object.keys(item).filter(key => key !== 'date').forEach(emotion => {
+                    if (weekdayData[dayIndex]) {
+                        weekdayData[dayIndex][emotion] += item[emotion] || 0;
+                    }
+                });
+            }
+        });
+
+        return weekdayData;
+    };
+
+    // Chuyển đổi dữ liệu trend thành dữ liệu theo tuần trong tháng
+    const getWeeklyData = () => {
+        const weeklyData = [];
+
+        // Lấy tất cả các loại cảm xúc có trong data
+        const emotions = new Set();
+        trend.forEach(item => {
+            Object.keys(item).filter(key => key !== 'date').forEach(emotion => emotions.add(emotion));
+        });
+
+        // Nhóm theo tuần
+        const weekGroups = {};
+        trend.forEach(item => {
+            if (item.date) {
+                const date = new Date(item.date);
+                const weekNum = getWeekNumber(date);
+                const weekKey = `Tuần ${weekNum}`;
+
+                if (!weekGroups[weekKey]) {
+                    weekGroups[weekKey] = { name: weekKey };
+                    emotions.forEach(emotion => {
+                        weekGroups[weekKey][emotion] = 0;
+                    });
+                }
+
+                Object.keys(item).filter(key => key !== 'date').forEach(emotion => {
+                    weekGroups[weekKey][emotion] += item[emotion] || 0;
+                });
+            }
+        });
+
+        // Chuyển thành mảng và sắp xếp
+        Object.values(weekGroups).forEach(week => weeklyData.push(week));
+        return weeklyData.slice(-5); // Lấy 5 tuần gần nhất
+    };
+
+    // Hàm lấy số tuần trong năm
+    const getWeekNumber = (date) => {
+        const d = new Date(Date.UTC(date.getFullYear(), date.getMonth(), date.getDate()));
+        const dayNum = d.getUTCDay() || 7;
+        d.setUTCDate(d.getUTCDate() + 4 - dayNum);
+        const yearStart = new Date(Date.UTC(d.getUTCFullYear(), 0, 1));
+        return Math.ceil((((d - yearStart) / 86400000) + 1) / 7);
+    };
+
+    // Lấy danh sách cảm xúc từ trend data
+    const getEmotionsList = () => {
+        const emotions = new Set();
+        trend.forEach(item => {
+            Object.keys(item).filter(key => key !== 'date').forEach(emotion => emotions.add(emotion));
+        });
+        return Array.from(emotions);
     };
 
     if (loading) {
@@ -190,46 +420,81 @@ const Analytic = () => {
                     </Card>
                 </Col>
 
-                {/* Biểu đồ đường - Xu hướng theo thời gian */}
+                {/* Biểu đồ cột - Cảm xúc theo ngày/tuần */}
                 <Col md={6} className="mb-4">
                     <Card className="shadow-sm h-100">
-                        <Card.Header as="h5" className="bg-primary text-white">
-                            Xu hướng Cảm xúc ({period} ngày)
+                        <Card.Header as="h5" className="bg-primary text-white d-flex justify-content-between align-items-center">
+                            <span>Phân bố Cảm xúc</span>
+                            <Nav variant="pills" className="ms-auto">
+                                <Nav.Item>
+                                    <Nav.Link
+                                        active={chartView === 'week'}
+                                        onClick={() => setChartView('week')}
+                                        style={{
+                                            padding: '4px 12px',
+                                            fontSize: '12px',
+                                            backgroundColor: chartView === 'week' ? 'white' : 'transparent',
+                                            color: chartView === 'week' ? '#0d6efd' : 'white'
+                                        }}
+                                    >
+                                        Theo ngày
+                                    </Nav.Link>
+                                </Nav.Item>
+                                <Nav.Item>
+                                    <Nav.Link
+                                        active={chartView === 'month'}
+                                        onClick={() => setChartView('month')}
+                                        style={{
+                                            padding: '4px 12px',
+                                            fontSize: '12px',
+                                            backgroundColor: chartView === 'month' ? 'white' : 'transparent',
+                                            color: chartView === 'month' ? '#0d6efd' : 'white'
+                                        }}
+                                    >
+                                        Theo tuần
+                                    </Nav.Link>
+                                </Nav.Item>
+                            </Nav>
                         </Card.Header>
                         <Card.Body>
                             {trend.length === 0 ? (
                                 <p className="text-center text-muted">Chưa có dữ liệu</p>
                             ) : (
-                                <ResponsiveContainer width="100%" height={400}>
-                                    <LineChart data={trend}>
-                                        <CartesianGrid strokeDasharray="3 3" />
-                                        <XAxis
-                                            dataKey="date"
-                                            tick={{ fontSize: 12 }}
-                                            angle={-45}
-                                            textAnchor="end"
-                                            height={80}
-                                        />
-                                        <YAxis />
-                                        <Tooltip />
-                                        <Legend />
+                                <>
+                                    <p className="text-center text-muted small mb-3">
+                                        {chartView === 'week'
+                                            ? '📅 Cảm xúc theo các ngày trong tuần'
+                                            : '📆 Cảm xúc theo các tuần trong tháng'}
+                                    </p>
+                                    <ResponsiveContainer width="100%" height={350}>
+                                        <BarChart
+                                            data={chartView === 'week' ? getWeekdayData() : getWeeklyData()}
+                                            margin={{ top: 20, right: 30, left: 20, bottom: 5 }}
+                                        >
+                                            <CartesianGrid strokeDasharray="3 3" />
+                                            <XAxis dataKey="name" tick={{ fontSize: 12 }} />
+                                            <YAxis />
+                                            <Tooltip
+                                                contentStyle={{
+                                                    backgroundColor: 'rgba(255,255,255,0.95)',
+                                                    borderRadius: '8px',
+                                                    boxShadow: '0 2px 10px rgba(0,0,0,0.1)'
+                                                }}
+                                            />
+                                            <Legend />
 
-                                        {/* Tự động tạo line cho từng cảm xúc có trong data */}
-                                        {Object.keys(trend[0] || {})
-                                            .filter(key => key !== 'date')
-                                            .map((emotion, index) => (
-                                                <Line
+                                            {/* Tự động tạo bar cho từng cảm xúc */}
+                                            {getEmotionsList().map((emotion) => (
+                                                <Bar
                                                     key={emotion}
-                                                    type="monotone"
                                                     dataKey={emotion}
-                                                    stroke={getEmotionColor(emotion)}
-                                                    strokeWidth={2}
-                                                    dot={{ r: 4 }}
+                                                    fill={getEmotionColor(emotion)}
+                                                    radius={[4, 4, 0, 0]}
                                                 />
-                                            ))
-                                        }
-                                    </LineChart>
-                                </ResponsiveContainer>
+                                            ))}
+                                        </BarChart>
+                                    </ResponsiveContainer>
+                                </>
                             )}
                         </Card.Body>
                     </Card>
@@ -264,6 +529,63 @@ const Analytic = () => {
                     </Card>
                 </Col>
             </Row>
+
+            {/* Gợi ý theo cảm xúc phổ biến nhất */}
+            {topEmotion && emotionSuggestion && (
+                <Row className="mt-4">
+                    <Col md={12}>
+                        <Card className="shadow-sm" style={{ borderLeft: `5px solid ${emotionSuggestion.color}` }}>
+                            <Card.Header
+                                className="d-flex align-items-center"
+                                style={{ backgroundColor: `${emotionSuggestion.color}20` }}
+                            >
+                                <span style={{ fontSize: '2rem', marginRight: '12px' }}>{emotionSuggestion.icon}</span>
+                                <div>
+                                    <h5 className="mb-0">{emotionSuggestion.title}</h5>
+                                    <small className="text-muted">
+                                        Dựa trên cảm xúc phổ biến nhất của bạn: <strong>{topEmotion}</strong> ({pieData[0]?.percentage}%)
+                                    </small>
+                                </div>
+                            </Card.Header>
+                            <Card.Body>
+                                <h6 className="mb-3">💡 Gợi ý dành cho bạn:</h6>
+                                <Row>
+                                    {emotionSuggestion.tips.map((tip, index) => (
+                                        <Col md={6} key={index} className="mb-2">
+                                            <div
+                                                className="p-3 rounded h-100"
+                                                style={{
+                                                    backgroundColor: '#f8f9fa',
+                                                    borderLeft: `3px solid ${emotionSuggestion.color}`,
+                                                    transition: 'all 0.3s ease'
+                                                }}
+                                                onMouseEnter={(e) => {
+                                                    e.currentTarget.style.backgroundColor = `${emotionSuggestion.color}15`;
+                                                    e.currentTarget.style.transform = 'translateX(5px)';
+                                                }}
+                                                onMouseLeave={(e) => {
+                                                    e.currentTarget.style.backgroundColor = '#f8f9fa';
+                                                    e.currentTarget.style.transform = 'translateX(0)';
+                                                }}
+                                            >
+                                                {tip}
+                                            </div>
+                                        </Col>
+                                    ))}
+                                </Row>
+                                <div className="mt-4 text-center">
+                                    <a
+                                        href="/therapy"
+                                        className="btn btn-outline-primary rounded-pill px-4"
+                                    >
+                                        🧘 Xem các bài tập trị liệu phù hợp
+                                    </a>
+                                </div>
+                            </Card.Body>
+                        </Card>
+                    </Col>
+                </Row>
+            )}
         </Container>
     );
 };

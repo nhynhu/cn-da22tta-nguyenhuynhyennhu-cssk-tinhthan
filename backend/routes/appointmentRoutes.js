@@ -15,4 +15,10 @@ router.get('/mine', appointmentController.getMyAppointments);
 // Bác sĩ cập nhật trạng thái
 router.patch('/:id/status', appointmentController.updateStatus);
 
+// User cập nhật lịch hẹn
+router.put('/:id', appointmentController.updateAppointment);
+
+// User xóa lịch hẹn
+router.delete('/:id', appointmentController.deleteAppointment);
+
 module.exports = router;

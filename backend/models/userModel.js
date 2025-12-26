@@ -33,6 +33,20 @@ const User = {
                 resolve(rows[0]);
             });
         });
+    },
+
+    // Cập nhật mật khẩu
+    updatePassword: (userId, newPassword) => {
+        return new Promise((resolve, reject) => {
+            db.query(
+                'UPDATE users SET password = ? WHERE user_id = ?',
+                [newPassword, userId],
+                (err, result) => {
+                    if (err) return reject(err);
+                    resolve(result);
+                }
+            );
+        });
     }
 };
 
