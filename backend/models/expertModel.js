@@ -42,6 +42,29 @@ const Expert = {
             });
         });
     },
+
+    // Tạo chuyên gia mới
+    create: (userId, specialization, qualification, experienceYears, bio) => {
+        const sql = `INSERT INTO experts (user_id, specialization, qualification, experience_years, bio, created_at)
+                     VALUES (?, ?, ?, ?, ?, NOW())`;
+        return new Promise((resolve, reject) => {
+            db.query(sql, [userId, specialization, qualification || null, experienceYears || null, bio || null], (err, result) => {
+                if (err) return reject(err);
+                resolve(result.insertId);
+            });
+        });
+    },
+
+    // Xóa chuyên gia
+    delete: (expertId) => {
+        const sql = 'DELETE FROM experts WHERE expert_id = ?';
+        return new Promise((resolve, reject) => {
+            db.query(sql, [expertId], (err, result) => {
+                if (err) return reject(err);
+                resolve(result.affectedRows);
+            });
+        });
+    },
 };
 
 module.exports = Expert;

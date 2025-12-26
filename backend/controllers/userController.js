@@ -261,9 +261,12 @@ exports.createUser = async (req, res) => {
         const allowedRoles = ['user', 'expert', 'doctor', 'admin'];
         const userRole = role && allowedRoles.includes(role) ? role : 'user';
 
-        await User.create(email, hashedPassword, full_name, userRole);
+        const result = await User.create(email, hashedPassword, full_name, userRole);
 
-        res.status(201).json({ message: 'Tạo người dùng thành công!' });
+        res.status(201).json({
+            message: 'Tạo người dùng thành công!',
+            data: { user_id: result.insertId }
+        });
     } catch (error) {
         console.error('[Create User] Error:', error);
         res.status(500).json({ message: 'Lỗi server.' });
