@@ -18,6 +18,7 @@ import Therapy from './component/therapy/Therapy';
 import ChoseChat from './component/chat/ChoseChat';
 import ChoseApp from './component/appointment/ChoseApp';
 import AdminPage from './component/admin/AdminPage';
+import Profile from './component/profile/Profile';
 
 const App = () => {
   const [user, setUser] = useState(null);
@@ -67,6 +68,7 @@ const App = () => {
         <Route path="/analytic" element={<Analytic />} />
         <Route path="/diary" element={<Diary />} />
         <Route path="/therapy" element={<Therapy />} />
+        <Route path="/profile" element={<Profile />} />
         <Route path="/admin" element={<AdminPage user={user} />} />
 
         {/* Auth */}

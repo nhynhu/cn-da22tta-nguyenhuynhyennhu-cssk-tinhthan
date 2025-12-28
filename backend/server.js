@@ -1,6 +1,7 @@
 const express = require('express');
 const cors = require('cors');
 const dotenv = require('dotenv');
+const path = require('path');
 const db = require('./config/db'); // Import kết nối DB bạn vừa tạo
 
 // Cấu hình môi trường
@@ -13,6 +14,9 @@ const PORT = process.env.PORT || 5002;
 app.use(cors()); // Cho phép Frontend (React) gọi API
 app.use(express.json()); // Quan trọng: Để Server hiểu dữ liệu JSON từ Frontend gửi lên
 app.use(express.urlencoded({ extended: true })); // Để đọc dữ liệu từ form
+
+// Phục vụ file tĩnh từ thư mục uploads
+app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 
 // --- TEST ROUTE ---
 app.get('/', (req, res) => {

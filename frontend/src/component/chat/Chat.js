@@ -160,164 +160,149 @@ const Chat = () => {
     };
 
     return (
-        <Container fluid className="my-4">
-            <Row>
-                {/* THANH BÊN TRÁI - Lịch sử, thống kê, gợi ý */}
-                <Col lg={3} className="d-none d-lg-block">
-                    {/* Thống kê cảm xúc - Click để điều hướng */}
-                    <Card className="mb-3 shadow-sm" style={{ cursor: 'pointer' }} onClick={() => navigate('/analytic')}>
-                        <Card.Header className="bg-primary text-white d-flex justify-content-between align-items-center">
-                            <small className="fw-bold">📊 Thống kê cảm xúc</small>
-                            <small>→</small>
-                        </Card.Header>
-                        <Card.Body className="text-center py-4">
-                            <div className="mb-2" style={{ fontSize: '40px' }}>📈</div>
-                            <div className="text-muted small">Xem thống kê chi tiết về cảm xúc của bạn</div>
-                            <Button variant="outline-primary" size="sm" className="mt-2">
-                                Xem thống kê
-                            </Button>
-                        </Card.Body>
-                    </Card>
-
-                    {/* Gợi ý bài tập */}
-                    <Card className="mb-3 shadow-sm">
-                        <Card.Header className="bg-success text-white">
-                            <small className="fw-bold">💡 Gợi ý cho bạn</small>
-                        </Card.Header>
-                        <Card.Body style={{ maxHeight: '180px', overflowY: 'auto' }}>
-                            {suggestedCategories.length === 0 ? (
-                                <div className="text-center text-muted small">
-                                    Hãy trò chuyện để nhận gợi ý phù hợp
-                                </div>
-                            ) : (
-                                suggestedCategories.map(cat => (
-                                    <div key={cat.category_id} className="mb-2 p-2 bg-light rounded">
-                                        <Badge bg="info" className="mb-1">{cat.intent}</Badge>
-                                        <div className="small fw-bold">{cat.category_name}</div>
-                                        {cat.description && (
-                                            <div className="text-muted" style={{ fontSize: '11px' }}>{cat.description}</div>
-                                        )}
-                                    </div>
-                                ))
-                            )}
-                            <div className="text-center mt-2">
-                                <a href="/therapy" className="small">Xem tất cả bài tập →</a>
+        <div className="chat-page">
+            <Container fluid className="py-4">
+                <Row>
+                    {/* THANH BÊN TRÁI */}
+                    <Col lg={3} className="d-none d-lg-block">
+                        {/* Thống kê cảm xúc */}
+                        <div className="sidebar-card" onClick={() => navigate('/analytic')} style={{ cursor: 'pointer' }}>
+                            <div className="sidebar-header sidebar-header-primary">
+                                <span>Thống kê cảm xúc</span>
+                                <span>→</span>
                             </div>
-                        </Card.Body>
-                    </Card>
+                            <div className="sidebar-body text-center">
+                                <p className="text-muted small mb-3">Xem thống kê chi tiết về cảm xúc của bạn</p>
+                                <button className="btn-stats">Xem thống kê</button>
+                            </div>
+                        </div>
 
-                    {/* Lịch sử trò chuyện */}
-                    <Card className="shadow-sm">
-                        <Card.Header className="bg-secondary text-white">
-                            <small className="fw-bold">📜 Lịch sử gần đây</small>
-                        </Card.Header>
-                        <Card.Body style={{ maxHeight: '250px', overflowY: 'auto', padding: '0' }}>
-                            {loadingHistory ? (
-                                <div className="text-center text-muted p-3">Đang tải...</div>
-                            ) : chatHistory.length === 0 ? (
-                                <div className="text-center text-muted p-3 small">Chưa có lịch sử</div>
-                            ) : (
-                                <ListGroup variant="flush">
-                                    {chatHistory.slice(0, 10).map((item, index) => (
-                                        <ListGroup.Item key={index} className="py-2 px-2">
-                                            <div className="d-flex justify-content-between align-items-center mb-1">
-                                                <Badge bg={emotionColors[item.emotion]?.bg || 'secondary'} style={{ fontSize: '10px' }}>
-                                                    {emotionColors[item.emotion]?.icon} {item.emotion}
-                                                </Badge>
-                                                <small className="text-muted" style={{ fontSize: '10px' }}>
-                                                    {formatDate(item.created_at)}
-                                                </small>
-                                            </div>
-                                            <div className="small text-truncate" title={item.user_message}>
-                                                <span className="text-primary">Bạn:</span> {item.user_message}
-                                            </div>
-                                        </ListGroup.Item>
-                                    ))}
-                                </ListGroup>
-                            )}
-                        </Card.Body>
-                    </Card>
-                </Col>
-
-                {/* PHẦN CHÍNH - Phòng chat */}
-                <Col lg={9}>
-                    <Card className="shadow">
-                        <Card.Header as="h5" className="d-flex justify-content-between align-items-center bg-white">
-                            <span>💬 Phòng Chat</span>
-                            <small className="text-muted">Trò chuyện cùng AI</small>
-                        </Card.Header>
-
-                        <Card.Body
-                            style={{
-                                height: "450px",
-                                overflowY: "auto",
-                                backgroundColor: "#f8f9fa"
-                            }}
-                        >
-                            {/* Render tin nhắn */}
-                            {messages.map(msg => {
-                                const isMe = msg.sender === "me";
-                                const align = isMe ? "justify-content-end" : "justify-content-start";
-                                const bg = isMe ? "bg-primary text-white" : "bg-light text-dark";
-
-                                return (
-                                    <div key={msg.id} className={`d-flex ${align} mb-2`}>
-                                        <div className={`p-2 rounded mw-75 ${bg}`} style={{ wordWrap: "break-word", maxWidth: "75%" }}>
-                                            <div>{msg.text}</div>
-                                            <div className={`text-end mt-1 ${isMe ? 'text-light' : 'text-muted'}`} style={{ fontSize: '10px' }}>
-                                                {msg.time && formatTime(msg.time)}
-                                            </div>
-                                        </div>
+                        {/* Gợi ý bài tập */}
+                        <div className="sidebar-card">
+                            <div className="sidebar-header sidebar-header-secondary">
+                                <span>Gợi ý cho bạn</span>
+                            </div>
+                            <div className="sidebar-body" style={{ maxHeight: '180px', overflowY: 'auto' }}>
+                                {suggestedCategories.length === 0 ? (
+                                    <div className="text-center text-muted small">
+                                        Hãy trò chuyện để nhận gợi ý phù hợp
                                     </div>
-                                );
-                            })}
-
-                            {/* Bot typing */}
-                            {loadingBot && (
-                                <div className="d-flex justify-content-start mb-2">
-                                    <div className="p-2 rounded mw-75 bg-light text-dark">
-                                        Bot đang trả lời...
-                                    </div>
-                                </div>
-                            )}
-
-                            <div ref={messagesEndRef} />
-                        </Card.Body>
-
-                        <Card.Footer>
-                            {/* Gợi ý danh mục bài tập theo cảm xúc/intent */}
-                            {suggestedCategories.length > 0 && (
-                                <div className="mb-3">
-                                    <div className="fw-bold mb-1">Gợi ý cho bạn:</div>
-                                    {suggestedCategories.map(cat => (
-                                        <div key={cat.category_id} className="small mb-1">
-                                            <Badge bg="info" className="me-2">{cat.intent}</Badge>
-                                            <strong>{cat.category_name}</strong>
+                                ) : (
+                                    suggestedCategories.map(cat => (
+                                        <div key={cat.category_id} className="suggest-item">
+                                            <Badge bg="info" className="mb-1">{cat.intent}</Badge>
+                                            <div className="small fw-bold">{cat.category_name}</div>
                                             {cat.description && (
-                                                <span className="text-muted"> - {cat.description}</span>
+                                                <div className="text-muted" style={{ fontSize: '11px' }}>{cat.description}</div>
                                             )}
                                         </div>
-                                    ))}
-                                    <div className="mt-1">
-                                        <a href="/therapy">Xem các bài tập phù hợp &rarr;</a>
-                                    </div>
+                                    ))
+                                )}
+                                <div className="text-center mt-2">
+                                    <a href="/therapy" className="link-purple">Xem tất cả bài tập →</a>
                                 </div>
-                            )}
+                            </div>
+                        </div>
 
-                            <InputGroup>
-                                <FormControl
-                                    placeholder="Nhập tin nhắn..."
-                                    value={newMessage}
-                                    onChange={(e) => setNewMessage(e.target.value)}
-                                    onKeyPress={handleKeyPress}
-                                />
-                                <Button variant="primary" onClick={handleSend}>Gửi</Button>
-                            </InputGroup>
-                        </Card.Footer>
-                    </Card>
-                </Col>
-            </Row>
-        </Container>
+                        {/* Lịch sử trò chuyện */}
+                        <div className="sidebar-card">
+                            <div className="sidebar-header sidebar-header-light">
+                                <span>Lịch sử gần đây</span>
+                            </div>
+                            <div className="sidebar-body p-0" style={{ maxHeight: '250px', overflowY: 'auto' }}>
+                                {loadingHistory ? (
+                                    <div className="text-center text-muted p-3">Đang tải...</div>
+                                ) : chatHistory.length === 0 ? (
+                                    <div className="text-center text-muted p-3 small">Chưa có lịch sử</div>
+                                ) : (
+                                    <div className="history-list">
+                                        {chatHistory.slice(0, 10).map((item, index) => (
+                                            <div key={index} className="history-item">
+                                                <div className="d-flex justify-content-between align-items-center mb-1">
+                                                    <Badge bg={emotionColors[item.emotion]?.bg || 'secondary'} style={{ fontSize: '10px' }}>
+                                                        {item.emotion}
+                                                    </Badge>
+                                                    <small className="text-muted" style={{ fontSize: '10px' }}>
+                                                        {formatDate(item.created_at)}
+                                                    </small>
+                                                </div>
+                                                <div className="small text-truncate" title={item.user_message}>
+                                                    <span className="text-purple">Bạn:</span> {item.user_message}
+                                                </div>
+                                            </div>
+                                        ))}
+                                    </div>
+                                )}
+                            </div>
+                        </div>
+                    </Col>
+
+                    {/* PHẦN CHÍNH - Phòng chat */}
+                    <Col lg={9}>
+                        <div className="chat-card">
+                            <div className="chat-card-header">
+                                <span className="chat-title">Phòng Chat</span>
+                                <small className="text-muted">Trò chuyện cùng AI</small>
+                            </div>
+
+                            <div className="chat-messages">
+                                {messages.map(msg => {
+                                    const isMe = msg.sender === "me";
+                                    return (
+                                        <div key={msg.id} className={`message-row ${isMe ? 'message-right' : 'message-left'}`}>
+                                            <div className={`message-bubble ${isMe ? 'bubble-user' : 'bubble-bot'}`}>
+                                                <div>{msg.text}</div>
+                                                <div className="message-time">
+                                                    {msg.time && formatTime(msg.time)}
+                                                </div>
+                                            </div>
+                                        </div>
+                                    );
+                                })}
+
+                                {loadingBot && (
+                                    <div className="message-row message-left">
+                                        <div className="message-bubble bubble-bot">
+                                            <em className="text-muted">Đang trả lời...</em>
+                                        </div>
+                                    </div>
+                                )}
+
+                                <div ref={messagesEndRef} />
+                            </div>
+
+                            <div className="chat-card-footer">
+                                {suggestedCategories.length > 0 && (
+                                    <div className="chat-suggest-box">
+                                        <div className="fw-bold mb-2 small">Gợi ý cho bạn:</div>
+                                        {suggestedCategories.map(cat => (
+                                            <div key={cat.category_id} className="small mb-1">
+                                                <strong>{cat.category_name}</strong>
+                                                {cat.description && (
+                                                    <span className="text-muted"> - {cat.description}</span>
+                                                )}
+                                            </div>
+                                        ))}
+                                        <a href="/therapy" className="link-purple small">Xem các bài tập phù hợp →</a>
+                                    </div>
+                                )}
+
+                                <div className="chat-input-row">
+                                    <FormControl
+                                        className="chat-input"
+                                        placeholder="Nhập tin nhắn..."
+                                        value={newMessage}
+                                        onChange={(e) => setNewMessage(e.target.value)}
+                                        onKeyPress={handleKeyPress}
+                                    />
+                                    <Button className="chat-send-btn" onClick={handleSend}>Gửi</Button>
+                                </div>
+                            </div>
+                        </div>
+                    </Col>
+                </Row>
+            </Container>
+        </div>
     );
 };
 

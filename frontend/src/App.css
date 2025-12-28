@@ -151,13 +151,13 @@ body {
 }
 
 .feature-hover-content {
-    background: #e1eff8;
+    background: linear-gradient(135deg, #f5f0ff 0%, #ede4ff 100%);
     padding: 18px 18px 20px;
     display: flex;
     align-items: center;
     justify-content: center;
     text-align: left;
-    color: #374151;
+    color: #02113d;
     opacity: 0;
     transform: translateY(12px);
 }
@@ -253,7 +253,7 @@ body {
     text-align: center;
     font-weight: 700;
     font-size: 1.6rem;
-    color: #111827;
+    color: #02113d;
     margin-bottom: 8px;
 }
 
@@ -321,4 +321,751 @@ body {
     100% {
         transform: translateX(-60%);
     }
+}
+
+/* =========================================
+   HOMEPAGE STYLES - Clean & Natural Design
+   ========================================= */
+
+.home-page {
+    background: #fff;
+}
+
+/* Hero */
+.hero {
+    padding: 80px 0 60px;
+    background: #fafafa;
+}
+
+.hero-greeting {
+    color: #ab7ae3;
+    font-weight: 600;
+    font-size: 1rem;
+    margin-bottom: 12px;
+}
+
+.hero-heading {
+    font-size: 2.5rem;
+    font-weight: 700;
+    color: #02113d;
+    line-height: 1.3;
+    margin-bottom: 20px;
+}
+
+.hero-desc {
+    font-size: 1.05rem;
+    color: #555;
+    line-height: 1.7;
+    margin-bottom: 28px;
+    max-width: 480px;
+}
+
+.hero-buttons {
+    display: flex;
+    gap: 12px;
+    flex-wrap: wrap;
+}
+
+.hero-image {
+    text-align: center;
+}
+
+.hero-image img {
+    max-width: 100%;
+    height: auto;
+    border-radius: 16px;
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.1);
+}
+
+/* Buttons */
+.btn-main {
+    background: #ab7ae3;
+    border: none;
+    color: #fff;
+    padding: 12px 28px;
+    border-radius: 8px;
+    font-weight: 600;
+    transition: background 0.2s;
+}
+
+.btn-main:hover {
+    background: #9966cc;
+    color: #fff;
+}
+
+.btn-ghost {
+    background: transparent;
+    border: 2px solid #ddd;
+    color: #333;
+    padding: 10px 26px;
+    border-radius: 8px;
+    font-weight: 600;
+    transition: all 0.2s;
+}
+
+.btn-ghost:hover {
+    border-color: #ab7ae3;
+    color: #ab7ae3;
+    background: transparent;
+}
+
+/* Section Title */
+.section-title {
+    font-size: 1.8rem;
+    font-weight: 700;
+    color: #02113d;
+    text-align: center;
+    margin-bottom: 16px;
+}
+
+.section-desc {
+    color: #666;
+    text-align: center;
+    margin-bottom: 40px;
+    font-size: 1rem;
+}
+
+/* Services */
+.services {
+    padding: 70px 0;
+    background: #fff;
+}
+
+.service-card {
+    background: #fafafa;
+    border-radius: 12px;
+    padding: 28px 24px;
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.25s ease;
+    margin-bottom: 24px;
+    border: 1px solid #eee;
+}
+
+.service-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+    border-color: #ab7ae3;
+}
+
+.service-icon {
+    width: 50px;
+    height: 50px;
+    background: #ab7ae3;
+    border-radius: 12px;
+    margin: 0 auto 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.service-icon img {
+    width: 24px;
+    height: 24px;
+    filter: brightness(0) invert(1);
+}
+
+.service-card h3 {
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: #02113d;
+    margin-bottom: 8px;
+}
+
+.service-card p {
+    font-size: 0.9rem;
+    color: #666;
+    margin: 0;
+    line-height: 1.5;
+}
+
+/* About */
+.about {
+    padding: 70px 0;
+    background: #f7f7f7;
+}
+
+.about-image img {
+    width: 100%;
+    border-radius: 12px;
+    margin-bottom: 30px;
+}
+
+.about-content h2 {
+    font-size: 1.8rem;
+    font-weight: 700;
+    color: #02113d;
+    margin-bottom: 20px;
+}
+
+.about-content p {
+    color: #555;
+    line-height: 1.7;
+    margin-bottom: 16px;
+}
+
+.about-list {
+    list-style: none;
+    padding: 0;
+    margin: 24px 0 0;
+}
+
+.about-list li {
+    position: relative;
+    padding-left: 24px;
+    margin-bottom: 12px;
+    color: #444;
+}
+
+.about-list li::before {
+    content: '✓';
+    position: absolute;
+    left: 0;
+    color: #ab7ae3;
+    font-weight: 700;
+}
+
+/* How it works */
+.how-works {
+    padding: 70px 0;
+    background: #fff;
+}
+
+.step {
+    text-align: center;
+    padding: 20px;
+    margin-bottom: 24px;
+}
+
+.step-num {
+    width: 48px;
+    height: 48px;
+    background: #02113d;
+    color: #fff;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    font-size: 1.2rem;
+    margin: 0 auto 16px;
+}
+
+.step h3 {
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: #02113d;
+    margin-bottom: 10px;
+}
+
+.step p {
+    font-size: 0.9rem;
+    color: #666;
+    line-height: 1.6;
+}
+
+/* Experts */
+.experts {
+    padding: 70px 0;
+    background: #fafafa;
+}
+
+.expert-card {
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+.expert-img {
+    width: 140px;
+    height: 140px;
+    border-radius: 50%;
+    overflow: hidden;
+    margin: 0 auto 16px;
+    border: 4px solid #fff;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+}
+
+.expert-img img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.expert-card h4 {
+    font-size: 1rem;
+    font-weight: 700;
+    color: #02113d;
+    margin-bottom: 4px;
+}
+
+.expert-card p {
+    font-size: 0.85rem;
+    color: #666;
+    margin: 0;
+}
+
+/* Testimonials */
+.testimonials {
+    padding: 70px 0;
+    background: #fff;
+}
+
+.testimonial {
+    background: #fafafa;
+    border-radius: 12px;
+    padding: 28px;
+    margin-bottom: 24px;
+    border-left: 4px solid #ab7ae3;
+}
+
+.testimonial-text {
+    font-size: 0.95rem;
+    color: #444;
+    line-height: 1.7;
+    margin-bottom: 20px;
+    font-style: italic;
+}
+
+.testimonial-author strong {
+    display: block;
+    color: #02113d;
+    font-weight: 700;
+    margin-bottom: 2px;
+}
+
+.testimonial-author span {
+    font-size: 0.85rem;
+    color: #888;
+}
+
+/* CTA */
+.cta {
+    padding: 70px 0;
+    background: #02113d;
+}
+
+.cta-box {
+    text-align: center;
+    max-width: 600px;
+    margin: 0 auto;
+}
+
+.cta-box h2 {
+    color: #fff;
+    font-size: 2rem;
+    font-weight: 700;
+    margin-bottom: 16px;
+}
+
+.cta-box p {
+    color: rgba(255, 255, 255, 0.8);
+    font-size: 1rem;
+    margin-bottom: 28px;
+}
+
+.cta .btn-main {
+    background: #f9f871;
+    color: #02113d;
+}
+
+.cta .btn-main:hover {
+    background: #fff;
+}
+
+/* Footer */
+.footer {
+    background: #02113d;
+    padding: 50px 0 30px;
+    color: #fff;
+}
+
+.footer-brand h3 {
+    color: #ab7ae3;
+    font-size: 1.3rem;
+    font-weight: 700;
+    margin-bottom: 8px;
+}
+
+.footer-brand p {
+    color: #888;
+    font-size: 0.9rem;
+}
+
+.footer-links h4 {
+    color: #fff;
+    font-size: 1rem;
+    font-weight: 600;
+    margin-bottom: 16px;
+}
+
+.footer-links a {
+    display: block;
+    color: #888;
+    text-decoration: none;
+    font-size: 0.9rem;
+    padding: 4px 0;
+    transition: color 0.2s;
+}
+
+.footer-links a:hover {
+    color: #ab7ae3;
+}
+
+.footer-bottom {
+    text-align: center;
+    padding-top: 30px;
+    margin-top: 30px;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.footer-bottom p {
+    color: #666;
+    font-size: 0.85rem;
+    margin: 0;
+}
+
+/* Responsive */
+@media (max-width: 992px) {
+    .hero-heading {
+        font-size: 2rem;
+    }
+
+    .hero-image {
+        margin-top: 40px;
+    }
+
+    .about-image {
+        margin-bottom: 30px;
+    }
+}
+
+@media (max-width: 768px) {
+    .hero {
+        padding: 50px 0 40px;
+    }
+
+    .hero-heading {
+        font-size: 1.8rem;
+    }
+
+    .section-title {
+        font-size: 1.5rem;
+    }
+
+    .services,
+    .about,
+    .how-works,
+    .experts,
+    .testimonials,
+    .cta {
+        padding: 50px 0;
+    }
+}
+
+/* =========================================
+   CHAT PAGE - Simple & Clean
+   ========================================= */
+
+.chat-page {
+    background: #f7f7f7;
+    min-height: calc(100vh - 60px);
+}
+
+/* Sidebar Cards */
+.sidebar-card {
+    background: #fff;
+    border-radius: 12px;
+    margin-bottom: 16px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+    overflow: hidden;
+}
+
+.sidebar-header {
+    padding: 14px 18px;
+    font-weight: 600;
+    font-size: 0.9rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.sidebar-header-primary {
+    background: #ab7ae3;
+    color: #fff;
+}
+
+.sidebar-header-secondary {
+    background: #02113d;
+    color: #fff;
+}
+
+.sidebar-header-light {
+    background: #f5f5f5;
+    color: #02113d;
+}
+
+.sidebar-body {
+    padding: 16px;
+}
+
+.btn-stats {
+    background: #02113d;
+    color: #fff;
+    border: none;
+    padding: 8px 20px;
+    border-radius: 6px;
+    font-size: 0.85rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.2s;
+}
+
+.btn-stats:hover {
+    background: #1a3a6e;
+}
+
+.suggest-item {
+    background: #f9f9f9;
+    padding: 10px 12px;
+    border-radius: 8px;
+    margin-bottom: 10px;
+    border-left: 3px solid #ab7ae3;
+}
+
+.link-purple {
+    color: #ab7ae3;
+    text-decoration: none;
+    font-weight: 500;
+}
+
+.link-purple:hover {
+    color: #02113d;
+    text-decoration: underline;
+}
+
+.text-purple {
+    color: #ab7ae3;
+}
+
+.history-list {
+    padding: 0;
+}
+
+.history-item {
+    padding: 12px 16px;
+    border-bottom: 1px solid #f0f0f0;
+}
+
+.history-item:last-child {
+    border-bottom: none;
+}
+
+/* Main Chat Card */
+.chat-card {
+    background: #fff;
+    border-radius: 12px;
+    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
+    overflow: hidden;
+}
+
+.chat-card-header {
+    padding: 18px 24px;
+    background: #fff;
+    border-bottom: 1px solid #eee;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.chat-title {
+    font-size: 1.2rem;
+    font-weight: 700;
+    color: #02113d;
+}
+
+.chat-messages {
+    height: 450px;
+    overflow-y: auto;
+    padding: 20px 24px;
+    background: #fafafa;
+}
+
+.message-row {
+    display: flex;
+    margin-bottom: 14px;
+}
+
+.message-right {
+    justify-content: flex-end;
+}
+
+.message-left {
+    justify-content: flex-start;
+}
+
+.message-bubble {
+    max-width: 70%;
+    padding: 12px 16px;
+    border-radius: 12px;
+    word-wrap: break-word;
+    line-height: 1.5;
+}
+
+.bubble-user {
+    background: #ab7ae3;
+    color: #fff;
+    border-bottom-right-radius: 4px;
+}
+
+.bubble-bot {
+    background: #fff;
+    color: #333;
+    border: 1px solid #e0e0e0;
+    border-bottom-left-radius: 4px;
+}
+
+.message-time {
+    font-size: 10px;
+    text-align: right;
+    margin-top: 6px;
+    opacity: 0.7;
+}
+
+.bubble-user .message-time {
+    color: rgba(255, 255, 255, 0.8);
+}
+
+.bubble-bot .message-time {
+    color: #999;
+}
+
+.chat-card-footer {
+    padding: 18px 24px;
+    background: #fff;
+    border-top: 1px solid #eee;
+}
+
+.chat-suggest-box {
+    background: #f9f9f9;
+    padding: 12px 16px;
+    border-radius: 8px;
+    margin-bottom: 14px;
+    border-left: 3px solid #ab7ae3;
+}
+
+.chat-input-row {
+    display: flex;
+    gap: 12px;
+}
+
+.chat-input {
+    flex: 1;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 10px 16px;
+    font-size: 0.95rem;
+}
+
+.chat-input:focus {
+    border-color: #ab7ae3;
+    box-shadow: none;
+    outline: none;
+}
+
+.chat-send-btn {
+    background: #ab7ae3;
+    border: none;
+    color: #fff;
+    padding: 10px 24px;
+    border-radius: 8px;
+    font-weight: 600;
+}
+
+.chat-send-btn:hover {
+    background: #9966cc;
+}
+
+@media (max-width: 992px) {
+    .chat-messages {
+        height: 380px;
+    }
+}
+
+/* ========================
+   PROFILE PAGE STYLES
+   ======================== */
+
+.profile-page {
+    background: linear-gradient(135deg, #f8f9ff 0%, #fff 100%);
+    min-height: calc(100vh - 60px);
+}
+
+.profile-card {
+    border: none;
+    border-radius: 16px;
+    box-shadow: 0 8px 30px rgba(2, 17, 61, 0.08);
+    overflow: hidden;
+}
+
+.profile-header {
+    background: #02113d;
+    color: #fff;
+    padding: 20px 24px;
+    border: none;
+}
+
+.profile-header h4 {
+    color: #fff;
+    font-weight: 600;
+}
+
+.profile-card .form-label {
+    font-weight: 500;
+    color: #333;
+    margin-bottom: 6px;
+}
+
+.profile-card .form-control,
+.profile-card .form-select {
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 10px 14px;
+    transition: border-color 0.2s;
+}
+
+.profile-card .form-control:focus,
+.profile-card .form-select:focus {
+    border-color: #ab7ae3;
+    box-shadow: 0 0 0 2px rgba(171, 122, 227, 0.15);
+}
+
+.profile-card .form-control.bg-light {
+    background-color: #f8f9fa !important;
+    color: #666;
+}
+
+.profile-card h6.text-muted {
+    color: #ab7ae3 !important;
+    font-weight: 600;
+    text-transform: uppercase;
+    font-size: 0.8rem;
+    letter-spacing: 0.5px;
+}
+
+.btn-save {
+    background: #ab7ae3;
+    border: none;
+    color: #fff;
+    padding: 10px 28px;
+    border-radius: 8px;
+    font-weight: 600;
+    transition: background 0.2s;
+}
+
+.btn-save:hover {
+    background: #9966cc;
+}
+
+.btn-save:disabled {
+    background: #ccc;
 }

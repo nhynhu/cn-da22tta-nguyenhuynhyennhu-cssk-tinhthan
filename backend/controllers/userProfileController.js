@@ -29,3 +29,26 @@ exports.updateProfile = async (req, res) => {
         res.status(500).json({ message: 'Lỗi cập nhật hồ sơ' });
     }
 };
+
+// Upload avatar
+exports.uploadAvatar = async (req, res) => {
+    try {
+        if (!req.file) {
+            return res.status(400).json({ message: 'Vui lòng chọn file ảnh' });
+        }
+
+        const userId = req.params.userId;
+        const avatarUrl = `/uploads/avatars/${req.file.filename}`;
+
+        // Cập nhật avatar_url trong profile
+        await UserProfile.upsert(userId, { avatar_url: avatarUrl });
+
+        res.json({
+            message: 'Upload avatar thành công!',
+            avatar_url: avatarUrl
+        });
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ message: 'Lỗi upload avatar' });
+    }
+};

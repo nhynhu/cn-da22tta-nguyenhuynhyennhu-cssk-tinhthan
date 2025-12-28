@@ -170,7 +170,7 @@ const EmotionDiary = () => {
             <div className="d-flex justify-content-end mb-3">
                 <Button
                     variant="outline-primary"
-                    className="d-flex align-items-center gap-2 px-4 py-2 rounded-pill shadow-sm"
+                    className="d-flex align-items-center gap-2 px-4 py-2 shadow-sm"
                     onClick={() => navigate('/analytic')}
                     style={{
                         background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
@@ -188,15 +188,24 @@ const EmotionDiary = () => {
                         e.target.style.boxShadow = '0 2px 5px rgba(0,0,0,0.1)';
                     }}
                 >
-                    <span style={{ fontSize: '1.2rem' }}>📊</span>
                     Xem thống kê cảm xúc
                 </Button>
             </div>
 
             {/* --- PHẦN 1: FORM VIẾT NHẬT KÝ (CODE CỦA BẠN) --- */}
-            <Card className="shadow-sm mb-4">
-                <Card.Header as="h4" className="text-center p-3 bg-primary text-white">
-                    Nhật ký Cảm xúc
+            <Card className="shadow-lg mb-4" style={{ border: 'none', overflow: 'hidden' }}>
+                <Card.Header 
+                    className="text-center p-4"
+                    style={{ 
+                        background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
+                        border: 'none'
+                    }}>
+                    <h4 className="text-white mb-1" style={{ fontWeight: 700 }}>
+                        Nhật ký Cảm xúc
+                    </h4>
+                    <p className="text-white-50 mb-0" style={{ fontSize: '0.9rem' }}>
+                        Ghi lại cảm xúc của bạn mỗi ngày
+                    </p>
                 </Card.Header>
                 <Card.Body className="p-4">
                     <p className="text-center text-muted">{today}</p>

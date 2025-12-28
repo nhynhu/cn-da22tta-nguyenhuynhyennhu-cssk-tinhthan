@@ -115,9 +115,13 @@ const CollapsibleExample = ({ user, onLogout }) => {
                         )}
                         {isLoggedIn && (
                             <>
-                                <Navbar.Text className="me-3 welcome-text">
+                                <NavLink
+                                    to="/profile"
+                                    className="nav-link nav-link-custom me-2"
+                                    style={{ display: 'flex', alignItems: 'center' }}
+                                >
                                     Xin chào, {user.name || user.full_name || user.email}
-                                </Navbar.Text>
+                                </NavLink>
                                 <Button
                                     variant="outline-light"
                                     className="btn-pill"
