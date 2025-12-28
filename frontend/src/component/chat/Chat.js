@@ -1,6 +1,7 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { Container, InputGroup, FormControl, Button, Card, Badge, ListGroup, Row, Col, ProgressBar } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
+import './Chat.css';
 
 const Chat = () => {
     const navigate = useNavigate();
@@ -166,16 +167,47 @@ const Chat = () => {
                     {/* THANH BÊN TRÁI */}
                     <Col lg={3} className="d-none d-lg-block">
                         {/* Thống kê cảm xúc */}
-                        <div className="sidebar-card" onClick={() => navigate('/analytic')} style={{ cursor: 'pointer' }}>
+                        <div className="sidebar-card">
                             <div className="sidebar-header sidebar-header-primary">
                                 <span>Thống kê cảm xúc</span>
-                                <span>→</span>
                             </div>
-                            <div className="sidebar-body text-center">
-                                <p className="text-muted small mb-3">Xem thống kê chi tiết về cảm xúc của bạn</p>
-                                <button className="btn-stats">Xem thống kê</button>
+
+                            <div className="sidebar-body" style={{ maxHeight: '180px', overflowY: 'auto' }}>
+                                {Object.keys(emotionStats).length === 0 ? (
+                                    <div className="text-center text-muted small">
+                                        Chưa có dữ liệu cảm xúc
+                                    </div>
+                                ) : (
+                                    Object.keys(emotionStats).map((emotion) => (
+                                        <div key={emotion} className="suggest-item">
+                                            <div className="d-flex justify-content-between align-items-center">
+                                                <span className="fw-bold small">
+                                                    {emotionColors[emotion]?.icon} {emotionColors[emotion]?.label}
+                                                </span>
+                                                <span className="small text-muted">
+                                                    {getEmotionPercent(emotion)}%
+                                                </span>
+                                            </div>
+                                            <ProgressBar
+                                                now={getEmotionPercent(emotion)}
+                                                variant={emotionColors[emotion]?.bg}
+                                                style={{ height: '6px', marginTop: '6px' }}
+                                            />
+                                        </div>
+                                    ))
+                                )}
+
+                                <div className="text-center mt-2">
+                                    <a
+                                        href="/analytic"
+                                        className="link-purple"
+                                    >
+                                        Xem thống kê chi tiết →
+                                    </a>
+                                </div>
                             </div>
                         </div>
+
 
                         {/* Gợi ý bài tập */}
                         <div className="sidebar-card">

@@ -54,7 +54,7 @@ function Login({ onLogin }) {
                 <div className="col-lg-6 d-none d-lg-flex align-items-center justify-content-center" style={{ backgroundColor: '#cfe2f3' }}>
                     <div className="w-75">
                         <img
-                            src="https://img.freepik.com/free-vector/human-head-with-leaves-concept-illustration_114360-11100.jpg"
+                            src="./img/vechungtoi.png"
                             alt="Illustration"
                             className="img-fluid"
                             style={{ mixBlendMode: 'multiply' }}

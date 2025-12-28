@@ -1,79 +1,71 @@
+import React from 'react';
 import { NavLink } from 'react-router-dom';
-import Nav from 'react-bootstrap/Nav';
 import Button from 'react-bootstrap/Button';
-import 'bootstrap/dist/css/bootstrap.min.css';
 import Card from 'react-bootstrap/Card';
+import Container from 'react-bootstrap/Container';
+import Row from 'react-bootstrap/Row';
+import Col from 'react-bootstrap/Col';
+import 'bootstrap/dist/css/bootstrap.min.css';
 
 const ChoseChat = () => {
+    // Dữ liệu hiển thị
+    const options = [
+        {
+            img: "./img/chatAI.png",
+            link: "/chat",
+            btnText: "Trò chuyện với trợ lý ảo",
+            isPrimary: false
+        },
+        {
+            img: "./img/chatBS2.jpg",
+            link: "/choseapp",
+            btnText: "Trò chuyện với chuyên gia",
+            isPrimary: true
+        },
+        {
+            img: "./img/nhatky.jpg",
+            link: "/diary",
+            btnText: "Viết nhật ký",
+            isPrimary: false
+        }
+    ];
+
     return (
-        <div style={{
-            container: {
-                flex: 1,
-                justifyContent: 'center', // Giữ khối nội dung ở giữa màn hình
-                alignItems: 'center',
-                backgroundColor: '#fff',
-            },
+        <div className="chose-chat-specific">
+            <Container className="py-5 h-100 d-flex flex-column justify-content-center">
 
-            display: 'flex',
-            justifyContent: 'space-around',
-            margin: '40px',
-        }}>
-            <Card style={{ width: '18rem' }}>
-                <Card.Img
-                    variant="top"
-                    src="https://via.placeholder.com/286x180.png?text=Chat+v%E1%BB%9Bi+chuy%C3%AAn+gia"
-                    alt="Chat với chuyên gia"
-                />
-                <Card.Body>
-                    <Card.Title>Trao đổi với chuyên gia</Card.Title>
-                    <Card.Text>
-                        Trò chuyện trực tiếp với chuyên gia để được tư vấn chuyên sâu về sức khỏe tinh thần.
-                    </Card.Text>
-                    <Nav>
-                        <NavLink to="/experts">
-                            <Button variant="primary">Bắt đầu chat</Button>
-                        </NavLink>
-                    </Nav>
-                </Card.Body>
-            </Card>
-
-            <Card style={{ width: '18rem' }}>
-                <Card.Img
-                    variant="top"
-                    src="https://via.placeholder.com/286x180.png?text=Chat+v%E1%BB%9Bi+tr%E1%BB%A3+l%C3%BD+%E1%BA%A3o"
-                    alt="Chat với trợ lý ảo"
-                />
-                <Card.Body>
-                    <Card.Title>Trợ lý ảo lắng nghe</Card.Title>
-                    <Card.Text>
-                        Tâm sự cùng trợ lý ảo 24/7 để giải tỏa cảm xúc và nhận gợi ý phù hợp.
-                    </Card.Text>
-                    <Nav>
-                        <NavLink to="/chat">
-                            <Button variant="outline-primary">Chat với trợ lý ảo</Button>
-                        </NavLink>
-                    </Nav>
-                </Card.Body>
-            </Card>
-
-            <Card style={{ width: '18rem' }}>
-                <Card.Img
-                    variant="top"
-                    src="https://via.placeholder.com/286x180.png?text=Chat+v%E1%BB%9Bi+tr%E1%BB%A3+l%C3%BD+%E1%BA%A3o"
-                    alt="Chat với trợ lý ảo"
-                />
-                <Card.Body>
-                    <Card.Title>Trợ lý ảo lắng nghe</Card.Title>
-                    <Card.Text>
-                        Đặt lịch hẹn khám trực tiếp với chuyên gia.
-                    </Card.Text>
-                    <Nav>
-                        <NavLink to="/appointment">
-                            <Button variant="outline-primary">Đặt lịch hẹn</Button>
-                        </NavLink>
-                    </Nav>
-                </Card.Body>
-            </Card>
+                <Row className="g-4 justify-content-center">
+                    {options.map((item, index) => (
+                        <Col key={index} md={6} lg={4}>
+                            {/* Full Card Image Wrapper */}
+                            <Card className="full-img-card h-100 border-0 text-white overflow-hidden">
+                                <Card.Img
+                                    src={item.img}
+                                    alt={item.title}
+                                    className="full-card-bg"
+                                    onError={(e) => { e.target.src = 'https://placehold.co/600x800?text=Image'; }}
+                                />
+                                {/* Overlay Gradient để làm tối ảnh giúp chữ dễ đọc */}
+                                <div className="card-img-overlay d-flex flex-column justify-content-end p-4">
+                                    <div className="card-content-wrapper">
+                                        <Card.Title className="fw-bold mb-2 fs-4">{item.title}</Card.Title>
+                                        <Card.Text className="mb-4 opacity-75">
+                                            {item.text}
+                                        </Card.Text>
+                                        <NavLink to={item.link} className="text-decoration-none w-100 d-block">
+                                            <Button
+                                                className={`w-100 py-2 fw-bold btn-overlay`}
+                                            >
+                                                {item.btnText}
+                                            </Button>
+                                        </NavLink>
+                                    </div>
+                                </div>
+                            </Card>
+                        </Col>
+                    ))}
+                </Row>
+            </Container>
         </div>
     );
 };

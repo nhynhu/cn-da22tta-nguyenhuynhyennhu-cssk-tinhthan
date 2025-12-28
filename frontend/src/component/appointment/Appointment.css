@@ -1,0 +1,202 @@
+:root {
+    --bg-page: #f4f6f8;
+    --bg-card: #ffffff;
+    --text-main: #212529;
+    --text-sub: #6c757d;
+    --border-color: #e0e0e0;
+    --primary-color: #7b4fd6;
+    /* Giữ màu tím thương hiệu của bạn */
+
+    /* Status Colors */
+    --status-pending: #d97706;
+    /* Cam đất */
+    --status-confirmed: #198754;
+    /* Xanh lá */
+    --status-completed: #0d6efd;
+    /* Xanh dương */
+    --status-cancelled: #dc3545;
+    /* Đỏ */
+}
+
+/* 1. Layout chung */
+body {
+    background-color: var(--bg-page);
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    color: var(--text-main);
+}
+
+/* 2. Cards (Khối nội dung) */
+.card {
+    border: 1px solid var(--border-color) !important;
+    border-radius: 0 !important;
+    /* Vuông vức */
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.02), 0 2px 4px -1px rgba(0, 0, 0, 0.02);
+    background-color: var(--bg-card);
+    margin-bottom: 20px;
+}
+
+.card-header {
+    border-radius: 0 !important;
+    padding: 15px 20px;
+    border-bottom: 1px solid var(--border-color);
+}
+
+/* Header cho bảng danh sách */
+.header-light {
+    padding: 20px;
+    background-color: #fff;
+    border-bottom: 1px solid var(--border-color);
+}
+
+.header-title {
+    margin: 0;
+    font-weight: 700;
+    text-transform: uppercase;
+    font-size: 1rem;
+    letter-spacing: 0.5px;
+}
+
+/* 3. Form Inputs */
+.form-control,
+.form-select {
+    border-radius: 0 !important;
+    border: 1px solid #ced4da;
+    padding: 10px 15px;
+    font-size: 0.95rem;
+    background-color: #fafafa;
+    transition: all 0.2s;
+}
+
+.form-control:focus,
+.form-select:focus {
+    background-color: #fff;
+    border-color: var(--primary-color);
+    box-shadow: none;
+    outline: none;
+}
+
+.form-label {
+    font-size: 0.85rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    color: var(--text-sub);
+    margin-bottom: 8px;
+}
+
+/* 4. Table (Bảng danh sách) */
+.table-custom {
+    margin-bottom: 0;
+}
+
+.table-custom thead th {
+    background-color: #f8f9fa;
+    border-bottom: 2px solid var(--border-color);
+    border-top: none;
+    font-size: 0.75rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    color: var(--text-sub);
+    padding: 15px;
+    letter-spacing: 0.5px;
+}
+
+.table-custom tbody td {
+    vertical-align: middle;
+    padding: 15px;
+    border-bottom: 1px solid var(--border-color);
+    font-size: 0.9rem;
+    color: var(--text-main);
+}
+
+.table-custom tbody tr:last-child td {
+    border-bottom: none;
+}
+
+.table-custom tbody tr:hover td {
+    background-color: #fafafa;
+}
+
+/* 5. Status Badges (Trạng thái) */
+.status-badge {
+    display: inline-block;
+    padding: 6px 12px;
+    font-size: 0.75rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    border: 1px solid transparent;
+    letter-spacing: 0.5px;
+    min-width: 120px;
+    text-align: center;
+}
+
+/* Style Outline cho Badge nhìn tinh tế hơn */
+.status-pending {
+    color: var(--status-pending);
+    border-color: var(--status-pending);
+    background-color: #fff7ed;
+}
+
+.status-confirmed {
+    color: var(--status-confirmed);
+    border-color: var(--status-confirmed);
+    background-color: #f0fdf4;
+}
+
+.status-completed {
+    color: var(--status-completed);
+    border-color: var(--status-completed);
+    background-color: #eff6ff;
+}
+
+.status-cancelled {
+    color: var(--status-cancelled);
+    border-color: var(--status-cancelled);
+    background-color: #fef2f2;
+}
+
+/* 6. Action Buttons (Nút hành động của Expert) */
+.btn-action {
+    border-radius: 0 !important;
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    font-weight: 600;
+    padding: 6px 12px;
+    margin-right: 5px;
+    transition: all 0.2s;
+}
+
+/* Nút Chấp nhận / Hoàn tất (Xanh) */
+.btn-approve,
+.btn-complete {
+    background-color: var(--status-confirmed);
+    border: 1px solid var(--status-confirmed);
+    color: #fff;
+}
+
+.btn-approve:hover,
+.btn-complete:hover {
+    background-color: #15803d;
+    border-color: #15803d;
+    color: #fff;
+    transform: translateY(-1px);
+}
+
+/* Nút Hủy / Từ chối (Đỏ - Outline) */
+.btn-reject {
+    background-color: transparent;
+    border: 1px solid var(--status-cancelled);
+    color: var(--status-cancelled);
+}
+
+.btn-reject:hover {
+    background-color: var(--status-cancelled);
+    color: #fff;
+}
+
+/* 7. Alerts */
+.alert {
+    border-radius: 0 !important;
+    border: none;
+    border-left: 4px solid;
+    font-size: 0.9rem;
+}

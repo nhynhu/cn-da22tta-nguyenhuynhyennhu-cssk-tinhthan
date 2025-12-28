@@ -163,3 +163,4 @@ VALUES (2, 'Tâm lý học hành vi');
 -- 3. Tạo tài khoản Người dùng thường
 INSERT INTO users (email, password, full_name, role) 
 VALUES ('nhu_sinhvien@gmail.com', '123456', 'Nguyễn Huỳnh Yến Như', 'user');
+

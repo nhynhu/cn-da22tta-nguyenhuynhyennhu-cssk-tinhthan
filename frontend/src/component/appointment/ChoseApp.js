@@ -1,60 +1,75 @@
+import React from 'react';
 import { NavLink } from 'react-router-dom';
-import Nav from 'react-bootstrap/Nav';
 import Button from 'react-bootstrap/Button';
-import 'bootstrap/dist/css/bootstrap.min.css';
 import Card from 'react-bootstrap/Card';
+import Container from 'react-bootstrap/Container';
+import Row from 'react-bootstrap/Row';
+import Col from 'react-bootstrap/Col';
+import 'bootstrap/dist/css/bootstrap.min.css';
 
 const ChoseApp = () => {
+    // Dữ liệu hiển thị cho trang chọn lịch hẹn
+    const options = [
+        {
+            title: "Trao đổi ngay",
+            text: "Kết nối trực tuyến với chuyên gia tâm lý để được tư vấn và giải tỏa kịp thời.",
+            img: "./img/chatBS2.jpg", // Đảm bảo bạn có hình này hoặc thay link khác
+            link: "/experts",
+            btnText: "Bắt đầu Chat",
+            isPrimary: true
+        },
+        {
+            title: "Đặt lịch hẹn",
+            text: "Lên lịch gặp mặt trực tiếp hoặc online vào thời gian phù hợp nhất với bạn.",
+            img: "./img/calendar.jpg", // Bạn có thể thêm hình lịch hoặc dùng placeholder
+            link: "/appointment",
+            btnText: "Đặt lịch ngay",
+            isPrimary: false
+        }
+    ];
+
     return (
-        <div style={{
-            container: {
-                flex: 1,
-                justifyContent: 'center', // Giữ khối nội dung ở giữa màn hình
-                alignItems: 'center',
-                backgroundColor: '#fff',
-            },
+        // Sử dụng chung class style hoặc tạo class mới tương tự
+        <div className="chose-app-specific">
+            <Container className="py-5 h-100 d-flex flex-column justify-content-center">
+                {/* Grid Cards */}
+                <Row className="g-4 justify-content-center">
+                    {options.map((item, index) => (
+                        <Col key={index} md={6} lg={5} className="d-flex align-items-stretch">
+                            {/* Full Card Image Wrapper */}
+                            <Card className="full-img-card h-100 border-0 text-white overflow-hidden">
+                                <Card.Img
+                                    src={item.img}
+                                    alt={item.title}
+                                    className="full-card-bg"
+                                    // Fallback nếu ảnh lỗi thì hiện placeholder màu
+                                    onError={(e) => {
+                                        e.target.onerror = null;
+                                        e.target.src = 'https://placehold.co/600x400/1e3a8a/ffffff?text=Image';
+                                    }}
+                                />
 
-            display: 'flex',
-            justifyContent: 'space-around',
-            margin: '40px',
-        }}>
-            <Card style={{ width: '18rem' }}>
-                <Card.Img
-                    variant="top"
-                    src="https://via.placeholder.com/286x180.png?text=Chat+v%E1%BB%9Bi+chuy%C3%AAn+gia"
-                    alt="Chat với chuyên gia"
-                />
-                <Card.Body>
-                    <Card.Title>Trao đổi với chuyên gia</Card.Title>
-                    <Card.Text>
-                        Trò chuyện trực tiếp với chuyên gia để được tư vấn chuyên sâu về sức khỏe tinh thần.
-                    </Card.Text>
-                    <Nav>
-                        <NavLink to="/experts">
-                            <Button variant="primary">Bắt đầu chat</Button>
-                        </NavLink>
-                    </Nav>
-                </Card.Body>
-            </Card>
-
-            <Card style={{ width: '18rem' }}>
-                <Card.Img
-                    variant="top"
-                    src="https://via.placeholder.com/286x180.png?text=Chat+v%E1%BB%9Bi+tr%E1%BB%A3+l%C3%BD+%E1%BA%A3o"
-                    alt="Chat với trợ lý ảo"
-                />
-                <Card.Body>
-                    <Card.Title>Đặt lịch hẹn</Card.Title>
-                    <Card.Text>
-                        Lên lịch hẹn với chuyên gia để nhận được sự hỗ trợ và tư vấn kịp thời.
-                    </Card.Text>
-                    <Nav>
-                        <NavLink to="/appointments">
-                            <Button variant="outline-primary">Đặt lịch hẹn</Button>
-                        </NavLink>
-                    </Nav>
-                </Card.Body>
-            </Card>
+                                {/* Overlay Gradient */}
+                                <div className="card-img-overlay d-flex flex-column justify-content-end p-4">
+                                    <div className="card-content-wrapper">
+                                        <Card.Title className="fw-bold mb-2 fs-3">{item.title}</Card.Title>
+                                        <Card.Text className="mb-4 opacity-90 fs-6">
+                                            {item.text}
+                                        </Card.Text>
+                                        <NavLink to={item.link} className="text-decoration-none w-100 d-block">
+                                            <Button
+                                                className="w-100 py-3 fw-bold btn-overlay"
+                                            >
+                                                {item.btnText}
+                                            </Button>
+                                        </NavLink>
+                                    </div>
+                                </div>
+                            </Card>
+                        </Col>
+                    ))}
+                </Row>
+            </Container>
         </div>
     );
 };

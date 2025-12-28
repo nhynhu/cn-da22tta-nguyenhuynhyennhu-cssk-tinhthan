@@ -23,16 +23,16 @@ const HomePage = () => {
     return (
         <div className="home-page">
             {/* Hero */}
-            <section className="hero">
+            <section className="hero" style={{ backgroundImage: 'url(./img/bg.png)' }}>
                 <Container>
                     <Row className="align-items-center">
                         <Col lg={6}>
                             <p className="hero-greeting">{greeting}</p>
                             <h1 className="hero-heading">
-                                Bạn có khỏe không hôm nay?
+                                Hôm nay bạn thế nào?
                             </h1>
                             <p className="hero-desc">
-                                Đôi khi chỉ cần một người lắng nghe. Chúng tôi ở đây,
+                                Chúng tôi ở đây,
                                 sẵn sàng đồng hành cùng bạn qua những ngày khó khăn
                                 hay đơn giản là trò chuyện về cuộc sống.
                             </p>
@@ -42,12 +42,6 @@ const HomePage = () => {
                                     onClick={() => navigate('/chose-chat')}
                                 >
                                     Bắt đầu trò chuyện
-                                </Button>
-                                <Button
-                                    className="btn-ghost"
-                                    onClick={() => navigate('/therapy')}
-                                >
-                                    Xem bài tập thư giãn
                                 </Button>
                             </div>
                         </Col>
@@ -68,7 +62,7 @@ const HomePage = () => {
                         <div className="feature-hover-card">
                             <div className="feature-hover-inner">
                                 <div className="feature-hover-image">
-                                    <img src="/img/guide-1.jpg" alt="Hoa tiêu" />
+                                    <img src="./img/slide2.jpg" alt="Hoa tiêu" />
                                 </div>
                                 <div className="feature-hover-content">
                                     <p>
@@ -83,7 +77,7 @@ const HomePage = () => {
                         <div className="feature-hover-card">
                             <div className="feature-hover-inner">
                                 <div className="feature-hover-image">
-                                    <img src="/img/guide-2.jpg" alt="Cổng" />
+                                    <img src="./img/slide4.png" alt="Cổng" />
                                 </div>
                                 <div className="feature-hover-content">
                                     <p>
@@ -98,7 +92,7 @@ const HomePage = () => {
                         <div className="feature-hover-card">
                             <div className="feature-hover-inner">
                                 <div className="feature-hover-image">
-                                    <img src="/img/guide-3.jpg" alt="Tự trợ giúp bằng AI" />
+                                    <img src="./img/slide5.png" alt="Tự trợ giúp bằng AI" />
                                 </div>
                                 <div className="feature-hover-content">
                                     <p>
@@ -115,7 +109,7 @@ const HomePage = () => {
             {/* Services */}
             <section className="services">
                 <Container>
-                    <h2 className="section-title">Bạn có thể làm gì ở đây?</h2>
+                    <h2 className="experts-title">Bạn có thể làm gì ở đây?</h2>
                     <Row>
                         <Col md={6} lg={3}>
                             <div className="service-card" onClick={() => navigate('/chose-chat')}>
@@ -145,7 +139,7 @@ const HomePage = () => {
                             </div>
                         </Col>
                         <Col md={6} lg={3}>
-                            <div className="service-card" onClick={() => navigate('/chose-app')}>
+                            <div className="service-card" onClick={() => navigate('/appointment')}>
                                 <div className="service-icon">
                                     <img src="/img/icon-calendar.svg" alt="" onError={(e) => e.target.style.display = 'none'} />
                                 </div>
@@ -163,7 +157,7 @@ const HomePage = () => {
                     <Row className="align-items-center">
                         <Col lg={5}>
                             <div className="about-image">
-                                <img src="/img/guide-1.jpg" alt="Về chúng tôi" />
+                                <img src="./img/vechungtoi2.png" alt="Về chúng tôi" />
                             </div>
                         </Col>
                         <Col lg={7}>
@@ -193,7 +187,7 @@ const HomePage = () => {
             {/* How it works */}
             <section className="how-works">
                 <Container>
-                    <h2 className="section-title">Bắt đầu như thế nào?</h2>
+                    <h2 className="experts-title">Bắt đầu như thế nào?</h2>
                     <p className="section-desc">Chỉ cần 3 bước đơn giản để bắt đầu hành trình chăm sóc bản thân</p>
                     <Row>
                         <Col md={4}>
@@ -232,77 +226,77 @@ const HomePage = () => {
                         <div className="experts-track">
                             {[
                                 {
-                                    name: 'Neca Smith',
+                                    name: 'Nguyễn Thị Lan',
                                     role: 'Chuyên gia sức khỏe tinh thần',
-                                    image: '/img/expert1.png',
+                                    image: './img/Lan.png',
                                     color: '#ab7ae3',
                                 },
                                 {
-                                    name: 'Dr. Jon Kole',
-                                    role: 'Bác sĩ tâm thần & Giám đốc y khoa',
-                                    image: '/img/expert2.jpg',
+                                    name: 'Thạch Văn Dũng',
+                                    role: 'Bác sĩ tâm thần và Giám đốc y khoa',
+                                    image: './img/Dung.png',
                                     color: '#02113d',
                                 },
                                 {
-                                    name: 'Eve Lewis',
-                                    role: 'Giảng viên thiền & chánh niệm',
-                                    image: '/img/expert3.jpg',
+                                    name: 'Cao Thị Hồng',
+                                    role: 'Giảng viên thiền và chánh niệm',
+                                    image: './img/Hong.png',
                                     color: '#c9a8f0',
                                 },
                                 {
-                                    name: 'Kessonga Giscombe',
+                                    name: 'Trần Minh Như',
                                     role: 'Giảng viên thiền và chánh niệm',
-                                    image: '/img/expert4.jpg',
+                                    image: './img/Nhu.png',
                                     color: '#1a3a6e',
                                 },
                                 {
-                                    name: 'Rosie Acosta',
-                                    role: 'Giảng viên thiền & huấn luyện viên',
-                                    image: '/img/expert5.jpg',
+                                    name: 'Lê Thị Hương',
+                                    role: 'Giảng viên thiền và huấn luyện viên',
+                                    image: './img/Huong.png',
                                     color: '#ab7ae3',
                                 },
                                 {
-                                    name: 'Arturo Morales',
-                                    role: 'Nhà trị liệu hôn nhân & gia đình',
-                                    image: '/img/expert6.jpg',
+                                    name: 'Nguyễn Chí Hùng',
+                                    role: 'Nhà trị liệu hôn nhân và gia đình',
+                                    image: './img/Hung.png',
                                     color: '#02113d',
                                 },
                             ]
                                 .concat([
                                     {
-                                        name: 'Neca Smith',
+                                        name: 'Nguyễn Thị Lan',
                                         role: 'Chuyên gia sức khỏe tinh thần',
-                                        image: '/img/expert1.png',
+                                        image: './img/Lan.png',
                                         color: '#ab7ae3',
                                     },
                                     {
-                                        name: 'Dr. Jon Kole',
-                                        role: 'Bác sĩ tâm thần & Giám đốc y khoa',
-                                        image: '/img/expert2.jpg',
+                                        name: 'Thạch Văn Dũng',
+                                        role: 'Bác sĩ tâm thần và Giám đốc y khoa',
+                                        image: './img/Dung.png',
                                         color: '#02113d',
                                     },
                                     {
-                                        name: 'Eve Lewis',
-                                        role: 'Giảng viên thiền & chánh niệm',
-                                        image: '/img/expert3.jpg',
+                                        name: 'Cao Thị Hồng',
+                                        role: 'Giảng viên thiền và chánh niệm',
+                                        image: './img/Hong.png',
                                         color: '#c9a8f0',
                                     },
                                     {
-                                        name: 'Kessonga Giscombe',
+                                        name: 'Trần Minh Như',
                                         role: 'Giảng viên thiền và chánh niệm',
-                                        image: '/img/expert4.jpg',
+                                        image: './img/Nhu.png',
                                         color: '#1a3a6e',
                                     },
                                     {
-                                        name: 'Rosie Acosta',
-                                        role: 'Giảng viên thiền & huấn luyện viên',
-                                        image: '/img/expert5.jpg',
+                                        name: 'Lê Thị Hương',
+                                        role: 'Giảng viên thiền và huấn luyện viên',
+                                        image: './img/Huong.png',
                                         color: '#ab7ae3',
                                     },
                                     {
-                                        name: 'Arturo Morales',
-                                        role: 'Nhà trị liệu hôn nhân & gia đình',
-                                        image: '/img/expert6.jpg',
+                                        name: 'Nguyễn Chí Hùng',
+                                        role: 'Nhà trị liệu hôn nhân và gia đình',
+                                        image: './img/Hung.png',
                                         color: '#02113d',
                                     },
                                 ])
@@ -324,44 +318,46 @@ const HomePage = () => {
                 </Container>
             </Container>
 
-            {/* FAQ */}
-            <section className="faq">
+            {/* Testimonials */}
+            <section className="testimonials">
                 <Container>
-                    <h2 className="section-title">Câu hỏi thường gặp</h2>
-                    <p className="section-desc">Giải đáp những thắc mắc phổ biến</p>
-                    <Row className="justify-content-center">
-                        <Col lg={8}>
-                            <div className="faq-item">
-                                <h4>Cool Cat Comfort có miễn phí không?</h4>
-                                <p>Có, tất cả các tính năng cơ bản như trò chuyện AI, viết nhật ký, bài tập thiền đều hoàn toàn miễn phí.</p>
+                    <h2 className="section-title">Mọi người nói gì?</h2>
+                    <Row>
+                        <Col lg={4}>
+                            <div className="testimonial">
+                                <p className="testimonial-text">
+                                    "Lúc đầu tôi cũng ngại, không biết nói gì. Nhưng càng trò chuyện càng thấy nhẹ lòng.
+                                    Cảm ơn vì đã lắng nghe."
+                                </p>
+                                <div className="testimonial-author">
+                                    <strong>Minh Anh</strong>
+                                    <span>Sinh viên năm 3</span>
+                                </div>
                             </div>
-                            <div className="faq-item">
-                                <h4>Thông tin của tôi có được bảo mật không?</h4>
-                                <p>Tuyệt đối. Chúng tôi cam kết bảo mật 100% thông tin cá nhân và nội dung nhật ký của bạn.</p>
+                        </Col>
+                        <Col lg={4}>
+                            <div className="testimonial">
+                                <p className="testimonial-text">
+                                    "Công việc stress quá, tôi hay mất ngủ. Mấy bài tập thở ở đây giúp tôi dễ ngủ hơn nhiều."
+                                </p>
+                                <div className="testimonial-author">
+                                    <strong>Hoàng Nam</strong>
+                                    <span>Nhân viên văn phòng</span>
+                                </div>
                             </div>
-                            <div className="faq-item">
-                                <h4>Tôi có thể đặt lịch với chuyên gia thật không?</h4>
-                                <p>Có, bạn có thể đặt lịch hẹn trực tiếp với đội ngũ chuyên gia tâm lý của chúng tôi qua tính năng Đặt lịch hẹn.</p>
-                            </div>
-                            <div className="faq-item">
-                                <h4>AI có thể thay thế chuyên gia tâm lý không?</h4>
-                                <p>AI là người bạn lắng nghe và hỗ trợ ban đầu. Với những vấn đề nghiêm trọng, chúng tôi khuyên bạn nên gặp chuyên gia.</p>
+                        </Col>
+                        <Col lg={4}>
+                            <div className="testimonial">
+                                <p className="testimonial-text">
+                                    "Tôi thích viết nhật ký ở đây. Nhìn lại mới thấy mình đã thay đổi nhiều theo hướng tích cực."
+                                </p>
+                                <div className="testimonial-author">
+                                    <strong>Thu Hà</strong>
+                                    <span>Giáo viên</span>
+                                </div>
                             </div>
                         </Col>
                     </Row>
-                </Container>
-            </section>
-
-            {/* CTA */}
-            <section className="cta">
-                <Container>
-                    <div className="cta-box">
-                        <h2>Bạn đã sẵn sàng chưa?</h2>
-                        <p>Không cần phải hoàn hảo. Chỉ cần bắt đầu từ hôm nay.</p>
-                        <Button className="btn-main btn-lg" onClick={() => navigate('/chose-chat')}>
-                            Bắt đầu ngay
-                        </Button>
-                    </div>
                 </Container>
             </section>
 

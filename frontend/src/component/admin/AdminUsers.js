@@ -112,13 +112,13 @@ function AdminUsers({ user }) {
     return (
         <>
             <Card className="shadow-sm">
-                <Card.Header className="bg-warning text-dark d-flex justify-content-between align-items-center">
+                <Card.Header className="bg-warning d-flex justify-content-between align-items-center">
                     <h5 className="mb-0">
                         <i className="bi bi-person-badge me-2"></i>
                         Quản lý người dùng
                     </h5>
                     <Button variant="dark" size="sm" onClick={() => setShowAddModal(true)}>
-                        ➕ Thêm người dùng
+                        Thêm người dùng
                     </Button>
                 </Card.Header>
                 <Card.Body>
@@ -179,7 +179,7 @@ function AdminUsers({ user }) {
                                                         variant="outline-danger"
                                                         onClick={() => handleDeleteUser(u.user_id || u.id)}
                                                     >
-                                                        🗑️
+                                                        Xóa
                                                     </Button>
                                                 )}
                                             </td>
@@ -202,7 +202,7 @@ function AdminUsers({ user }) {
             {/* Modal Thêm người dùng */}
             <Modal show={showAddModal} onHide={() => setShowAddModal(false)}>
                 <Modal.Header closeButton className="bg-warning">
-                    <Modal.Title>➕ Thêm người dùng mới</Modal.Title>
+                    <Modal.Title> Thêm người dùng mới</Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
                     <Form onSubmit={handleAddUser}>

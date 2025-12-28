@@ -1,11 +1,10 @@
-# File: ai-service/app.py
+
 from flask import Flask, request, jsonify
 from transformers import pipeline
 from deep_translator import GoogleTranslator
 
 app = Flask(__name__)
 
-# 1. Tải model (Chỉ chạy 1 lần khi bật server)
 print("Đang tải model Hugging Face... Vui lòng đợi...")
 emotion_classifier = pipeline(
     "text-classification",
@@ -35,7 +34,7 @@ def analyze_emotion():
         return jsonify({
             "original": text_vietnamese,
             "translated": translated,
-            "top_emotion": top_emotion['label'], # Ví dụ: 'joy', 'sadness'
+            "top_emotion": top_emotion['label'], 
             "score": top_emotion['score'],
             "details": results
         })
@@ -44,5 +43,4 @@ def analyze_emotion():
         return jsonify({"error": str(e)}), 500
 
 if __name__ == '__main__':
-    # Chạy server Python ở port 8000 để không đụng port 5000 của Node.js
     app.run(port=8000, debug=True)

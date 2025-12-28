@@ -1,0 +1,92 @@
+/* =========================================
+   EXPERT LIST – PROFESSIONAL UI
+   ========================================= */
+
+:root {
+    --purple-main: #7b4fd6;
+    --purple-hover: #6a3fc8;
+    --purple-shadow: rgba(123, 79, 214, 0.25);
+}
+
+/* PAGE */
+.expert-list-page {
+    background: linear-gradient(135deg, #f8f9ff 0%, #ffffff 100%);
+    min-height: calc(100vh - 60px);
+    padding: 24px 12px;
+}
+
+.page-title {
+    font-weight: 700;
+    margin-bottom: 24px;
+    color: #1f2937;
+}
+
+/* CARD */
+.expert-card {
+    border: none;
+    box-shadow: 0 8px 30px rgba(2, 17, 61, 0.12);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    height: 100%;
+}
+
+.expert-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 12px 36px rgba(2, 17, 61, 0.18);
+}
+
+/* AVATAR (CHỮ CÁI ĐẠI DIỆN) */
+.expert-avatar {
+    width: 56px;
+    height: 56px;
+    background: var(--purple-main);
+    color: #fff;
+    font-weight: 700;
+    font-size: 1.2rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 12px;
+}
+
+/* NAME */
+.expert-name {
+    font-weight: 700;
+    margin-bottom: 4px;
+    color: #111827;
+}
+
+/* SPECIALIZATION */
+.expert-specialization {
+    font-size: 0.9rem;
+    color: #6b7280;
+    margin-bottom: 6px;
+}
+
+/* EMAIL */
+.expert-email {
+    font-size: 0.85rem;
+    color: #6b7280;
+    margin-bottom: 14px;
+    word-break: break-all;
+}
+
+/* BUTTON */
+.expert-chat-btn {
+    width: 100%;
+    background: var(--purple-main);
+    border: none;
+    font-weight: 600;
+}
+
+.expert-chat-btn:hover {
+    background: var(--purple-hover);
+}
+
+/* RESPONSIVE */
+@media (max-width: 768px) {
+    .expert-avatar {
+        width: 48px;
+        height: 48px;
+        font-size: 1rem;
+    }
+}

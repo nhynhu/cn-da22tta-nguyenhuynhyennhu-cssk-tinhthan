@@ -18,7 +18,8 @@ import Therapy from './component/therapy/Therapy';
 import ChoseChat from './component/chat/ChoseChat';
 import ChoseApp from './component/appointment/ChoseApp';
 import AdminPage from './component/admin/AdminPage';
-import Profile from './component/profile/Profile';
+import ViewProfile from './component/profile/ViewProfile';
+import EditProfile from './component/profile/EditProfile';
 
 const App = () => {
   const [user, setUser] = useState(null);
@@ -45,7 +46,6 @@ const App = () => {
     window.location.href = '/login';
   };
 
-  // ❌ Không hiển thị Header ở login, register & forgot-password
   const hideHeader =
     location.pathname === '/login' ||
     location.pathname === '/register' ||
@@ -68,7 +68,8 @@ const App = () => {
         <Route path="/analytic" element={<Analytic />} />
         <Route path="/diary" element={<Diary />} />
         <Route path="/therapy" element={<Therapy />} />
-        <Route path="/profile" element={<Profile />} />
+        <Route path="/profile" element={<ViewProfile />} />
+        <Route path="/profile/edit" element={<EditProfile />} />
         <Route path="/admin" element={<AdminPage user={user} />} />
 
         {/* Auth */}

@@ -6,8 +6,6 @@ body {
 /* Header / Navbar */
 .main-navbar {
     background: #02113d;
-    padding-top: 0.4rem;
-    padding-bottom: 0.4rem;
     box-shadow: 0 4px 16px rgba(15, 23, 42, 0.18);
 }
 
@@ -15,7 +13,7 @@ body {
     color: #ab7ae3;
     font-weight: 800;
     letter-spacing: 1px;
-    font-size: 1.4rem;
+    font-size: 1.2rem;
 }
 
 .main-navbar .navbar-brand-text span.highlight {
@@ -762,235 +760,6 @@ body {
     }
 }
 
-/* =========================================
-   CHAT PAGE - Simple & Clean
-   ========================================= */
-
-.chat-page {
-    background: #f7f7f7;
-    min-height: calc(100vh - 60px);
-}
-
-/* Sidebar Cards */
-.sidebar-card {
-    background: #fff;
-    border-radius: 12px;
-    margin-bottom: 16px;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
-    overflow: hidden;
-}
-
-.sidebar-header {
-    padding: 14px 18px;
-    font-weight: 600;
-    font-size: 0.9rem;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-}
-
-.sidebar-header-primary {
-    background: #ab7ae3;
-    color: #fff;
-}
-
-.sidebar-header-secondary {
-    background: #02113d;
-    color: #fff;
-}
-
-.sidebar-header-light {
-    background: #f5f5f5;
-    color: #02113d;
-}
-
-.sidebar-body {
-    padding: 16px;
-}
-
-.btn-stats {
-    background: #02113d;
-    color: #fff;
-    border: none;
-    padding: 8px 20px;
-    border-radius: 6px;
-    font-size: 0.85rem;
-    font-weight: 600;
-    cursor: pointer;
-    transition: background 0.2s;
-}
-
-.btn-stats:hover {
-    background: #1a3a6e;
-}
-
-.suggest-item {
-    background: #f9f9f9;
-    padding: 10px 12px;
-    border-radius: 8px;
-    margin-bottom: 10px;
-    border-left: 3px solid #ab7ae3;
-}
-
-.link-purple {
-    color: #ab7ae3;
-    text-decoration: none;
-    font-weight: 500;
-}
-
-.link-purple:hover {
-    color: #02113d;
-    text-decoration: underline;
-}
-
-.text-purple {
-    color: #ab7ae3;
-}
-
-.history-list {
-    padding: 0;
-}
-
-.history-item {
-    padding: 12px 16px;
-    border-bottom: 1px solid #f0f0f0;
-}
-
-.history-item:last-child {
-    border-bottom: none;
-}
-
-/* Main Chat Card */
-.chat-card {
-    background: #fff;
-    border-radius: 12px;
-    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
-    overflow: hidden;
-}
-
-.chat-card-header {
-    padding: 18px 24px;
-    background: #fff;
-    border-bottom: 1px solid #eee;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-}
-
-.chat-title {
-    font-size: 1.2rem;
-    font-weight: 700;
-    color: #02113d;
-}
-
-.chat-messages {
-    height: 450px;
-    overflow-y: auto;
-    padding: 20px 24px;
-    background: #fafafa;
-}
-
-.message-row {
-    display: flex;
-    margin-bottom: 14px;
-}
-
-.message-right {
-    justify-content: flex-end;
-}
-
-.message-left {
-    justify-content: flex-start;
-}
-
-.message-bubble {
-    max-width: 70%;
-    padding: 12px 16px;
-    border-radius: 12px;
-    word-wrap: break-word;
-    line-height: 1.5;
-}
-
-.bubble-user {
-    background: #ab7ae3;
-    color: #fff;
-    border-bottom-right-radius: 4px;
-}
-
-.bubble-bot {
-    background: #fff;
-    color: #333;
-    border: 1px solid #e0e0e0;
-    border-bottom-left-radius: 4px;
-}
-
-.message-time {
-    font-size: 10px;
-    text-align: right;
-    margin-top: 6px;
-    opacity: 0.7;
-}
-
-.bubble-user .message-time {
-    color: rgba(255, 255, 255, 0.8);
-}
-
-.bubble-bot .message-time {
-    color: #999;
-}
-
-.chat-card-footer {
-    padding: 18px 24px;
-    background: #fff;
-    border-top: 1px solid #eee;
-}
-
-.chat-suggest-box {
-    background: #f9f9f9;
-    padding: 12px 16px;
-    border-radius: 8px;
-    margin-bottom: 14px;
-    border-left: 3px solid #ab7ae3;
-}
-
-.chat-input-row {
-    display: flex;
-    gap: 12px;
-}
-
-.chat-input {
-    flex: 1;
-    border: 1px solid #ddd;
-    border-radius: 8px;
-    padding: 10px 16px;
-    font-size: 0.95rem;
-}
-
-.chat-input:focus {
-    border-color: #ab7ae3;
-    box-shadow: none;
-    outline: none;
-}
-
-.chat-send-btn {
-    background: #ab7ae3;
-    border: none;
-    color: #fff;
-    padding: 10px 24px;
-    border-radius: 8px;
-    font-weight: 600;
-}
-
-.chat-send-btn:hover {
-    background: #9966cc;
-}
-
-@media (max-width: 992px) {
-    .chat-messages {
-        height: 380px;
-    }
-}
-
 /* ========================
    PROFILE PAGE STYLES
    ======================== */
@@ -1068,4 +837,261 @@ body {
 
 .btn-save:disabled {
     background: #ccc;
+}
+
+/* Profile Avatar Styles */
+.profile-avatar {
+    width: 140px;
+    height: 140px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 4px solid #ab7ae3;
+    box-shadow: 0 4px 15px rgba(171, 122, 227, 0.3);
+}
+
+.profile-avatar-preview {
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 3px solid #ab7ae3;
+}
+
+.profile-info {
+    background: #f8f9ff;
+    padding: 20px;
+    border-radius: 12px;
+    margin-top: 20px;
+}
+
+.profile-info .row {
+    padding: 8px 0;
+    border-bottom: 1px solid #eee;
+}
+
+.profile-info .row:last-child {
+    border-bottom: none;
+}
+
+.section-title {
+    color: #ab7ae3;
+    font-weight: 600;
+    text-transform: uppercase;
+    font-size: 0.85rem;
+    letter-spacing: 0.5px;
+}
+
+
+/* =========================================
+   CHOSE CHAT PAGE STYLES
+   ========================================= */
+.chose-chat-specific {
+    /* Bộ màu cục bộ */
+    --local-bg: #FFFBEB;
+    /* Vàng kem rất nhạt */
+    --local-primary: #7C3AED;
+    /* Tím */
+
+    background-color: var(--local-bg);
+    min-height: calc(100vh - 60px);
+    font-family: 'Inter', sans-serif;
+}
+
+/* Header */
+.chose-chat-specific .page-title {
+    color: #1E3A8A;
+    /* Xanh đậm */
+    font-weight: 800;
+    margin-bottom: 0.5rem;
+}
+
+.chose-chat-specific .page-desc {
+    color: #475569;
+    font-size: 1.1rem;
+}
+
+/* FULL IMAGE CARD STYLING */
+.chose-chat-specific .full-img-card {
+    border-radius: 24px;
+    /* Bo góc tròn trịa */
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
+    transition: all 0.4s ease;
+    cursor: pointer;
+    background: #000;
+    /* Nền đen đề phòng ảnh lỗi */
+    height: 400px !important;
+    /* Chiều cao cố định cho card */
+    position: relative;
+}
+
+/* Ảnh nền full */
+.chose-chat-specific .full-card-bg {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    /* Quan trọng: giúp ảnh phủ kín card */
+    transition: transform 0.6s ease;
+    opacity: 0.9;
+}
+
+/* Gradient phủ lên ảnh để chữ trắng nổi bật */
+.chose-chat-specific .card-img-overlay {
+    background: linear-gradient(to top,
+            rgba(0, 0, 0, 0.85) 0%,
+            rgba(30, 58, 138, 0.6) 50%,
+            rgba(0, 0, 0, 0.1) 100%);
+    transition: background 0.3s ease;
+}
+
+/* Hiệu ứng Hover */
+.chose-chat-specific .full-img-card:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 20px 30px rgba(0, 0, 0, 0.25);
+}
+
+.chose-chat-specific .full-img-card:hover .full-card-bg {
+    transform: scale(1.1);
+    /* Phóng to ảnh nhẹ khi hover */
+    opacity: 1;
+}
+
+.chose-chat-specific .full-img-card:hover .card-img-overlay {
+    background: linear-gradient(to top,
+            rgba(109, 40, 217, 0.9) 0%,
+            /* Chuyển sang màu tím khi hover */
+            rgba(109, 40, 217, 0.4) 60%,
+            rgba(0, 0, 0, 0) 100%);
+}
+
+/* Nút bấm trên card */
+.chose-chat-specific .btn-overlay {
+    background: rgba(255, 255, 255, 0.2);
+    border: 1px solid rgba(255, 255, 255, 0.6);
+    color: #fff;
+    border-radius: 50px;
+    backdrop-filter: blur(5px);
+    /* Hiệu ứng kính mờ */
+    transition: all 0.3s;
+}
+
+.chose-chat-specific .full-img-card:hover .btn-overlay {
+    background: #fff;
+    color: var(--local-primary);
+    border-color: #fff;
+    transform: scale(1.05);
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .chose-chat-specific .full-img-card {
+        height: 350px !important;
+    }
+}
+
+/* =========================================
+   STYLE CHO TRANG CHOSE APP 
+   ========================================= */
+
+.chose-app-specific {
+    /* Bộ màu cục bộ (Giống hệt trang ChoseChat) */
+    --local-bg: #FFFBEB;
+    /* Vàng kem rất nhạt */
+    --local-primary: #7C3AED;
+    /* Tím */
+    --local-text-dark: #1E3A8A;
+    /* Xanh đậm */
+
+    background-color: var(--local-bg);
+    min-height: calc(100vh - 60px);
+    font-family: 'Inter', sans-serif;
+}
+
+/* Header */
+.chose-app-specific .page-title {
+    color: var(--local-text-dark);
+    font-weight: 800;
+    margin-bottom: 0.75rem;
+}
+
+.chose-app-specific .page-desc {
+    color: #475569;
+    font-size: 1.15rem;
+}
+
+/* FULL IMAGE CARD STYLING (Reused) */
+.chose-app-specific .full-img-card {
+    border-radius: 24px;
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
+    transition: all 0.4s ease;
+    cursor: pointer;
+    background: #0f172a;
+    /* Nền tối */
+    height: 450px !important;
+    /* Chiều cao lớn hơn chút cho trang này vì ít card hơn */
+    position: relative;
+}
+
+/* Ảnh nền full */
+.chose-app-specific .full-card-bg {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.6s ease;
+    opacity: 0.85;
+}
+
+/* Gradient phủ lên ảnh */
+.chose-app-specific .card-img-overlay {
+    background: linear-gradient(to top,
+            rgba(0, 0, 0, 0.9) 0%,
+            rgba(30, 58, 138, 0.5) 60%,
+            rgba(0, 0, 0, 0) 100%);
+    transition: background 0.3s ease;
+}
+
+/* Hiệu ứng Hover */
+.chose-app-specific .full-img-card:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 25px 35px rgba(0, 0, 0, 0.25);
+}
+
+.chose-app-specific .full-img-card:hover .full-card-bg {
+    transform: scale(1.1);
+    opacity: 1;
+}
+
+.chose-app-specific .full-img-card:hover .card-img-overlay {
+    background: linear-gradient(to top,
+            rgba(109, 40, 217, 0.95) 0%,
+            /* Tím đậm khi hover */
+            rgba(109, 40, 217, 0.3) 70%,
+            rgba(0, 0, 0, 0) 100%);
+}
+
+/* Nút bấm trên card */
+.chose-app-specific .btn-overlay {
+    background: rgba(255, 255, 255, 0.2);
+    border: 1px solid rgba(255, 255, 255, 0.8);
+    color: #fff;
+    border-radius: 50px;
+    backdrop-filter: blur(8px);
+    transition: all 0.3s;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    font-size: 0.9rem;
+}
+
+.chose-app-specific .full-img-card:hover .btn-overlay {
+    background: #fff;
+    color: var(--local-primary);
+    border-color: #fff;
+    transform: scale(1.02);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .chose-app-specific .full-img-card {
+        height: 300px !important;
+    }
 }
