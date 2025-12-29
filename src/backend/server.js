@@ -1,0 +1,56 @@
+const express = require('express');
+const cors = require('cors');
+const dotenv = require('dotenv');
+const path = require('path');
+const db = require('./config/db'); // Import kết nối DB bạn vừa tạo
+
+// Cấu hình môi trường
+dotenv.config();
+
+const app = express();
+const PORT = process.env.PORT || 5002;
+
+// --- MIDDLEWARES ---
+app.use(cors()); // Cho phép Frontend (React) gọi API
+app.use(express.json()); // Quan trọng: Để Server hiểu dữ liệu JSON từ Frontend gửi lên
+app.use(express.urlencoded({ extended: true })); // Để đọc dữ liệu từ form
+
+// Phục vụ file tĩnh từ thư mục uploads
+app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
+
+// --- TEST ROUTE ---
+app.get('/', (req, res) => {
+    res.send('Server Sức khỏe tinh thần đang chạy ổn định!');
+});
+const userRoutes = require('./routes/userRoutes');
+const userProfileRoutes = require('./routes/userProfileRoutes');
+const chatRoutes = require('./routes/chatRoutes');
+const emotionLogRoutes = require('./routes/emotionLogRoutes');
+const analyticsRoutes = require('./routes/analyticsRoutes');
+const doctorChatRoutes = require('./routes/doctorChatRoutes');
+const appointmentRoutes = require('./routes/appointmentRoutes');
+const expertRoutes = require('./routes/expertRoutes');
+const suggestionRoutes = require('./routes/suggestionRoutes');
+const mindRoutes = require('./routes/mindRoutes');
+const notificationRoutes = require('./routes/notificationRoutes');
+const reviewRoutes = require('./routes/reviewRoutes');
+const searchRoutes = require('./routes/searchRoutes');
+
+// --- API ROUTES ---
+app.use('/api/users', userRoutes);
+app.use('/api/profiles', userProfileRoutes);
+app.use('/api/chat', chatRoutes);           // API cho chat
+app.use('/api/emotions', emotionLogRoutes); // API cho nhật ký
+app.use('/api/analytics', analyticsRoutes); // API cho thống kê
+app.use('/api/doctor-chat', doctorChatRoutes); // Chat với bác sĩ
+app.use('/api/appointments', appointmentRoutes); // Đặt lịch hẹn với bác sĩ
+app.use('/api/experts', expertRoutes); // Danh sách chuyên gia (bác sĩ)
+app.use('/api/suggestions', suggestionRoutes); // Gợi ý dựa trên nhật ký cảm xúc
+app.use('/api/mind', mindRoutes); // Bài tập thiền/tâm lý và danh mục
+app.use('/api/notifications', notificationRoutes); // Thông báo
+app.use('/api/reviews', reviewRoutes); // Đánh giá & phản hồi
+app.use('/api/search', searchRoutes); // Tìm kiếm & lọc
+// --- KHỞI CHẠY SERVER ---
+app.listen(PORT, () => {
+    console.log(`Server đang chạy tại: http://localhost:${PORT}`);
+});

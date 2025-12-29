@@ -1,0 +1,396 @@
+:root {
+    --bg-page: #f8fafc;
+    --bg-card: #ffffff;
+    --text-main: #1e293b;
+    --text-sub: #64748b;
+    --border-color: #e2e8f0;
+    --primary-color: #667eea;
+    --primary-hover: #5a67d8;
+
+    /* Status Colors */
+    --status-pending: #f59e0b;
+    --status-confirmed: #10b981;
+    --status-completed: #3b82f6;
+    --status-cancelled: #ef4444;
+}
+
+/* 1. Layout chung */
+body {
+    background: linear-gradient(to bottom, #f8fafc 0%, #ffffff 100%);
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    color: var(--text-main);
+}
+
+/* 2. Cards với animation */
+.card {
+    border: 1px solid var(--border-color) !important;
+    border-radius: 8px !important;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03);
+    background-color: var(--bg-card);
+    margin-bottom: 24px;
+    overflow: hidden;
+    animation: fadeInUp 0.5s ease-out;
+    transition: all 0.3s ease;
+}
+
+.card:hover {
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+    transform: translateY(-2px);
+}
+
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.appointment-card .header-gradient {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: #fff;
+    padding: 24px 28px;
+    position: relative;
+    overflow: hidden;
+}
+
+.appointment-card .header-gradient::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    right: -50%;
+    width: 200%;
+    height: 200%;
+    background: radial-gradient(circle, rgba(255, 255, 255, 0.1) 0%, transparent 70%);
+    animation: rotate 15s linear infinite;
+}
+
+@keyframes rotate {
+    from {
+        transform: rotate(0deg);
+    }
+
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+.appointment-card .header-title {
+    font-size: 1.5rem;
+    font-weight: 600;
+    margin-bottom: 0;
+    color: #fff !important;
+    position: relative;
+    z-index: 1;
+}
+
+.btn-gradient {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    border: none;
+    border-radius: 6px;
+    color: #fff;
+    font-weight: 600;
+    font-size: 0.9375rem;
+    box-shadow: 0 4px 6px -1px rgba(102, 126, 234, 0.4);
+    padding: 12px 28px;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    position: relative;
+    overflow: hidden;
+}
+
+.btn-gradient::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 0;
+    height: 0;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.3);
+    transform: translate(-50%, -50%);
+    transition: width 0.6s, height 0.6s;
+}
+
+.btn-gradient:hover::before {
+    width: 300px;
+    height: 300px;
+}
+
+.btn-gradient:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 15px -3px rgba(102, 126, 234, 0.5);
+    color: #fff;
+}
+
+.btn-gradient:active {
+    transform: translateY(0);
+}
+
+.form-label {
+    font-size: 0.875rem;
+    font-weight: 600;
+    color: var(--text-main);
+    margin-bottom: 6px;
+}
+
+.form-control,
+.form-select {
+    border-radius: 6px !important;
+    border: 2px solid var(--border-color);
+    background-color: #ffffff;
+    font-size: 0.9375rem;
+    padding: 11px 14px;
+    transition: all 0.3s ease;
+}
+
+.form-control:focus,
+.form-select:focus {
+    background-color: #fff;
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 4px rgba(102, 126, 234, 0.1);
+    outline: none;
+    transform: translateY(-1px);
+}
+
+/* 3. Table với animation */
+.table-custom {
+    margin-bottom: 0;
+}
+
+.table-custom thead th {
+    background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
+    border-bottom: 2px solid var(--border-color);
+    border-top: none;
+    font-size: 0.8125rem;
+    font-weight: 600;
+    color: var(--text-main);
+    padding: 16px;
+}
+
+.table-custom tbody td {
+    vertical-align: middle;
+    padding: 16px;
+    border-bottom: 1px solid var(--border-color);
+    font-size: 0.9375rem;
+    color: var(--text-main);
+    transition: all 0.2s ease;
+}
+
+.table-custom tbody tr {
+    animation: fadeIn 0.3s ease-out;
+    animation-fill-mode: both;
+}
+
+.table-custom tbody tr:nth-child(1) {
+    animation-delay: 0.1s;
+}
+
+.table-custom tbody tr:nth-child(2) {
+    animation-delay: 0.2s;
+}
+
+.table-custom tbody tr:nth-child(3) {
+    animation-delay: 0.3s;
+}
+
+.table-custom tbody tr:nth-child(4) {
+    animation-delay: 0.4s;
+}
+
+.table-custom tbody tr:nth-child(5) {
+    animation-delay: 0.5s;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateX(-10px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+.table-custom tbody tr:hover {
+    background: linear-gradient(90deg, #f8fafc 0%, #ffffff 100%);
+    transform: scale(1.01);
+}
+
+/* 4. Status Badges với animation */
+.status-badge {
+    display: inline-block;
+    padding: 6px 14px;
+    font-size: 0.8125rem;
+    font-weight: 600;
+    border-radius: 6px;
+    min-width: 100px;
+    text-align: center;
+    transition: all 0.3s ease;
+    animation: bounceIn 0.5s ease;
+}
+
+@keyframes bounceIn {
+    0% {
+        opacity: 0;
+        transform: scale(0.3);
+    }
+
+    50% {
+        opacity: 1;
+        transform: scale(1.05);
+    }
+
+    70% {
+        transform: scale(0.9);
+    }
+
+    100% {
+        transform: scale(1);
+    }
+}
+
+.status-pending {
+    color: #fff;
+    background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
+    box-shadow: 0 2px 4px rgba(245, 158, 11, 0.3);
+}
+
+.status-confirmed {
+    color: #fff;
+    background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+    box-shadow: 0 2px 4px rgba(16, 185, 129, 0.3);
+}
+
+.status-completed {
+    color: #fff;
+    background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);
+    box-shadow: 0 2px 4px rgba(59, 130, 246, 0.3);
+}
+
+.status-cancelled {
+    color: #fff;
+    background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
+    box-shadow: 0 2px 4px rgba(239, 68, 68, 0.3);
+}
+
+.status-badge:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+/* 5. Action Buttons */
+.btn-action {
+    border-radius: 6px !important;
+    font-size: 0.8125rem;
+    font-weight: 600;
+    padding: 8px 16px;
+    margin-right: 6px;
+    transition: all 0.3s ease;
+}
+
+.btn-approve,
+.btn-complete {
+    background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+    border: none;
+    color: #fff;
+    box-shadow: 0 2px 4px rgba(16, 185, 129, 0.3);
+}
+
+.btn-approve:hover,
+.btn-complete:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 12px rgba(16, 185, 129, 0.4);
+    color: #fff;
+}
+
+.btn-reject {
+    background: transparent;
+    border: 2px solid var(--status-cancelled);
+    color: var(--status-cancelled);
+}
+
+.btn-reject:hover {
+    background: var(--status-cancelled);
+    color: #fff;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(239, 68, 68, 0.3);
+}
+
+/* 6. Alerts */
+.alert {
+    border-radius: 6px !important;
+    border: none;
+    border-left: 4px solid;
+    font-size: 0.9375rem;
+    animation: slideInRight 0.4s ease-out;
+}
+
+@keyframes slideInRight {
+    from {
+        opacity: 0;
+        transform: translateX(-20px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+/* 7. Responsive */
+@media (max-width: 768px) {
+    .appointment-card .header-gradient {
+        padding: 20px;
+    }
+
+    .appointment-card .header-title {
+        font-size: 1.25rem;
+    }
+
+    .btn-gradient {
+        font-size: 0.875rem;
+        padding: 10px 20px;
+    }
+
+    .card {
+        border-radius: 6px !important;
+    }
+
+    .card:hover {
+        transform: translateY(0);
+    }
+}
+
+.btn-approve:hover,
+.btn-complete:hover {
+    background-color: #15803d;
+    border-color: #15803d;
+    color: #fff;
+    transform: translateY(-1px);
+}
+
+/* Nút Hủy / Từ chối (Đỏ - Outline) */
+.btn-reject {
+    background-color: transparent;
+    border: 1px solid var(--status-cancelled);
+    color: var(--status-cancelled);
+}
+
+.btn-reject:hover {
+    background-color: var(--status-cancelled);
+    color: #fff;
+}
+
+/* 7. Alerts */
+.alert {
+    border-radius: 0 !important;
+    border: none;
+    border-left: 4px solid;
+    font-size: 0.9rem;
+}

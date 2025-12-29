@@ -1,0 +1,203 @@
+/* Therapy.css - Thiết kế hiện đại với animation mượt mà */
+.therapy-header {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: #fff;
+    padding: 28px 24px;
+    border-radius: 8px;
+    margin-bottom: 28px;
+    box-shadow: 0 10px 25px rgba(102, 126, 234, 0.25);
+    animation: slideDown 0.5s ease-out;
+    position: relative;
+    overflow: hidden;
+}
+
+.therapy-header::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    right: -50%;
+    width: 200%;
+    height: 200%;
+    background: radial-gradient(circle, rgba(255, 255, 255, 0.1) 0%, transparent 70%);
+    animation: rotate 20s linear infinite;
+}
+
+@keyframes slideDown {
+    from {
+        opacity: 0;
+        transform: translateY(-30px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes rotate {
+    from {
+        transform: rotate(0deg);
+    }
+
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+.therapy-header h2 {
+    font-size: 1.875rem;
+    font-weight: 700;
+    margin-bottom: 0;
+    color: #fff !important;
+    position: relative;
+    z-index: 1;
+}
+
+.therapy-category-btn {
+    border-radius: 6px !important;
+    font-weight: 600;
+    padding: 10px 20px;
+    font-size: 0.9375rem;
+    margin-bottom: 8px;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    position: relative;
+    overflow: hidden;
+}
+
+.therapy-category-btn::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 0;
+    height: 0;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.5);
+    transform: translate(-50%, -50%);
+    transition: width 0.6s, height 0.6s;
+}
+
+.therapy-category-btn:hover::after {
+    width: 300px;
+    height: 300px;
+}
+
+.therapy-category-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 12px rgba(102, 126, 234, 0.25);
+}
+
+.therapy-card {
+    border-radius: 8px !important;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+    overflow: hidden;
+    border: 1px solid #e2e8f0;
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    animation: fadeInScale 0.5s ease-out;
+    animation-fill-mode: both;
+}
+
+.therapy-card:nth-child(1) {
+    animation-delay: 0.1s;
+}
+
+.therapy-card:nth-child(2) {
+    animation-delay: 0.2s;
+}
+
+.therapy-card:nth-child(3) {
+    animation-delay: 0.3s;
+}
+
+.therapy-card:nth-child(4) {
+    animation-delay: 0.4s;
+}
+
+@keyframes fadeInScale {
+    from {
+        opacity: 0;
+        transform: scale(0.9);
+    }
+
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+.therapy-card:hover {
+    transform: translateY(-8px) rotateX(2deg);
+    box-shadow: 0 20px 25px -5px rgba(102, 126, 234, 0.2), 0 10px 10px -5px rgba(102, 126, 234, 0.1);
+}
+
+.therapy-card-img {
+    object-fit: cover;
+    height: 200px;
+    transition: transform 0.5s ease;
+}
+
+.therapy-card:hover .therapy-card-img {
+    transform: scale(1.05);
+}
+
+.therapy-card-title {
+    font-weight: 600;
+    color: #1e293b;
+    font-size: 1.125rem;
+    transition: color 0.3s ease;
+}
+
+.therapy-card:hover .therapy-card-title {
+    color: #667eea;
+}
+
+.therapy-card .badge {
+    font-size: 0.875rem;
+    padding: 6px 12px;
+    border-radius: 4px;
+    font-weight: 500;
+    animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+
+    0%,
+    100% {
+        opacity: 1;
+    }
+
+    50% {
+        opacity: 0.8;
+    }
+}
+
+.therapy-card .btn {
+    border-radius: 6px;
+    font-weight: 600;
+    font-size: 0.9375rem;
+    padding: 10px 20px;
+    transition: all 0.3s ease;
+}
+
+.therapy-card .btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 12px rgba(102, 126, 234, 0.3);
+}
+
+@media (max-width: 768px) {
+    .therapy-header {
+        padding: 20px;
+    }
+
+    .therapy-header h2 {
+        font-size: 1.5rem;
+    }
+
+    .therapy-card-img {
+        height: 160px;
+    }
+
+    .therapy-card:hover {
+        transform: translateY(-4px);
+    }
+}
