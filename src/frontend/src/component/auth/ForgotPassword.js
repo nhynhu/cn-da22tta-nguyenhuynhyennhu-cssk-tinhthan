@@ -11,7 +11,7 @@ function ForgotPassword() {
     const [success, setSuccess] = useState('');
     const [loading, setLoading] = useState(false);
 
-    // Bước 1: Gửi email reset password
+    // Bước 1: Kiểm tra email có tồn tại không
     const handleCheckEmail = async (e) => {
         e.preventDefault();
         setError('');
@@ -26,10 +26,11 @@ function ForgotPassword() {
             });
             const data = await res.json();
 
-            if (!res.ok) throw new Error(data.message || 'Gửi email thất bại!');
+            if (!res.ok) throw new Error(data.message || 'Kiểm tra email thất bại!');
 
-            setSuccess('Email đặt lại mật khẩu đã được gửi! Vui lòng kiểm tra hộp thư của bạn.');
-            // Không chuyển sang bước 2 nữa, vì user phải click link trong email
+            // Chuyển sang bước 2: Nhập mật khẩu mới
+            setSuccess('Email hợp lệ! Vui lòng nhập mật khẩu mới.');
+            setStep(2);
         } catch (err) {
             setError(err.message);
         } finally {
@@ -41,6 +42,7 @@ function ForgotPassword() {
     const handleResetPassword = async (e) => {
         e.preventDefault();
         setError('');
+        setSuccess('');
 
         // Kiểm tra mật khẩu xác nhận
         if (newPassword !== confirmPassword) {
@@ -102,35 +104,112 @@ function ForgotPassword() {
                             ← Quay lại đăng nhập
                         </button>
 
-                        <h2 className="fw-bold mb-1 text-dark">Quên mật khẩu?</h2>
+                        <h2 className="fw-bold mb-1 text-dark">
+                            {step === 1 ? 'Quên mật khẩu?' : 'Đặt lại mật khẩu'}
+                        </h2>
                         <p className="text-muted mb-4">
-                            Nhập email của bạn và chúng tôi sẽ gửi link đặt lại mật khẩu
+                            {step === 1 
+                                ? 'Nhập email của bạn để xác nhận tài khoản'
+                                : 'Nhập mật khẩu mới cho tài khoản của bạn'
+                            }
                         </p>
 
-                        {/* FORM NHẬP EMAIL */}
-                        <form onSubmit={handleCheckEmail}>
-                            <div className="mb-4">
-                                <label className="form-label fw-bold small mb-1">Địa chỉ Email</label>
-                                <input
-                                    type="email"
-                                    className="form-control py-2 shadow-sm"
-                                    placeholder="Nhập email của bạn"
-                                    style={{ borderRadius: '8px', fontSize: '14px' }}
-                                    value={email}
-                                    onChange={e => setEmail(e.target.value)}
-                                    required
-                                />
-                            </div>
+                        {/* BƯỚC 1: FORM NHẬP EMAIL */}
+                        {step === 1 && (
+                            <form onSubmit={handleCheckEmail}>
+                                <div className="mb-4">
+                                    <label className="form-label fw-bold small mb-1">Địa chỉ Email</label>
+                                    <input
+                                        type="email"
+                                        className="form-control py-2 shadow-sm"
+                                        placeholder="Nhập email của bạn"
+                                        style={{ borderRadius: '8px', fontSize: '14px' }}
+                                        value={email}
+                                        onChange={e => setEmail(e.target.value)}
+                                        required
+                                    />
+                                </div>
 
-                            <button
-                                type="submit"
-                                className="btn w-100 py-2 fw-bold text-white mb-3"
-                                style={{ backgroundColor: '#4a76b8', borderRadius: '8px' }}
-                                disabled={loading}
-                            >
-                                {loading ? 'Đang gửi...' : 'Gửi email đặt lại mật khẩu'}
-                            </button>
-                        </form>
+                                <button
+                                    type="submit"
+                                    className="btn w-100 py-2 fw-bold text-white mb-3"
+                                    style={{ backgroundColor: '#4a76b8', borderRadius: '8px' }}
+                                    disabled={loading}
+                                >
+                                    {loading ? 'Đang kiểm tra...' : 'Tiếp tục'}
+                                </button>
+                            </form>
+                        )}
+
+                        {/* BƯỚC 2: FORM NHẬP MẬT KHẨU MỚI */}
+                        {step === 2 && (
+                            <form onSubmit={handleResetPassword}>
+                                <div className="mb-3">
+                                    <label className="form-label fw-bold small mb-1">Email</label>
+                                    <input
+                                        type="email"
+                                        className="form-control py-2 shadow-sm"
+                                        style={{ borderRadius: '8px', fontSize: '14px', backgroundColor: '#f5f5f5' }}
+                                        value={email}
+                                        disabled
+                                    />
+                                </div>
+
+                                <div className="mb-3">
+                                    <label className="form-label fw-bold small mb-1">Mật khẩu mới</label>
+                                    <input
+                                        type="password"
+                                        className="form-control py-2 shadow-sm"
+                                        placeholder="Nhập mật khẩu mới (tối thiểu 6 ký tự)"
+                                        style={{ borderRadius: '8px', fontSize: '14px' }}
+                                        value={newPassword}
+                                        onChange={e => setNewPassword(e.target.value)}
+                                        required
+                                        minLength="6"
+                                    />
+                                </div>
+
+                                <div className="mb-4">
+                                    <label className="form-label fw-bold small mb-1">Xác nhận mật khẩu</label>
+                                    <input
+                                        type="password"
+                                        className="form-control py-2 shadow-sm"
+                                        placeholder="Nhập lại mật khẩu mới"
+                                        style={{ borderRadius: '8px', fontSize: '14px' }}
+                                        value={confirmPassword}
+                                        onChange={e => setConfirmPassword(e.target.value)}
+                                        required
+                                        minLength="6"
+                                    />
+                                </div>
+
+                                <div className="d-flex gap-2">
+                                    <button
+                                        type="button"
+                                        className="btn btn-outline-secondary w-50 py-2 fw-bold"
+                                        style={{ borderRadius: '8px' }}
+                                        onClick={() => {
+                                            setStep(1);
+                                            setError('');
+                                            setSuccess('');
+                                            setNewPassword('');
+                                            setConfirmPassword('');
+                                        }}
+                                        disabled={loading}
+                                    >
+                                        Quay lại
+                                    </button>
+                                    <button
+                                        type="submit"
+                                        className="btn w-50 py-2 fw-bold text-white"
+                                        style={{ backgroundColor: '#4a76b8', borderRadius: '8px' }}
+                                        disabled={loading}
+                                    >
+                                        {loading ? 'Đang xử lý...' : 'Đặt lại mật khẩu'}
+                                    </button>
+                                </div>
+                            </form>
+                        )}
 
                         {/* Thông báo lỗi/thành công */}
                         {error && <div className="alert alert-danger py-2 small text-center">{error}</div>}

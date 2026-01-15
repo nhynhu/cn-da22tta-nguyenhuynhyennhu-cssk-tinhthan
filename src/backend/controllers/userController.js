@@ -367,39 +367,35 @@ exports.forgotPassword = async (req, res) => {
             return res.status(404).json({ message: 'Email không tồn tại trong hệ thống.' });
         }
 
-        // Tạo reset token
-        const resetToken = crypto.randomBytes(32).toString('hex');
-        const expiresAt = new Date(Date.now() + 3600000); // 1 giờ
-
-        // Lưu token vào database
-        await User.saveResetToken(email, resetToken, expiresAt);
-
-        // Gửi email
-        await emailService.sendPasswordResetEmail(email, resetToken, user.full_name);
-
+        // Chỉ trả về thông báo email hợp lệ
         res.json({
-            message: 'Email đặt lại mật khẩu đã được gửi. Vui lòng kiểm tra hộp thư.',
-            token: resetToken // Chỉ để test, xóa dòng này khi production
+            message: 'Email hợp lệ. Vui lòng nhập mật khẩu mới.',
+            emailExists: true
         });
     } catch (error) {
         console.error('[Forgot Password] Error:', error);
-        res.status(500).json({ message: 'Lỗi server khi gửi email.' });
+        res.status(500).json({ message: 'Lỗi server.' });
     }
 };
 
 // Reset mật khẩu
 exports.resetPassword = async (req, res) => {
     try {
-        const { token, newPassword } = req.body;
+        const { email, newPassword } = req.body;
 
-        if (!token || !newPassword) {
-            return res.status(400).json({ message: 'Thiếu token hoặc mật khẩu mới.' });
+        if (!email || !newPassword) {
+            return res.status(400).json({ message: 'Thiếu email hoặc mật khẩu mới.' });
         }
 
-        // Kiểm tra token
-        const user = await User.findByResetToken(token);
+        // Kiểm tra mật khẩu hợp lệ
+        if (newPassword.length < 6) {
+            return res.status(400).json({ message: 'Mật khẩu phải có ít nhất 6 ký tự.' });
+        }
+
+        // Kiểm tra user tồn tại
+        const user = await User.findByEmail(email);
         if (!user) {
-            return res.status(400).json({ message: 'Token không hợp lệ hoặc đã hết hạn.' });
+            return res.status(404).json({ message: 'Email không tồn tại trong hệ thống.' });
         }
 
         // Mã hóa mật khẩu mới
@@ -407,10 +403,7 @@ exports.resetPassword = async (req, res) => {
         const hashedPassword = await bcrypt.hash(newPassword, salt);
 
         // Cập nhật mật khẩu
-        await User.updatePasswordByEmail(user.email, hashedPassword);
-
-        // Xóa reset token
-        await User.clearResetToken(user.user_id);
+        await User.updatePasswordByEmail(email, hashedPassword);
 
         res.json({ message: 'Đặt lại mật khẩu thành công!' });
     } catch (error) {
