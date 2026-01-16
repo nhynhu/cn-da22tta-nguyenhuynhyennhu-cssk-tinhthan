@@ -1,4 +1,5 @@
 const db = require('../config/db');
+const { encrypt, decrypt } = require('../utils/encryption');
 
 // Lưu trữ tin nhắn giữa user và chuyên gia
 // Bảng: expert_chat_messages(user_id, expert_id, sender_type ENUM('user','expert'), message, created_at)
@@ -6,10 +7,13 @@ const db = require('../config/db');
 const DoctorChat = {
     // Gửi tin nhắn
     sendMessage: (userId, expertId, senderType, message) => {
+        // Mã hóa tin nhắn trước khi lưu
+        const encryptedMessage = encrypt(message);
+        
         const sql = `INSERT INTO expert_chat_messages (user_id, expert_id, sender_type, message, created_at)
                      VALUES (?, ?, ?, ?, NOW())`;
         return new Promise((resolve, reject) => {
-            db.query(sql, [userId, expertId, senderType, message], (err, result) => {
+            db.query(sql, [userId, expertId, senderType, encryptedMessage], (err, result) => {
                 if (err) return reject(err);
                 resolve(result.insertId);
             });
@@ -24,7 +28,14 @@ const DoctorChat = {
         return new Promise((resolve, reject) => {
             db.query(sql, [userId, expertId], (err, rows) => {
                 if (err) return reject(err);
-                resolve(rows);
+                
+                // Giải mã tin nhắn trước khi trả về
+                const decryptedRows = rows.map(row => ({
+                    ...row,
+                    message: decrypt(row.message)
+                }));
+                
+                resolve(decryptedRows);
             });
         });
     },

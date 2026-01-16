@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 import { Container, Card, Button, Row, Col, Spinner, Alert, Badge } from 'react-bootstrap';
 import './Therapy.css';
 
@@ -8,6 +8,7 @@ const API_URL = process.env.REACT_APP_API_URL || 'http://localhost:5000';
 
 const TherapyPage = () => {
     const navigate = useNavigate();
+    const location = useLocation();
     const [categories, setCategories] = useState([]);
     const [exercises, setExercises] = useState([]);
     const [selectedCategory, setSelectedCategory] = useState(null);
@@ -27,7 +28,19 @@ const TherapyPage = () => {
                 ]);
 
                 setCategories(catRes.data || []);
-                setExercises(exRes.data || []);
+                
+                // Check if there's a selected category from navigation
+                const categoryIdFromState = location.state?.selectedCategoryId;
+                if (categoryIdFromState) {
+                    setSelectedCategory(categoryIdFromState);
+                    // Filter exercises by selected category
+                    const filteredRes = await axios.get(`${API_URL}/api/mind/exercises`, {
+                        params: { category_id: categoryIdFromState }
+                    });
+                    setExercises(filteredRes.data || []);
+                } else {
+                    setExercises(exRes.data || []);
+                }
             } catch (err) {
                 console.error('Lỗi tải bài tập thiền:', err);
                 setError('Không thể tải danh sách bài tập. Vui lòng thử lại sau.');
@@ -37,7 +50,7 @@ const TherapyPage = () => {
         };
 
         loadData();
-    }, []);
+    }, [location.state]);
 
     const handleFilterByCategory = async (categoryId) => {
         try {
@@ -72,7 +85,28 @@ const TherapyPage = () => {
                 <div className="d-flex justify-content-between align-items-center mb-2">
                     <h2><span role="img" aria-label="lotus">🧘‍♂️</span> Trung tâm Bài tập Thiền & Tâm lý</h2>
                     {token && (
-                        <Button variant="outline-primary" onClick={() => navigate('/my-exercises')}>
+                        <Button 
+                            onClick={() => navigate('/my-exercises')}
+                            style={{
+                                background: 'linear-gradient(135deg, #3b82f6 0%, #60a5fa 100%)',
+                                border: 'none',
+                                borderRadius: '12px',
+                                padding: '10px 24px',
+                                fontWeight: '600',
+                                fontSize: '0.95rem',
+                                color: 'white',
+                                boxShadow: '0 4px 12px rgba(59, 130, 246, 0.3)',
+                                transition: 'all 0.3s ease'
+                            }}
+                            onMouseEnter={(e) => {
+                                e.target.style.transform = 'translateY(-2px)';
+                                e.target.style.boxShadow = '0 6px 16px rgba(59, 130, 246, 0.4)';
+                            }}
+                            onMouseLeave={(e) => {
+                                e.target.style.transform = 'translateY(0)';
+                                e.target.style.boxShadow = '0 4px 12px rgba(59, 130, 246, 0.3)';
+                            }}
+                        >
                             📚 Bài tập của tôi
                         </Button>
                     )}

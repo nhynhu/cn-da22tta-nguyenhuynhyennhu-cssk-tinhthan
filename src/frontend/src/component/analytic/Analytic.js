@@ -2,15 +2,18 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { Container, Row, Col, Spinner, Alert } from 'react-bootstrap';
 import { PieChart, Pie, Cell, BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
+import { useNavigate } from 'react-router-dom';
 import './Analytic.css';
 
 const Analytic = () => {
+    const navigate = useNavigate();
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
     const [summary, setSummary] = useState([]);
     const [trend, setTrend] = useState([]);
     const [period, setPeriod] = useState(30);
     const [chartView, setChartView] = useState('week');
+    const [suggestedCategory, setSuggestedCategory] = useState(null);
 
     const token = localStorage.getItem('token');
 
@@ -139,19 +142,48 @@ const Analytic = () => {
     // --- PHẦN GỢI Ý (Đã bỏ Icon) ---
     const getTips = (emotion) => {
         const tipsMap = {
-            'joy': ['Duy trì thói quen hiện tại', 'Ghi lại khoảnh khắc này', 'Lan tỏa năng lượng'],
-            'sadness': ['Đi bộ hít thở khí trời', 'Viết nhật ký tâm trạng', 'Nghe nhạc không lời'],
-            'anger': ['Hít thở sâu 10 lần', 'Rời khỏi không gian ồn ào', 'Uống một ly nước lạnh'],
-            'fear': ['Tập trung vào hiện tại', 'Liệt kê điều kiểm soát được', 'Thiền 5 phút'],
-            'neutral': ['Thử học kỹ năng mới', 'Đọc sách', 'Sắp xếp lại bàn làm việc']
+            'joy': ['Duy trì thói quen hiện tại', 'Ghi lại khoảnh khắc này', 'Lan tỏa năng lượng', 'Chia sẻ niềm vui với người thân', 'Tập thể dục để giữ tinh thần tích cực'],
+            'sadness': ['Đi bộ hít thở khí trời', 'Viết nhật ký tâm trạng', 'Nghe nhạc không lời', 'Gọi điện cho người thân yêu', 'Xem phim hoặc đọc sách động lực', 'Thử nấu món ăn yêu thích'],
+            'anger': ['Hít thở sâu 10 lần', 'Rời khỏi không gian ồn ào', 'Uống một ly nước lạnh', 'Tập thể dục hoặc chạy bộ', 'Viết ra cảm xúc của bạn', 'Đếm ngược từ 10'],
+            'fear': ['Tập trung vào hiện tại', 'Liệt kê điều kiểm soát được', 'Thiền 5 phút', 'Nói chuyện với người tin tưởng', 'Thực hành kỹ thuật thư giãn cơ bắp', 'Nghe nhạc nhẹ nhàng'],
+            'neutral': ['Thử học kỹ năng mới', 'Đọc sách', 'Sắp xếp lại bàn làm việc', 'Đi dạo ngoài trời', 'Nghe podcast hoặc audiobook', 'Lên kế hoạch cho tuần mới'],
+            'disgust': ['Tắm rửa để cảm thấy sảng khoái', 'Dọn dẹp không gian sống', 'Thay đổi môi trường xung quanh', 'Thực hành thiền chánh niệm', 'Uống trà thảo mộc'],
+            'surprise': ['Ghi lại trải nghiệm này', 'Chia sẻ với bạn bè', 'Tìm hiểu thêm về điều bất ngờ', 'Tận hưởng khoảnh khắc', 'Suy ngẫm về cảm xúc của bạn']
         };
         const e = emotion?.toLowerCase();
-        return tipsMap[e] || tipsMap['joy'] || tipsMap['vui'] || ['Nghỉ ngơi điều độ', 'Uống đủ nước'];
+        return tipsMap[e] || tipsMap['joy'] || tipsMap['vui'] || ['Nghỉ ngơi điều độ', 'Uống đủ nước', 'Tập thể dục nhẹ nhàng'];
     };
 
     const topEmotion = pieData.length > 0 ? pieData[0].name : null;
     const tips = getTips(topEmotion);
     const topEmotionColor = getEmotionColor(topEmotion);
+
+    // Fetch category matching the dominant emotion
+    useEffect(() => {
+        const fetchSuggestedCategory = async () => {
+            if (!topEmotion || !token) return;
+            try {
+                const response = await axios.get('http://localhost:5000/api/suggestions/categories', {
+                    params: { emotion: topEmotion.toLowerCase() },
+                    headers: { Authorization: `Bearer ${token}` }
+                });
+                if (response.data.success && response.data.data.length > 0) {
+                    setSuggestedCategory(response.data.data[0]);
+                }
+            } catch (err) {
+                console.error('Error fetching category:', err);
+            }
+        };
+        fetchSuggestedCategory();
+    }, [topEmotion, token]);
+
+    const handleNavigateToTherapy = () => {
+        if (suggestedCategory) {
+            navigate('/therapy', { state: { selectedCategoryId: suggestedCategory.category_id } });
+        } else {
+            navigate('/therapy');
+        }
+    };
 
     if (loading) return <div className="loading-container"><Spinner animation="grow" /></div>;
 
@@ -323,10 +355,20 @@ const Analytic = () => {
                                             </Row>
 
                                             <div className="mt-4 pt-3 border-top border-light-gray">
-                                                <a href="/therapy" className="text-dark fw-bold text-decoration-none d-flex align-items-center arrow-link">
+                                                <button
+                                                    onClick={handleNavigateToTherapy}
+                                                    className="text-dark fw-bold text-decoration-none d-flex align-items-center arrow-link"
+                                                    style={{
+                                                        background: 'none',
+                                                        border: 'none',
+                                                        padding: 0,
+                                                        cursor: 'pointer',
+                                                        fontSize: 'inherit'
+                                                    }}
+                                                >
                                                     ĐẾN PHÒNG TRỊ LIỆU
                                                     <span className="ms-2">→</span>
-                                                </a>
+                                                </button>
                                             </div>
                                         </div>
                                     </div>

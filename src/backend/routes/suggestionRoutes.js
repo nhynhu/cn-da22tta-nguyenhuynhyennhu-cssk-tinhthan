@@ -3,6 +3,9 @@ const router = express.Router();
 const suggestionController = require('../controllers/suggestionController');
 const { protect } = require('../middlewares/authMiddleware');
 
+// GET /api/suggestions/categories - Lấy danh mục theo cảm xúc (yêu cầu đăng nhập)
+router.get('/categories', protect, suggestionController.getCategoriesByEmotion);
+
 // Mọi API gợi ý đều yêu cầu đăng nhập
 router.use(protect);
 

@@ -24,7 +24,7 @@
 .sidebar-header {
     padding: 16px 20px;
     font-weight: 600;
-    font-size: 0.875rem;
+    font-size: 1.0625rem;
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -38,8 +38,9 @@
 }
 
 .sidebar-header-secondary {
-    background: #334155;
+    background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);
     color: #ffffff;
+    box-shadow: 0 2px 8px rgba(59, 130, 246, 0.2);
 }
 
 .sidebar-header-light {
@@ -53,16 +54,32 @@
 
 /* Item chung cho thống kê & gợi ý */
 .suggest-item {
-    background: #f8fafc;
+    background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
     padding: 12px 16px;
     margin-bottom: 10px;
-    border-left: 3px solid #3b82f6;
-    border-radius: 4px;
-    transition: background 0.2s ease;
+    border-left: 4px solid #3b82f6;
+    border-radius: 6px;
+    transition: all 0.3s ease;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.04);
+    animation: fadeIn 0.3s ease-out;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateX(-10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
 }
 
 .suggest-item:hover {
-    background: #f1f5f9;
+    background: linear-gradient(135deg, #e0f2fe 0%, #dbeafe 100%);
+    transform: translateX(4px);
+    box-shadow: 0 4px 8px rgba(59, 130, 246, 0.15);
+    border-left-color: #2563eb;
 }
 
 /* Link */
@@ -120,7 +137,7 @@
 }
 
 .chat-title {
-    font-size: 1.125rem;
+    font-size: 1.5rem;
     font-weight: 600;
     letter-spacing: -0.01em;
 }
@@ -170,10 +187,10 @@
 /* Bubble */
 .message-bubble {
     max-width: 65%;
-    padding: 12px 16px;
-    line-height: 1.5;
+    padding: 14px 18px;
+    line-height: 1.6;
     word-wrap: break-word;
-    font-size: 1.0625rem;
+    font-size: 1.125rem;
 }
 
 /* USER */
@@ -221,11 +238,65 @@
 }
 
 .chat-suggest-box {
-    background: #eff6ff;
-    padding: 12px 16px;
-    margin-bottom: 14px;
-    border-left: 3px solid #3b82f6;
-    border-radius: 4px;
+    background: linear-gradient(135deg, #eff6ff 0%, #dbeafe 100%);
+    padding: 16px 20px;
+    margin-bottom: 16px;
+    border-left: 4px solid #3b82f6;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(59, 130, 246, 0.15);
+    animation: slideDown 0.4s ease-out;
+    border: 1px solid #bfdbfe;
+}
+
+@keyframes slideDown {
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.chat-suggest-box .fw-bold {
+    color: #1e40af;
+    font-size: 1.0625rem;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.chat-suggest-box .fw-bold::before {
+    content: '💡';
+    font-size: 1.2rem;
+}
+
+.chat-suggest-box strong {
+    color: #1e40af;
+    font-weight: 600;
+}
+
+.chat-suggest-box .text-muted {
+    color: #64748b !important;
+}
+
+.chat-suggest-box .link-purple {
+    display: inline-block;
+    margin-top: 8px;
+    padding: 6px 12px;
+    background: #3b82f6;
+    color: white !important;
+    border-radius: 6px;
+    text-decoration: none;
+    font-weight: 600;
+    transition: all 0.2s;
+}
+
+.chat-suggest-box .link-purple:hover {
+    background: #2563eb;
+    transform: translateX(4px);
+    text-decoration: none;
 }
 
 .chat-input-row {

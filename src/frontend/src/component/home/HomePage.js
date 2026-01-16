@@ -28,10 +28,10 @@ const HomePage = () => {
                     <Row className="align-items-center">
                         <Col lg={6}>
                             <p className="hero-greeting">{greeting}</p>
-                            <h1 className="hero-heading">
+                            <h1 className="hero-heading" style={{ fontSize: '3.5rem', fontWeight: '800' }}>
                                 Hôm nay bạn thế nào?
                             </h1>
-                            <p className="hero-desc">
+                            <p className="hero-desc" style={{ fontSize: '1.2rem' }}>
                                 Chúng tôi ở đây,
                                 sẵn sàng đồng hành cùng bạn qua những ngày khó khăn
                                 hay đơn giản là trò chuyện về cuộc sống.
@@ -40,6 +40,7 @@ const HomePage = () => {
                                 <Button
                                     className="btn-main"
                                     onClick={() => navigate('/chose-chat')}
+                                    style={{ fontSize: '1.1rem', padding: '12px 32px' }}
                                 >
                                     Bắt đầu trò chuyện
                                 </Button>
@@ -65,10 +66,8 @@ const HomePage = () => {
                                     <img src="./img/slide2.jpg" alt="Hoa tiêu" />
                                 </div>
                                 <div className="feature-hover-content">
-                                    <p>
-                                        Một khu vực giúp bạn định hướng: nên viết nhật ký, trò chuyện, hay thử một
-                                        bài tập thư giãn vào lúc này.
-                                    </p>
+                                <h3>Chia sẻ tâm trạng</h3>
+                                <p>Hãy kể cho chúng tôi nghe hôm nay bạn cảm thấy thế nào. Không cần phải đúng hay sai, chỉ cần thật lòng.</p>
                                 </div>
                             </div>
                         </div>
@@ -80,10 +79,8 @@ const HomePage = () => {
                                     <img src="./img/slide4.png" alt="Cổng" />
                                 </div>
                                 <div className="feature-hover-content">
-                                    <p>
-                                        Từ một nơi, bạn có thể đi đến nhật ký, trị liệu, thống kê hoặc cuộc hẹn với
-                                        chuyên gia chỉ bằng vài cú chạm.
-                                    </p>
+                                     <h3>Nhận gợi ý phù hợp</h3>
+                                <p>Dựa trên chia sẻ của bạn, chúng tôi sẽ đề xuất các hoạt động, bài tập hoặc kết nối với chuyên gia.</p>
                                 </div>
                             </div>
                         </div>
@@ -95,10 +92,8 @@ const HomePage = () => {
                                     <img src="./img/slide5.png" alt="Tự trợ giúp bằng AI" />
                                 </div>
                                 <div className="feature-hover-content">
-                                    <p>
-                                        Một người bạn ảo lắng nghe 24/7, phản hồi dịu dàng và gợi ý bài tập phù hợp
-                                        với cảm xúc của bạn.
-                                    </p>
+                                  <h3>Theo dõi tiến trình</h3>
+                                <p>Xem lại hành trình của bạn, nhận ra những thay đổi tích cực dù là nhỏ nhất.</p>
                                 </div>
                             </div>
                         </div>
@@ -106,51 +101,7 @@ const HomePage = () => {
                 </Container>
             </Container>
 
-            {/* Services */}
-            <section className="services">
-                <Container>
-                    <h2 className="experts-title">Bạn có thể làm gì ở đây?</h2>
-                    <Row>
-                        <Col md={6} lg={3}>
-                            <div className="service-card" onClick={() => navigate('/chose-chat')}>
-                                <div className="service-icon">
-                                    <img src="/img/icon-chat.svg" alt="" onError={(e) => e.target.style.display = 'none'} />
-                                </div>
-                                <h3>Trò chuyện</h3>
-                                <p>Chia sẻ tâm sự với AI hoặc kết nối với chuyên gia tâm lý</p>
-                            </div>
-                        </Col>
-                        <Col md={6} lg={3}>
-                            <div className="service-card" onClick={() => navigate('/diary')}>
-                                <div className="service-icon">
-                                    <img src="/img/icon-diary.svg" alt="" onError={(e) => e.target.style.display = 'none'} />
-                                </div>
-                                <h3>Viết nhật ký</h3>
-                                <p>Ghi lại cảm xúc, suy nghĩ và theo dõi tâm trạng mỗi ngày</p>
-                            </div>
-                        </Col>
-                        <Col md={6} lg={3}>
-                            <div className="service-card" onClick={() => navigate('/therapy')}>
-                                <div className="service-icon">
-                                    <img src="/img/icon-therapy.svg" alt="" onError={(e) => e.target.style.display = 'none'} />
-                                </div>
-                                <h3>Bài tập trị liệu</h3>
-                                <p>Thiền, hít thở, yoga và các bài tập giúp thư giãn tinh thần</p>
-                            </div>
-                        </Col>
-                        <Col md={6} lg={3}>
-                            <div className="service-card" onClick={() => navigate('/appointment')}>
-                                <div className="service-icon">
-                                    <img src="/img/icon-calendar.svg" alt="" onError={(e) => e.target.style.display = 'none'} />
-                                </div>
-                                <h3>Đặt lịch hẹn</h3>
-                                <p>Gặp gỡ chuyên gia tâm lý để được tư vấn trực tiếp</p>
-                            </div>
-                        </Col>
-                    </Row>
-                </Container>
-            </section>
-
+            
             {/* About */}
             <section className="about">
                 <Container>
@@ -183,37 +134,51 @@ const HomePage = () => {
                     </Row>
                 </Container>
             </section>
-
-            {/* How it works */}
-            <section className="how-works">
+               {/* Services */}
+            <section className="services">
                 <Container>
-                    <h2 className="experts-title">Bắt đầu như thế nào?</h2>
-                    <p className="section-desc">Chỉ cần 3 bước đơn giản để bắt đầu hành trình chăm sóc bản thân</p>
+                    <h2 className="experts-title">Bạn có thể làm gì ở đây?</h2>
                     <Row>
-                        <Col md={4}>
-                            <div className="step">
-                                <div className="step-num">1</div>
-                                <h3>Chia sẻ tâm trạng</h3>
-                                <p>Hãy kể cho chúng tôi nghe hôm nay bạn cảm thấy thế nào. Không cần phải đúng hay sai, chỉ cần thật lòng.</p>
+                        <Col md={6} lg={3}>
+                            <div className="service-card" onClick={() => navigate('/chose-chat')}>
+                                <div className="service-icon">
+                                    <i className="bi bi-chat-dots-fill" style={{ fontSize: '3rem', color: '#ffffff' }}></i>
+                                </div>
+                                <h3>Trò chuyện</h3>
+                                <p>Chia sẻ tâm sự với AI hoặc kết nối với chuyên gia tâm lý</p>
                             </div>
                         </Col>
-                        <Col md={4}>
-                            <div className="step">
-                                <div className="step-num">2</div>
-                                <h3>Nhận gợi ý phù hợp</h3>
-                                <p>Dựa trên chia sẻ của bạn, chúng tôi sẽ đề xuất các hoạt động, bài tập hoặc kết nối với chuyên gia.</p>
+                        <Col md={6} lg={3}>
+                            <div className="service-card" onClick={() => navigate('/diary')}>
+                                <div className="service-icon">
+                                    <i className="bi bi-journal-text" style={{ fontSize: '3rem', color: '#ffffff' }}></i>
+                                </div>
+                                <h3>Viết nhật ký</h3>
+                                <p>Ghi lại cảm xúc, suy nghĩ và theo dõi tâm trạng mỗi ngày</p>
                             </div>
                         </Col>
-                        <Col md={4}>
-                            <div className="step">
-                                <div className="step-num">3</div>
-                                <h3>Theo dõi tiến trình</h3>
-                                <p>Xem lại hành trình của bạn, nhận ra những thay đổi tích cực dù là nhỏ nhất.</p>
+                        <Col md={6} lg={3}>
+                            <div className="service-card" onClick={() => navigate('/therapy')}>
+                                <div className="service-icon">
+                                    <i className="bi bi-hearts" style={{ fontSize: '3rem', color: '#ffffff' }}></i>
+                                </div>
+                                <h3>Bài tập trị liệu</h3>
+                                <p>Thiền, hít thở, yoga và các bài tập giúp thư giãn tinh thần</p>
+                            </div>
+                        </Col>
+                        <Col md={6} lg={3}>
+                            <div className="service-card" onClick={() => navigate('/appointment')}>
+                                <div className="service-icon">
+                                    <i className="bi bi-calendar-check-fill" style={{ fontSize: '3rem', color: '#ffffff' }}></i>
+                                </div>
+                                <h3>Đặt lịch hẹn</h3>
+                                <p>Gặp gỡ chuyên gia tâm lý để được tư vấn trực tiếp</p>
                             </div>
                         </Col>
                     </Row>
                 </Container>
             </section>
+
 
             {/* Expert Auto Slider */}
             <Container fluid className="experts-section">
@@ -318,56 +283,14 @@ const HomePage = () => {
                 </Container>
             </Container>
 
-            {/* Testimonials */}
-            <section className="testimonials">
-                <Container>
-                    <h2 className="section-title">Mọi người nói gì?</h2>
-                    <Row>
-                        <Col lg={4}>
-                            <div className="testimonial">
-                                <p className="testimonial-text">
-                                    "Lúc đầu tôi cũng ngại, không biết nói gì. Nhưng càng trò chuyện càng thấy nhẹ lòng.
-                                    Cảm ơn vì đã lắng nghe."
-                                </p>
-                                <div className="testimonial-author">
-                                    <strong>Minh Anh</strong>
-                                    <span>Sinh viên năm 3</span>
-                                </div>
-                            </div>
-                        </Col>
-                        <Col lg={4}>
-                            <div className="testimonial">
-                                <p className="testimonial-text">
-                                    "Công việc stress quá, tôi hay mất ngủ. Mấy bài tập thở ở đây giúp tôi dễ ngủ hơn nhiều."
-                                </p>
-                                <div className="testimonial-author">
-                                    <strong>Hoàng Nam</strong>
-                                    <span>Nhân viên văn phòng</span>
-                                </div>
-                            </div>
-                        </Col>
-                        <Col lg={4}>
-                            <div className="testimonial">
-                                <p className="testimonial-text">
-                                    "Tôi thích viết nhật ký ở đây. Nhìn lại mới thấy mình đã thay đổi nhiều theo hướng tích cực."
-                                </p>
-                                <div className="testimonial-author">
-                                    <strong>Thu Hà</strong>
-                                    <span>Giáo viên</span>
-                                </div>
-                            </div>
-                        </Col>
-                    </Row>
-                </Container>
-            </section>
 
             {/* Footer */}
             <footer className="footer">
                 <Container>
                     <Row>
                         <Col lg={4}>
-                            <div className="footer-brand">
-                                <h3>Cool Cat Comfort</h3>
+                            <div className="footer-links">
+                                <h4>Cool Cat Comfort</h4>
                                 <p>Đồng hành cùng bạn mỗi ngày</p>
                             </div>
                         </Col>
@@ -382,8 +305,19 @@ const HomePage = () => {
                         </Col>
                         <Col lg={4}>
                             <div className="footer-links">
-                                <h4>Khác</h4>
-                                <NavLink to="/analytic">Thống kê</NavLink>
+                                <h4>Liên hệ</h4>
+                                <p style={{ marginBottom: '8px' }}>
+                                    <i className="bi bi-geo-alt-fill" style={{ marginRight: '8px' }}></i>
+                                    123 Đường ABC, phường XYZ, Trà Vinh
+                                </p>
+                                <p style={{ marginBottom: '8px' }}>
+                                    <i className="bi bi-telephone-fill" style={{ marginRight: '8px' }}></i>
+                                    0123 456 789
+                                </p>
+                                <p style={{ marginBottom: '8px' }}>
+                                    <i className="bi bi-envelope-fill" style={{ marginRight: '8px' }}></i>
+                                    contact@coolcatcomfort.vn
+                                </p>
                             </div>
                         </Col>
                     </Row>

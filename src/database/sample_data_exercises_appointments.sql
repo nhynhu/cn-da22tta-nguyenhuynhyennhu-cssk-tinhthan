@@ -116,6 +116,71 @@ INSERT INTO mind_exercises (category_id, title, description, duration_minutes, d
 -- 4. THÊM THÔNG BÁO MẪU VỀ LỊCH HẸN
 -- ===================================================
 
+-- ===================================================
+-- CẬP NHẬT HÌNH ẢNH CHO BÀI TẬP
+-- ===================================================
+
+-- DANH MỤC 1: THIỀN CHÁNH NIỆM
+UPDATE mind_exercises SET image_url = 'https://images.unsplash.com/photo-1506126613408-eca07ce68773?auto=format&fit=crop&w=600&q=80' WHERE title = 'Thiền quan sát hơi thở';
+UPDATE mind_exercises SET image_url = 'https://images.unsplash.com/photo-1544367567-0f2fcb009e0b?auto=format&fit=crop&w=600&q=80' WHERE title = 'Body Scan - Quét toàn thân';
+UPDATE mind_exercises SET image_url = 'https://images.unsplash.com/photo-1499209974431-9dddcece7f88?auto=format&fit=crop&w=600&q=80' WHERE title = 'Thiền từ bi (Loving-Kindness)';
+UPDATE mind_exercises SET image_url = 'https://images.unsplash.com/photo-1502635385003-ee1e6d00a14a?auto=format&fit=crop&w=600&q=80' WHERE title = 'Thiền đi bộ chánh niệm';
+UPDATE mind_exercises SET image_url = 'https://images.unsplash.com/photo-1545389336-cf090694435e?auto=format&fit=crop&w=600&q=80' WHERE title = 'Thiền quan sát âm thanh';
+UPDATE mind_exercises SET image_url = 'https://images.unsplash.com/photo-1506905925346-21bda4d32df4?auto=format&fit=crop&w=600&q=80' WHERE title = 'Thiền núi bất động';
+UPDATE mind_exercises SET image_url = 'https://images.unsplash.com/photo-1490818387583-1baba5e638af?auto=format&fit=crop&w=600&q=80' WHERE title = 'Thiền ăn chánh niệm';
+
+-- DANH MỤC 2: HÔ HẤP THƯ GIÃN
+UPDATE mind_exercises SET image_url = 'https://images.unsplash.com/photo-1518611012118-696072aa579a?auto=format&fit=crop&w=600&q=80' WHERE title = 'Hô hấp bụng (Diaphragmatic)';
+UPDATE mind_exercises SET image_url = 'https://images.unsplash.com/photo-1511295742362-92c96b1cf484?auto=format&fit=crop&w=600&q=80' WHERE title = 'Hô hấp 4-7-8 (Thở giấc ngủ)';
+UPDATE mind_exercises SET image_url = 'https://images.unsplash.com/photo-1544367567-0f2fcb009e0b?auto=format&fit=crop&w=600&q=80' WHERE title = 'Hô hấp vuông (Box Breathing)';
+UPDATE mind_exercises SET image_url = 'https://images.unsplash.com/photo-1599901860904-17e6ed7083a0?auto=format&fit=crop&w=600&q=80' WHERE title = 'Hô hấp xen kẽ mũi (Nadi Shodhana)';
+UPDATE mind_exercises SET image_url = 'https://images.unsplash.com/photo-1540206395-68808572332f?auto=format&fit=crop&w=600&q=80' WHERE title = 'Hô hấp Sư Tử (Simhasana)';
+UPDATE mind_exercises SET image_url = 'https://images.unsplash.com/photo-1508672019048-805c876b67e2?auto=format&fit=crop&w=600&q=80' WHERE title = 'Hô hấp lan tỏa (Extending Breath)';
+
+-- DANH MỤC 3: YOGA TRỊ LIỆU
+UPDATE mind_exercises SET image_url = 'https://images.unsplash.com/photo-1588286840104-8957b019727f?auto=format&fit=crop&w=600&q=80' WHERE title = 'Yoga chào mặt trời buổi sáng';
+UPDATE mind_exercises SET image_url = 'https://images.unsplash.com/photo-1599901860904-17e6ed7083a0?auto=format&fit=crop&w=600&q=80' WHERE title = 'Yoga tư thế em bé (Child Pose)';
+UPDATE mind_exercises SET image_url = 'https://images.unsplash.com/photo-1544367567-0f2fcb009e0b?auto=format&fit=crop&w=600&q=80' WHERE title = 'Yoga tư thế xoắn nằm';
+UPDATE mind_exercises SET image_url = 'https://images.unsplash.com/photo-1545205597-3d9d02c29597?auto=format&fit=crop&w=600&q=80' WHERE title = 'Yoga tư thế cây (Tree Pose)';
+UPDATE mind_exercises SET image_url = 'https://images.unsplash.com/photo-1506126613408-eca07ce68773?auto=format&fit=crop&w=600&q=80' WHERE title = 'Yoga tư thế xác chết (Savasana)';
+
+-- DANH MỤC 4: THƯ GIÃN CƠ BẮP
+UPDATE mind_exercises SET image_url = 'https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?auto=format&fit=crop&w=600&q=80' WHERE title = 'PMR - Thư giãn cơ bắp tiến triển';
+UPDATE mind_exercises SET image_url = 'https://images.unsplash.com/photo-1519824145371-296894a0daa9?auto=format&fit=crop&w=600&q=80' WHERE title = 'Massage tự thân điểm áp lực';
+UPDATE mind_exercises SET image_url = 'https://images.unsplash.com/photo-1593642532973-d31b6557fa68?auto=format&fit=crop&w=600&q=80' WHERE title = 'Giãn cơ cổ vai văn phòng';
+UPDATE mind_exercises SET image_url = 'https://images.unsplash.com/photo-1616394584738-fc6e612e71b9?auto=format&fit=crop&w=600&q=80' WHERE title = 'Thư giãn cơ mặt';
+
+-- DANH MỤC 5: QUẢN LÝ CĂNG THẲNG
+UPDATE mind_exercises SET image_url = 'https://images.unsplash.com/photo-1455390582262-044cdead277a?auto=format&fit=crop&w=600&q=80' WHERE title = 'Viết nhật ký cảm xúc';
+UPDATE mind_exercises SET image_url = 'https://images.unsplash.com/photo-1499209974431-9dddcece7f88?auto=format&fit=crop&w=600&q=80' WHERE title = 'Kỹ thuật 5-4-3-2-1 Grounding';
+UPDATE mind_exercises SET image_url = 'https://images.unsplash.com/photo-1484480974693-6ca0a78fb36b?auto=format&fit=crop&w=600&q=80' WHERE title = 'Lập kế hoạch quản lý thời gian';
+UPDATE mind_exercises SET image_url = 'https://images.unsplash.com/photo-1552664730-d307ca884978?auto=format&fit=crop&w=600&q=80' WHERE title = 'Nói "không" một cách khéo léo';
+UPDATE mind_exercises SET image_url = 'https://images.unsplash.com/photo-1441974231531-c6227db76b6e?auto=format&fit=crop&w=600&q=80' WHERE title = 'Tắm rừng (Forest Bathing)';
+
+-- DANH MỤC 6: CẢI THIỆN GIẤC NGỦ
+UPDATE mind_exercises SET image_url = 'https://images.unsplash.com/photo-1515894203077-9cd36032142f?auto=format&fit=crop&w=600&q=80' WHERE title = 'Thiền trước khi ngủ';
+UPDATE mind_exercises SET image_url = 'https://images.unsplash.com/photo-1544367567-0f2fcb009e0b?auto=format&fit=crop&w=600&q=80' WHERE title = 'Yoga cho giấc ngủ ngon';
+UPDATE mind_exercises SET image_url = 'https://images.unsplash.com/photo-1511295742362-92c96b1cf484?auto=format&fit=crop&w=600&q=80' WHERE title = 'Âm thanh trắng & Pink Noise';
+UPDATE mind_exercises SET image_url = 'https://images.unsplash.com/photo-1519824145371-296894a0daa9?auto=format&fit=crop&w=600&q=80' WHERE title = 'Massage bàn chân trước ngủ';
+UPDATE mind_exercises SET image_url = 'https://images.unsplash.com/photo-1513257805917-43bfe5d6d86a?auto=format&fit=crop&w=600&q=80' WHERE title = 'Lập thói quen trước giờ ngủ';
+
+-- DANH MỤC 7: TĂNG NĂNG LƯỢNG
+UPDATE mind_exercises SET image_url = 'https://images.unsplash.com/photo-1518611012118-696072aa579a?auto=format&fit=crop&w=600&q=80' WHERE title = 'Hô hấp lửa Kapalabhati';
+UPDATE mind_exercises SET image_url = 'https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?auto=format&fit=crop&w=600&q=80' WHERE title = 'Nhảy tại chỗ & Vận động buổi sáng';
+UPDATE mind_exercises SET image_url = 'https://images.unsplash.com/photo-1552664730-d307ca884978?auto=format&fit=crop&w=600&q=80' WHERE title = 'Power Pose - Tư thế quyền lực';
+UPDATE mind_exercises SET image_url = 'https://images.unsplash.com/photo-1499209974431-9dddcece7f88?auto=format&fit=crop&w=600&q=80' WHERE title = 'Tưởng tượng tích cực (Visualization)';
+
+-- DANH MỤC 8: QUẢN LÝ CẢM XÚC
+UPDATE mind_exercises SET image_url = 'https://images.unsplash.com/photo-1552664730-d307ca884978?auto=format&fit=crop&w=600&q=80' WHERE title = 'Nhận diện cảm xúc với Emotion Wheel';
+UPDATE mind_exercises SET image_url = 'https://images.unsplash.com/photo-1499209974431-9dddcece7f88?auto=format&fit=crop&w=600&q=80' WHERE title = 'Kỹ thuật RAIN cho cảm xúc khó';
+UPDATE mind_exercises SET image_url = 'https://images.unsplash.com/photo-1455390582262-044cdead277a?auto=format&fit=crop&w=600&q=80' WHERE title = 'Viết thư cho cảm xúc';
+UPDATE mind_exercises SET image_url = 'https://images.unsplash.com/photo-1517842645767-c639042777db?auto=format&fit=crop&w=600&q=80' WHERE title = 'Box of Worries - Hộp lo lắng';
+UPDATE mind_exercises SET image_url = 'https://images.unsplash.com/photo-1517842645767-c639042777db?auto=format&fit=crop&w=600&q=80' WHERE title = 'Bài tập biết ơn 3 điều tốt';
+
+-- ===================================================
+-- 4. THÊM THÔNG BÁO MẪU VỀ LỊCH HẸN
+-- ===================================================
+
 INSERT INTO notifications (user_id, type, title, message, related_id, is_read, created_at) VALUES
 (3, 'appointment', 'Lịch hẹn được xác nhận', 'BS. Nguyễn Thị Lan đã xác nhận lịch hẹn của bạn vào ngày 30/12/2025 lúc 09:00', 4, 0, '2025-12-25 11:30:00'),
 (3, 'appointment', 'Nhắc nhở lịch hẹn', 'Bạn có lịch hẹn với BS. Nguyễn Thị Lan vào ngày mai lúc 09:00. Link: https://meet.google.com/xyz-uvwx-rst', 4, 0, '2025-12-29 09:00:00'),

@@ -126,6 +126,8 @@ const Chat = () => {
             });
 
             const data = await res.json();
+            console.log('📦 Response từ backend:', data);
+            console.log('🔍 Suggested Categories:', data.suggestedCategories);
 
             // 4. Thêm tin nhắn bot
             setMessages(prev => [
@@ -139,7 +141,12 @@ const Chat = () => {
             ]);
 
             // 5. Lưu gợi ý danh mục theo intent/emotion (nếu có)
-            setSuggestedCategories(data.suggestedCategories || []);
+            if (data.suggestedCategories && data.suggestedCategories.length > 0) {
+                console.log('✅ Đang set gợi ý:', data.suggestedCategories);
+                setSuggestedCategories(data.suggestedCategories);
+            } else {
+                console.log('❌ Không có gợi ý nào');
+            }
         } catch (error) {
             // Lỗi backend
             setMessages(prev => [
@@ -168,7 +175,7 @@ const Chat = () => {
                     <Col lg={3} className="d-none d-lg-block">
                         {/* Thống kê cảm xúc */}
                         <div className="sidebar-card">
-                            <div className="sidebar-header sidebar-header-primary">
+                            <div className="sidebar-header" style={{ background: 'linear-gradient(135deg, #3b82f6 0%, #60a5fa 100%)', color: '#ffffff', boxShadow: '0 3px 12px rgba(59,130,246,0.3)' }}>
                                 <span>Thống kê cảm xúc</span>
                             </div>
 
@@ -211,34 +218,64 @@ const Chat = () => {
 
                         {/* Gợi ý bài tập */}
                         <div className="sidebar-card">
-                            <div className="sidebar-header sidebar-header-secondary">
-                                <span>Gợi ý cho bạn</span>
+                            <div className="sidebar-header" style={{ background: 'linear-gradient(135deg, #3b82f6 0%, #60a5fa 100%)', color: '#ffffff', boxShadow: '0 3px 12px rgba(59,130,246,0.3)' }}>
+                                <span>💡 Gợi ý cho bạn</span>
+                                {suggestedCategories.length > 0 && (
+                                    <Badge bg="light" text="dark" style={{ fontSize: '10px' }}>
+                                        {suggestedCategories.length}
+                                    </Badge>
+                                )}
                             </div>
                             <div className="sidebar-body" style={{ maxHeight: '180px', overflowY: 'auto' }}>
                                 {suggestedCategories.length === 0 ? (
                                     <div className="text-center text-muted small">
-                                        Hãy trò chuyện để nhận gợi ý phù hợp
+                                        💬 Hãy trò chuyện để nhận gợi ý phù hợp với tâm trạng của bạn
                                     </div>
                                 ) : (
-                                    suggestedCategories.map(cat => (
-                                        <div key={cat.category_id} className="suggest-item">
-                                            <Badge bg="info" className="mb-1">{cat.intent}</Badge>
-                                            <div className="small fw-bold">{cat.category_name}</div>
-                                            {cat.description && (
-                                                <div className="text-muted" style={{ fontSize: '11px' }}>{cat.description}</div>
-                                            )}
+                                    <>
+                                        <div className="text-success small fw-bold mb-2" style={{ fontSize: '12px' }}>
+                                            ✨ Chúng tôi có {suggestedCategories.length} gợi ý dành cho bạn:
                                         </div>
-                                    ))
+                                        {suggestedCategories.map(cat => (
+                                            <div key={cat.category_id} className="suggest-item">
+                                                <div className="d-flex justify-content-between align-items-start mb-1">
+                                                    <div className="small fw-bold text-primary">{cat.category_name}</div>
+                                                    <Badge bg="info" style={{ fontSize: '9px' }}>{cat.intent}</Badge>
+                                                </div>
+                                                {cat.description && (
+                                                    <div className="text-muted" style={{ fontSize: '11px', lineHeight: '1.4' }}>
+                                                        {cat.description}
+                                                    </div>
+                                                )}
+                                            </div>
+                                        ))}
+                                    </>
                                 )}
-                                <div className="text-center mt-2">
-                                    <a href="/therapy" className="link-purple">Xem tất cả bài tập →</a>
+                                <div className="text-center mt-3">
+                                    <a 
+                                        href="/therapy" 
+                                        className="link-purple"
+                                        style={{ 
+                                            display: 'inline-block',
+                                            padding: '6px 12px',
+                                            background: suggestedCategories.length > 0 ? '#3b82f6' : '#64748b',
+                                            color: 'white',
+                                            borderRadius: '6px',
+                                            textDecoration: 'none',
+                                            fontSize: '12px',
+                                            fontWeight: '600',
+                                            transition: 'all 0.2s'
+                                        }}
+                                    >
+                                        {suggestedCategories.length > 0 ? 'Xem bài tập phù hợp →' : 'Xem tất cả bài tập →'}
+                                    </a>
                                 </div>
                             </div>
                         </div>
 
                         {/* Lịch sử trò chuyện */}
                         <div className="sidebar-card">
-                            <div className="sidebar-header sidebar-header-light">
+                            <div className="sidebar-header" style={{ background: 'linear-gradient(135deg, #3b82f6 0%, #60a5fa 100%)', color: '#ffffff', boxShadow: '0 3px 12px rgba(59,130,246,0.3)' }}>
                                 <span>Lịch sử gần đây</span>
                             </div>
                             <div className="sidebar-body p-0" style={{ maxHeight: '250px', overflowY: 'auto' }}>
@@ -272,7 +309,7 @@ const Chat = () => {
                     {/* PHẦN CHÍNH - Phòng chat */}
                     <Col lg={9}>
                         <div className="chat-card">
-                            <div className="chat-card-header" style={{ display: 'flex', alignItems: 'center', background: 'linear-gradient(135deg, #a571e1 0%, #c9a8f0 100%)', color: '#fff', borderRadius: '18px 18px 0 0', boxShadow: '0 4px 16px rgba(165,113,225,0.10)' }}>
+                            <div className="chat-card-header" style={{ display: 'flex', alignItems: 'center', background: 'linear-gradient(135deg, #3b82f6 0%, #60a5fa 100%)', color: '#fff', borderRadius: '18px 18px 0 0', boxShadow: '0 4px 16px rgba(59,130,246,0.25)' }}>
                                 <img src="https://cdn-icons-png.flaticon.com/512/4712/4712035.png" alt="AI Avatar" style={{ width: 38, height: 38, borderRadius: '50%', marginRight: 16, border: '2px solid #fff', background: '#fff' }} />
                                 <div style={{ flex: 1 }}>
                                     <span className="chat-title" style={{ fontWeight: 700, fontSize: '1.2rem' }}>Phòng Chat AI</span>
@@ -286,12 +323,12 @@ const Chat = () => {
                                     return (
                                         <div key={msg.id} className={`message-row ${isMe ? 'message-right' : 'message-left'}`} style={{ alignItems: 'flex-end' }}>
                                             {!isMe && (
-                                                <img src="https://cdn-icons-png.flaticon.com/512/4712/4712035.png" alt="Bot" style={{ width: 32, height: 32, borderRadius: '50%', marginRight: 8, border: '1.5px solid #a571e1', background: '#fff' }} />
+                                                <img src="https://cdn-icons-png.flaticon.com/512/4712/4712035.png" alt="Bot" style={{ width: 32, height: 32, borderRadius: '50%', marginRight: 8, border: '1.5px solid #3b82f6', background: '#fff' }} />
                                             )}
                                             <div className={`message-bubble ${isMe ? 'bubble-user' : 'bubble-bot'}`} style={isMe ? {
-                                                background: 'linear-gradient(135deg, #a571e1 0%, #c9a8f0 100%)', color: '#fff', borderRadius: '18px 18px 6px 18px', boxShadow: '0 2px 8px rgba(165,113,225,0.13)'
+                                                background: 'linear-gradient(135deg, #3b82f6 0%, #60a5fa 100%)', color: '#fff', borderRadius: '18px 18px 6px 18px', boxShadow: '0 2px 8px rgba(59,130,246,0.25)'
                                             } : {
-                                                background: 'linear-gradient(135deg, #c9a8f0 0%, #a571e1 100%)', color: '#fff', border: '1px solid #a571e1', borderRadius: '18px 18px 18px 6px', boxShadow: '0 2px 8px rgba(165,113,225,0.10)'
+                                                background: 'linear-gradient(135deg, #60a5fa 0%, #3b82f6 100%)', color: '#fff', border: '1px solid #3b82f6', borderRadius: '18px 18px 18px 6px', boxShadow: '0 2px 8px rgba(59,130,246,0.20)'
                                             }}>
                                                 <div>{msg.text}</div>
                                                 <div className="message-time">
@@ -299,7 +336,7 @@ const Chat = () => {
                                                 </div>
                                             </div>
                                             {isMe && (
-                                                <img src="https://cdn-icons-png.flaticon.com/512/3135/3135715.png" alt="User" style={{ width: 32, height: 32, borderRadius: '50%', marginLeft: 8, border: '1.5px solid #a571e1', background: '#fff' }} />
+                                                <img src="https://cdn-icons-png.flaticon.com/512/3135/3135715.png" alt="User" style={{ width: 32, height: 32, borderRadius: '50%', marginLeft: 8, border: '1.5px solid #3b82f6', background: '#fff' }} />
                                             )}
                                         </div>
                                     );
@@ -319,16 +356,37 @@ const Chat = () => {
                             <div className="chat-card-footer">
                                 {suggestedCategories.length > 0 && (
                                     <div className="chat-suggest-box">
-                                        <div className="fw-bold mb-2 small">Gợi ý cho bạn:</div>
-                                        {suggestedCategories.map(cat => (
-                                            <div key={cat.category_id} className="small mb-1">
-                                                <strong>{cat.category_name}</strong>
-                                                {cat.description && (
-                                                    <span className="text-muted"> - {cat.description}</span>
-                                                )}
-                                            </div>
-                                        ))}
-                                        <a href="/therapy" className="link-purple small">Xem các bài tập phù hợp →</a>
+                                        <div className="fw-bold mb-3">
+                                            Gợi ý dành riêng cho bạn
+                                        </div>
+                                        <div className="mb-2">
+                                            {suggestedCategories.map((cat, index) => (
+                                                <div 
+                                                    key={cat.category_id} 
+                                                    className="mb-2 pb-2" 
+                                                    style={{ 
+                                                        borderBottom: index < suggestedCategories.length - 1 ? '1px solid #bfdbfe' : 'none'
+                                                    }}
+                                                >
+                                                    <div className="d-flex justify-content-between align-items-start">
+                                                        <strong style={{ fontSize: '14px', color: '#1e40af' }}>
+                                                            {index + 1}. {cat.category_name}
+                                                        </strong>
+                                                        <Badge bg="primary" style={{ fontSize: '10px' }}>
+                                                            {cat.intent}
+                                                        </Badge>
+                                                    </div>
+                                                    {cat.description && (
+                                                        <div className="text-muted mt-1" style={{ fontSize: '12px', lineHeight: '1.5' }}>
+                                                            {cat.description}
+                                                        </div>
+                                                    )}
+                                                </div>
+                                            ))}
+                                        </div>
+                                        <a href="/therapy" className="link-purple">
+                                            Khám phá các bài tập phù hợp →
+                                        </a>
                                     </div>
                                 )}
 
@@ -340,7 +398,7 @@ const Chat = () => {
                                         onChange={(e) => setNewMessage(e.target.value)}
                                         onKeyPress={handleKeyPress}
                                     />
-                                    <Button className="chat-send-btn" style={{ fontWeight: 700, fontSize: 17, borderRadius: 8, padding: '9px 22px', display: 'flex', alignItems: 'center', gap: 6, background: 'linear-gradient(135deg, #a571e1 0%, #c9a8f0 100%)', color: '#fff', border: 'none', boxShadow: '0 2px 8px rgba(165,113,225,0.10)' }} onClick={handleSend}>
+                                    <Button className="chat-send-btn" style={{ fontWeight: 700, fontSize: 17, borderRadius: 8, padding: '9px 22px', display: 'flex', alignItems: 'center', gap: 6, background: 'linear-gradient(135deg, #3b82f6 0%, #60a5fa 100%)', color: '#fff', border: 'none', boxShadow: '0 2px 8px rgba(59,130,246,0.20)' }} onClick={handleSend}>
                                         <span>Gửi</span>
                                         <svg width="20" height="20" fill="none" viewBox="0 0 24 24"><path fill="#fff" d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z" /></svg>
                                     </Button>

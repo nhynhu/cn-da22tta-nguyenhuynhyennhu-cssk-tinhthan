@@ -1,4 +1,20 @@
 const Suggestion = require('../models/suggestionModel');
+const MindCategory = require('../models/mindCategoryModel');
+
+// Lấy danh mục theo cảm xúc/intent
+exports.getCategoriesByEmotion = async (req, res) => {
+    try {
+        const { emotion } = req.query;
+        if (!emotion) {
+            return res.status(400).json({ success: false, message: 'Thiếu tham số emotion' });
+        }
+        const categories = await MindCategory.getByIntent(emotion.toLowerCase());
+        res.json({ success: true, data: categories });
+    } catch (error) {
+        console.error('Lỗi lấy danh mục theo cảm xúc:', error);
+        res.status(500).json({ success: false, message: 'Lỗi server', error: String(error?.message || error) });
+    }
+};
 
 // Lấy toàn bộ gợi ý thuộc về user đang đăng nhập
 exports.getMySuggestions = async (req, res) => {

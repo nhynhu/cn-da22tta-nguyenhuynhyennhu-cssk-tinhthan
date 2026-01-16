@@ -35,6 +35,7 @@ const mindRoutes = require('./routes/mindRoutes');
 const notificationRoutes = require('./routes/notificationRoutes');
 const reviewRoutes = require('./routes/reviewRoutes');
 const searchRoutes = require('./routes/searchRoutes');
+const adminRoutes = require('./routes/adminRoutes');
 
 // --- API ROUTES ---
 app.use('/api/users', userRoutes);
@@ -50,6 +51,7 @@ app.use('/api/mind', mindRoutes); // Bài tập thiền/tâm lý và danh mục
 app.use('/api/notifications', notificationRoutes); // Thông báo
 app.use('/api/reviews', reviewRoutes); // Đánh giá & phản hồi
 app.use('/api/search', searchRoutes); // Tìm kiếm & lọc
+app.use('/api/admin', adminRoutes); // Admin statistics
 // --- KHỞI CHẠY SERVER ---
 app.listen(PORT, () => {
     console.log(`Server đang chạy tại: http://localhost:${PORT}`);

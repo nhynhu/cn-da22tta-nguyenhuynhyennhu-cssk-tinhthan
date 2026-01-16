@@ -1,9 +1,17 @@
 # Use official Node.js image for React build
 FROM node:18 AS build
 WORKDIR /app
-COPY package.json package-lock.json ./
-RUN npm install
+
+# Copy package files
+COPY package*.json ./
+
+# Install ALL dependencies (including dev dependencies for build)
+RUN npm ci --legacy-peer-deps
+
+# Copy source code
 COPY . .
+
+# Build production bundle
 RUN npm run build
 
 # Use nginx to serve static files

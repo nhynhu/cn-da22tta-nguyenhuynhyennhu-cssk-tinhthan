@@ -1,25 +1,5 @@
 version: '3.8'
 services:
-  frontend:
-    build: ./frontend
-    ports:
-      - "3001:80"
-    restart: unless-stopped
-    depends_on:
-      - backend
-    networks:
-      - appnet
-  backend:
-    build: ./backend
-    ports:
-      - "5001:5000"
-    restart: unless-stopped
-    env_file:
-      - ./backend/.env
-    networks:
-      - appnet
-    depends_on:
-      - db
   db:
     image: mysql:8.0
     environment:
@@ -32,8 +12,43 @@ services:
       - ./database/tinhthan.sql:/docker-entrypoint-initdb.d/tinhthan.sql
     networks:
       - appnet
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+      timeout: 20s
+      retries: 10
+
+  backend:
+    build: ./backend
+    ports:
+      - "5001:5000"
+    restart: unless-stopped
+    environment:
+      - DB_HOST=db
+      - DB_USER=root
+      - DB_PASSWORD=root
+      - DB_NAME=mental_health_db
+      - PORT=5000
+      - JWT_SECRET=secret-key-2025
+      - ENCRYPTION_KEY=1e412ec7f692993c9a1cb638374bf7ed
+    networks:
+      - appnet
+    depends_on:
+      db:
+        condition: service_healthy
+
+  frontend:
+    build: ./frontend
+    ports:
+      - "3001:80"
+    restart: unless-stopped
+    depends_on:
+      - backend
+    networks:
+      - appnet
+
 volumes:
   db_data:
+
 networks:
   appnet:
     driver: bridge

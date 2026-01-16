@@ -266,11 +266,13 @@ exports.recordView = async (req, res) => {
             return res.status(404).json({ message: 'Không tìm thấy bài tập.' });
         }
 
-        // Ghi nhận view
-        await ExerciseView.createView(userId, exerciseId);
+        // Ghi nhận view và kiểm tra xem có phải lần đầu không
+        const result = await ExerciseView.createView(userId, exerciseId);
 
-        // Tăng view_count của bài tập
-        await MindExercise.incrementViewCount(exerciseId);
+        // Chỉ tăng view_count nếu là lần xem đầu tiên
+        if (result.isFirstView) {
+            await MindExercise.incrementViewCount(exerciseId);
+        }
 
         res.json({ message: 'Đã ghi nhận lượt xem.' });
     } catch (error) {

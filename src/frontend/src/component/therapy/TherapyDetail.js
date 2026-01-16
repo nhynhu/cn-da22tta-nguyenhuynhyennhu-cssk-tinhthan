@@ -21,7 +21,7 @@ const TherapyDetail = () => {
         loadExerciseDetail();
         if (token) {
             loadStats();
-            recordView();
+            // Không gọi recordView tự động nữa
         }
     }, [id]);
 
@@ -56,9 +56,17 @@ const TherapyDetail = () => {
             });
             setHasTracked(true);
             console.log('Đã ghi nhận lượt xem');
+            loadStats(); // Reload stats sau khi ghi nhận view
         } catch (err) {
             console.error('Lỗi ghi nhận view:', err);
         }
+    };
+
+    const handleOpenContent = () => {
+        // Ghi nhận view khi người dùng mở nội dung
+        recordView();
+        // Hiển thị modal hoặc mở content
+        setShowVideo(true);
     };
 
     const handleMarkComplete = async () => {
@@ -120,122 +128,287 @@ const TherapyDetail = () => {
     const mediaType = getMediaType(exercise.media_url);
 
     return (
-        <Container className="my-4">
-            {/* Header với nút back */}
-            <div className="mb-4">
-                <Button variant="link" onClick={() => navigate('/therapy')} className="p-0 mb-3">
-                    ← Quay lại danh sách bài tập
-                </Button>
-            </div>
+        <div style={{ background: '#f8f9fa', minHeight: '100vh', paddingTop: '60px', paddingBottom: '60px' }}>
+            <Container className="py-4">
+                {/* Header với nút back */}
+                <div className="mb-4">
+                    <Button 
+                        onClick={() => navigate('/therapy')} 
+                        style={{
+                            background: 'transparent',
+                            border: 'none',
+                            color: '#3b82f6',
+                            fontSize: '1rem',
+                            fontWeight: '600',
+                            padding: '8px 0',
+                            textDecoration: 'none'
+                        }}
+                        onMouseEnter={(e) => e.target.style.textDecoration = 'underline'}
+                        onMouseLeave={(e) => e.target.style.textDecoration = 'none'}
+                    >
+                        ← Quay lại danh sách bài tập
+                    </Button>
+                </div>
 
-            <Card className="mb-4">
-                <Card.Body>
-                    <div className="d-flex justify-content-between align-items-start mb-3">
-                        <div>
-                            <h2>{exercise.title}</h2>
-                            <div className="mb-2">
-                                {exercise.difficulty_level && (
-                                    <Badge bg={difficultyColor(exercise.difficulty_level)} className="me-2">
-                                        {exercise.difficulty_level}
-                                    </Badge>
-                                )}
-                                {exercise.duration_minutes && (
-                                    <Badge bg="info">⏱ {exercise.duration_minutes} phút</Badge>
+                <Card className="border-0 shadow-lg" style={{ borderRadius: '20px', overflow: 'hidden' }}>
+                    <Card.Body className="p-0">
+                        {/* Header Section with gradient */}
+                        <div style={{ 
+                            background: 'linear-gradient(135deg, #3b82f6 0%, #60a5fa 100%)', 
+                            padding: '40px',
+                            color: 'white'
+                        }}>
+                            <div className="d-flex justify-content-between align-items-start mb-3">
+                                <div className="flex-grow-1">
+                                    <h1 className="mb-3 fw-bold" style={{ fontSize: '2.2rem' }}>{exercise.title}</h1>
+                                    <p className="mb-4 opacity-90" style={{ fontSize: '1.1rem', lineHeight: '1.6' }}>
+                                        {exercise.description}
+                                    </p>
+                                    <div className="d-flex gap-2 flex-wrap">
+                                        {exercise.difficulty_level && (
+                                            <Badge 
+                                                bg={difficultyColor(exercise.difficulty_level)} 
+                                                style={{ 
+                                                    padding: '8px 16px', 
+                                                    fontSize: '0.9rem',
+                                                    borderRadius: '8px',
+                                                    fontWeight: '600'
+                                                }}
+                                            >
+                                                {exercise.difficulty_level}
+                                            </Badge>
+                                        )}
+                                        {exercise.duration_minutes && (
+                                            <Badge 
+                                                bg="light" 
+                                                text="dark"
+                                                style={{ 
+                                                    padding: '8px 16px', 
+                                                    fontSize: '0.9rem',
+                                                    borderRadius: '8px',
+                                                    fontWeight: '600'
+                                                }}
+                                            >
+                                                ⏱ {exercise.duration_minutes} phút
+                                            </Badge>
+                                        )}
+                                    </div>
+                                </div>
+                                {token && (
+                                    <Button 
+                                        onClick={handleMarkComplete}
+                                        style={{
+                                            background: 'rgba(255, 255, 255, 0.2)',
+                                            backdropFilter: 'blur(10px)',
+                                            border: '2px solid white',
+                                            borderRadius: '12px',
+                                            padding: '12px 24px',
+                                            fontWeight: '600',
+                                            fontSize: '1rem',
+                                            color: 'white',
+                                            whiteSpace: 'nowrap',
+                                            transition: 'all 0.3s ease'
+                                        }}
+                                        onMouseEnter={(e) => {
+                                            e.target.style.background = 'white';
+                                            e.target.style.color = '#3b82f6';
+                                        }}
+                                        onMouseLeave={(e) => {
+                                            e.target.style.background = 'rgba(255, 255, 255, 0.2)';
+                                            e.target.style.color = 'white';
+                                        }}
+                                    >
+                                        ✓ Đánh dấu hoàn thành
+                                    </Button>
                                 )}
                             </div>
+
+                            {/* Statistics */}
+                            {stats && (
+                                <div className="d-flex gap-4 flex-wrap" style={{ fontSize: '0.95rem', opacity: 0.9 }}>
+                                    <span>
+                                        <i className="bi bi-eye me-2"></i>
+                                        {stats.total_views || 0} lượt xem
+                                    </span>
+                                    <span>
+                                        <i className="bi bi-people me-2"></i>
+                                        {stats.unique_viewers || 0} người đã xem
+                                    </span>
+                                    <span>
+                                        <i className="bi bi-check-circle me-2"></i>
+                                        {stats.total_completed || 0} đã hoàn thành
+                                    </span>
+                                </div>
+                            )}
                         </div>
-                        {token && (
-                            <Button variant="success" onClick={handleMarkComplete}>
-                                ✓ Đánh dấu hoàn thành
-                            </Button>
-                        )}
-                    </div>
 
-                    <p className="text-muted">{exercise.description}</p>
+                        {/* Content Section */}
+                        <div className="p-5">
+                            {/* Instructions */}
+                            {exercise.instructions && (
+                                <div className="mb-5">
+                                    <div className="d-flex align-items-center mb-3">
+                                        <div 
+                                            style={{
+                                                width: '6px',
+                                                height: '30px',
+                                                background: 'linear-gradient(135deg, #3b82f6 0%, #60a5fa 100%)',
+                                                borderRadius: '3px',
+                                                marginRight: '12px'
+                                            }}
+                                        />
+                                        <h4 className="mb-0 fw-bold" style={{ color: '#2c3e50' }}>Hướng dẫn thực hiện:</h4>
+                                    </div>
+                                    <p style={{ 
+                                        whiteSpace: 'pre-wrap', 
+                                        fontSize: '1.05rem', 
+                                        lineHeight: '1.8',
+                                        color: '#4b5563',
+                                        marginLeft: '18px'
+                                    }}>
+                                        {exercise.instructions}
+                                    </p>
+                                </div>
+                            )}
 
-                    {/* Thống kê */}
-                    {stats && (
-                        <div className="mt-3 p-3 bg-light rounded">
-                            <small className="text-muted">
-                                👁 {stats.total_views || 0} lượt xem •
-                                👥 {stats.unique_viewers || 0} người đã xem •
-                                ✓ {stats.total_completed || 0} đã hoàn thành
-                            </small>
-                        </div>
-                    )}
-
-                    {/* Hướng dẫn */}
-                    {exercise.instructions && (
-                        <div className="mt-4">
-                            <h5>Hướng dẫn thực hiện:</h5>
-                            <p style={{ whiteSpace: 'pre-wrap' }}>{exercise.instructions}</p>
-                        </div>
-                    )}
-
-                    {/* Media Controls */}
-                    {exercise.media_url && (
-                        <div className="mt-4">
-                            <h5>Nội dung bài tập:</h5>
-                            {mediaType === 'video' && (
-                                <>
-                                    <Button
-                                        variant="primary"
-                                        size="lg"
-                                        onClick={() => setShowVideo(true)}
-                                        className="mb-3"
-                                    >
-                                        ▶ Xem video hướng dẫn
-                                    </Button>
-                                    <Modal
-                                        show={showVideo}
-                                        onHide={() => setShowVideo(false)}
-                                        size="lg"
-                                        centered
-                                    >
-                                        <Modal.Header closeButton>
-                                            <Modal.Title>{exercise.title}</Modal.Title>
-                                        </Modal.Header>
-                                        <Modal.Body>
-                                            <video
-                                                controls
-                                                autoPlay
+                            {/* Media Controls */}
+                            {exercise.media_url && (
+                                <div>
+                                    <div className="d-flex align-items-center mb-4">
+                                        <div 
+                                            style={{
+                                                width: '6px',
+                                                height: '30px',
+                                                background: 'linear-gradient(135deg, #3b82f6 0%, #60a5fa 100%)',
+                                                borderRadius: '3px',
+                                                marginRight: '12px'
+                                            }}
+                                        />
+                                        <h4 className="mb-0 fw-bold" style={{ color: '#2c3e50' }}>Nội dung bài tập:</h4>
+                                    </div>
+                                    <div style={{ marginLeft: '18px' }}>
+                                        {mediaType === 'video' && (
+                                            <>
+                                                <Button
+                                                    onClick={handleOpenContent}
+                                                    style={{
+                                                        background: 'linear-gradient(135deg, #3b82f6 0%, #60a5fa 100%)',
+                                                        border: 'none',
+                                                        borderRadius: '12px',
+                                                        padding: '14px 32px',
+                                                        fontWeight: '600',
+                                                        fontSize: '1.05rem',
+                                                        color: 'white',
+                                                        boxShadow: '0 4px 12px rgba(59, 130, 246, 0.3)',
+                                                        transition: 'all 0.3s ease'
+                                                    }}
+                                                    onMouseEnter={(e) => {
+                                                        e.target.style.transform = 'translateY(-2px)';
+                                                        e.target.style.boxShadow = '0 6px 20px rgba(59, 130, 246, 0.4)';
+                                                    }}
+                                                    onMouseLeave={(e) => {
+                                                        e.target.style.transform = 'translateY(0)';
+                                                        e.target.style.boxShadow = '0 4px 12px rgba(59, 130, 246, 0.3)';
+                                                    }}
+                                                >
+                                                    ▶ Xem video hướng dẫn
+                                                </Button>
+                                                <Modal
+                                                    show={showVideo}
+                                                    onHide={() => setShowVideo(false)}
+                                                    size="lg"
+                                                    centered
+                                                    style={{ borderRadius: '20px' }}
+                                                >
+                                                    <Modal.Header closeButton style={{ borderBottom: '1px solid #e5e7eb' }}>
+                                                        <Modal.Title className="fw-bold">{exercise.title}</Modal.Title>
+                                                    </Modal.Header>
+                                                    <Modal.Body className="p-0">
+                                                        <video
+                                                            controls
+                                                            autoPlay
+                                                            className="w-100"
+                                                            style={{ maxHeight: '70vh' }}
+                                                        >
+                                                            <source src={exercise.media_url} type="video/mp4" />
+                                                            Trình duyệt không hỗ trợ video.
+                                                        </video>
+                                                    </Modal.Body>
+                                                </Modal>
+                                            </>
+                                        )}
+                                        {mediaType === 'audio' && (
+                                            <audio 
+                                                controls 
                                                 className="w-100"
-                                                style={{ maxHeight: '70vh' }}
+                                                style={{
+                                                    borderRadius: '12px',
+                                                    boxShadow: '0 2px 8px rgba(0,0,0,0.1)'
+                                                }}
+                                                onPlay={recordView}
                                             >
-                                                <source src={exercise.media_url} type="video/mp4" />
-                                                Trình duyệt không hỗ trợ video.
-                                            </video>
-                                        </Modal.Body>
-                                    </Modal>
-                                </>
-                            )}
-                            {mediaType === 'audio' && (
-                                <audio controls className="w-100">
-                                    <source src={exercise.media_url} />
-                                    Trình duyệt không hỗ trợ audio.
-                                </audio>
-                            )}
-                            {mediaType === 'link' && (
-                                <Button
-                                    variant="primary"
-                                    href={exercise.media_url}
-                                    target="_blank"
-                                    rel="noopener noreferrer"
-                                >
-                                    Mở nội dung bài tập
-                                </Button>
+                                                <source src={exercise.media_url} />
+                                                Trình duyệt không hỗ trợ audio.
+                                            </audio>
+                                        )}
+                                        {mediaType === 'link' && (
+                                            <Button
+                                                href={exercise.media_url}
+                                                target="_blank"
+                                                rel="noopener noreferrer"
+                                                onClick={recordView}
+                                                style={{
+                                                    background: 'linear-gradient(135deg, #3b82f6 0%, #60a5fa 100%)',
+                                                    border: 'none',
+                                                    borderRadius: '12px',
+                                                    padding: '14px 32px',
+                                                    fontWeight: '600',
+                                                    fontSize: '1.05rem',
+                                                    color: 'white',
+                                                    boxShadow: '0 4px 12px rgba(59, 130, 246, 0.3)',
+                                                    transition: 'all 0.3s ease',
+                                                    textDecoration: 'none',
+                                                    display: 'inline-block'
+                                                }}
+                                                onMouseEnter={(e) => {
+                                                    e.target.style.transform = 'translateY(-2px)';
+                                                    e.target.style.boxShadow = '0 6px 20px rgba(59, 130, 246, 0.4)';
+                                                }}
+                                                onMouseLeave={(e) => {
+                                                    e.target.style.transform = 'translateY(0)';
+                                                    e.target.style.boxShadow = '0 4px 12px rgba(59, 130, 246, 0.3)';
+                                                }}
+                                            >
+                                                Mở nội dung bài tập
+                                            </Button>
+                                        )}
+                                    </div>
+                                </div>
                             )}
                         </div>
-                    )}
-                </Card.Body>
-            </Card>
+                    </Card.Body>
+                </Card>
 
-            {!token && (
-                <Alert variant="info">
-                    <strong>💡 Mẹo:</strong> Đăng nhập để theo dõi tiến độ và đánh dấu bài tập đã hoàn thành!
-                </Alert>
-            )}
-        </Container>
+                {!token && (
+                    <Card className="mt-4 border-0 shadow-sm" style={{ 
+                        borderRadius: '16px',
+                        borderLeft: '4px solid #3b82f6'
+                    }}>
+                        <Card.Body className="p-4">
+                            <div className="d-flex align-items-start">
+                                <div style={{ fontSize: '2rem', marginRight: '16px' }}>💡</div>
+                                <div>
+                                    <h6 className="fw-bold mb-2" style={{ color: '#2c3e50' }}>Mẹo cho bạn</h6>
+                                    <p className="mb-0 text-muted">
+                                        Đăng nhập để theo dõi tiến độ và đánh dấu bài tập đã hoàn thành!
+                                    </p>
+                                </div>
+                            </div>
+                        </Card.Body>
+                    </Card>
+                )}
+            </Container>
+        </div>
     );
 };
 

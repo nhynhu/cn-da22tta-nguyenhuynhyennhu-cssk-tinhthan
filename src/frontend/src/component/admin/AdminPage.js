@@ -13,16 +13,15 @@ function AdminPage({ user }) {
     const [errorStats, setErrorStats] = useState('');
 
     useEffect(() => {
-        // Giả lập fetch thống kê, có thể thay bằng API thực tế
+        // Fetch thống kê từ API
         async function fetchStats() {
             setLoadingStats(true);
             setErrorStats('');
             try {
-                // TODO: Thay bằng API thực tế nếu có
-                setTimeout(() => {
-                    setStats({ users: 123, experts: 12, categories: 8, exercises: 25 });
-                    setLoadingStats(false);
-                }, 800);
+                const response = await fetch('http://localhost:5000/api/admin/stats');
+                const data = await response.json();
+                setStats(data);
+                setLoadingStats(false);
             } catch (err) {
                 setErrorStats('Không thể tải thống kê.');
                 setLoadingStats(false);

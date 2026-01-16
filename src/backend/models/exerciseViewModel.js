@@ -1,15 +1,37 @@
 const db = require('../config/db');
 
 const ExerciseView = {
-    // Tạo/cập nhật view mới
+    // Tạo/cập nhật view mới, trả về true nếu là lần xem đầu tiên
     createView: (userId, exerciseId) => {
         return new Promise((resolve, reject) => {
+            // Kiểm tra xem đã có record chưa
             db.query(
-                'INSERT INTO exercise_views (user_id, exercise_id, viewed_at) VALUES (?, ?, NOW())',
+                'SELECT view_id FROM exercise_views WHERE user_id = ? AND exercise_id = ?',
                 [userId, exerciseId],
-                (err, result) => {
+                (err, rows) => {
                     if (err) return reject(err);
-                    resolve(result);
+                    
+                    if (rows.length > 0) {
+                        // Đã có record, chỉ cập nhật thời gian xem
+                        db.query(
+                            'UPDATE exercise_views SET viewed_at = NOW() WHERE view_id = ?',
+                            [rows[0].view_id],
+                            (err2, result) => {
+                                if (err2) return reject(err2);
+                                resolve({ isFirstView: false }); // Trả về false vì không phải lần đầu
+                            }
+                        );
+                    } else {
+                        // Chưa có record, tạo mới
+                        db.query(
+                            'INSERT INTO exercise_views (user_id, exercise_id, viewed_at) VALUES (?, ?, NOW())',
+                            [userId, exerciseId],
+                            (err2, result) => {
+                                if (err2) return reject(err2);
+                                resolve({ isFirstView: true }); // Trả về true vì là lần đầu
+                            }
+                        );
+                    }
                 }
             );
         });

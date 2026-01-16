@@ -1,4 +1,5 @@
 const db = require('../config/db');
+const { encrypt, decrypt } = require('../utils/encryption');
 
 const Chat = {
     // --- CONVERSATION ---
@@ -21,9 +22,12 @@ const Chat = {
     // --- MESSAGE ---
     // Lưu tin nhắn mới
     addMessage: async (conversationId, content, senderType, intent = null) => {
+        // Mã hóa nội dung tin nhắn trước khi lưu
+        const encryptedContent = encrypt(content);
+        
         const sql = `INSERT INTO messages (conversation_id, message_content, sender_type, dialogflow_intent) 
                      VALUES (?, ?, ?, ?)`;
-        const [result] = await db.execute(sql, [conversationId, content, senderType, intent]);
+        const [result] = await db.execute(sql, [conversationId, encryptedContent, senderType, intent]);
 
         // Cập nhật thời gian tin nhắn cuối cùng cho cuộc hội thoại
         await db.execute(
@@ -38,7 +42,14 @@ const Chat = {
     getMessages: async (conversationId) => {
         const sql = `SELECT * FROM messages WHERE conversation_id = ? ORDER BY sent_at ASC`;
         const [rows] = await db.execute(sql, [conversationId]);
-        return rows;
+        
+        // Giải mã nội dung tin nhắn trước khi trả về
+        const decryptedRows = rows.map(row => ({
+            ...row,
+            message_content: decrypt(row.message_content)
+        }));
+        
+        return decryptedRows;
     }
 };
 
